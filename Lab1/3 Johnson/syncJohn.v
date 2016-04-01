@@ -1,6 +1,7 @@
 // EE 469
 // Coders: Chinh Bui, Jack Gentsch, Jacky Wang
-// 3/31/2016
+// Spring 2016
+// Lab 1
 
 // A four stage (4 bit) synchronous Johnson counter,
 // with active low reset, using a behavioural level
