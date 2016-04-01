@@ -60,6 +60,15 @@ module Tester (clkTest, rstTest, qTest);
 			#stimDelay clkTest = ~clkTest;
 			#stimDelay clkTest = ~clkTest;
 			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
+			#stimDelay clkTest = ~clkTest;
 			#(2*stimDelay); 			// needed to see END of simulation
 			$finish; 					// finish simulation
 		end
