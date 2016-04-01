@@ -1,6 +1,6 @@
-// EE 371
-// Coders: Beck Pang, Jack Gentsch, Jacky Wang
-// 10/10/2015
+// EE 469
+// Coders: Chinh Bui, Jack Gentsch, Jacky Wang
+// 3/31/2016
 
 // A four stage (4 bit) synchronous Johnson counter,
 // with active low reset, using a behavioural level

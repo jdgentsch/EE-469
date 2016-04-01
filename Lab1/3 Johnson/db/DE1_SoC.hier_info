@@ -1,8 +1,15 @@
 |syncJohnTop
+<<<<<<< HEAD
 LEDR[0] <= syncJohn:mySyncJohn.port0
 LEDR[1] <= syncJohn:mySyncJohn.port0
 LEDR[2] <= syncJohn:mySyncJohn.port0
 LEDR[3] <= syncJohn:mySyncJohn.port0
+=======
+LEDR[0] << syncJohn:mySyncJohn.port0
+LEDR[1] << syncJohn:mySyncJohn.port0
+LEDR[2] << syncJohn:mySyncJohn.port0
+LEDR[3] << syncJohn:mySyncJohn.port0
+>>>>>>> origin/master
 CLOCK_50 => CLOCK_50.IN1
 SW[0] => ~NO_FANOUT~
 SW[1] => ~NO_FANOUT~

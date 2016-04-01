@@ -1,6 +1,6 @@
-// EE 371
-// Coders: Beck Pang, Jack Gentsch, Jacky Wang
-// Autumn 2015
+// EE 469
+// Coders: Chinh Bui, Jack Gentsch, Jacky Wang
+// Spring 2016
 // Lab 1
 
 // Top level module for syncJohn.v
@@ -8,7 +8,7 @@
 module syncJohnTop (LEDR, CLOCK_50, SW);
 	output [3:0] LEDR;
 	input CLOCK_50;
-    input [9:0] SW;
+   input [9:0] SW;
 
  	wire [31:0] clk; // choosing from 32 different clock speeds
 
