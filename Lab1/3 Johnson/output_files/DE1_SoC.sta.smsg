@@ -1,0 +1,103 @@
+Warning (332174): Ignored filter at DE1_SoC.sdc(10): CLOCK2_50 could not be matched with a port
+Warning (332049): Ignored create_clock at DE1_SoC.sdc(10): Argument <targets> is an empty collection
+Warning (332174): Ignored filter at DE1_SoC.sdc(11): CLOCK3_50 could not be matched with a port
+Warning (332049): Ignored create_clock at DE1_SoC.sdc(11): Argument <targets> is an empty collection
+Warning (332174): Ignored filter at DE1_SoC.sdc(12): CLOCK4_50 could not be matched with a port
+Warning (332049): Ignored create_clock at DE1_SoC.sdc(12): Argument <targets> is an empty collection
+Warning (332174): Ignored filter at DE1_SoC.sdc(14): TD_CLK27 could not be matched with a port
+Warning (332049): Ignored create_clock at DE1_SoC.sdc(14): Argument <targets> is an empty collection
+Warning (332174): Ignored filter at DE1_SoC.sdc(15): DRAM_CLK could not be matched with a port
+Warning (332049): Ignored create_clock at DE1_SoC.sdc(15): Argument <targets> is an empty collection
+Warning (332174): Ignored filter at DE1_SoC.sdc(20): VGA_CLK could not be matched with a port
+Warning (332049): Ignored create_clock at DE1_SoC.sdc(20): Argument <targets> is an empty collection
+Warning (332174): Ignored filter at DE1_SoC.sdc(53): DRAM_DQ* could not be matched with a port
+Warning (332174): Ignored filter at DE1_SoC.sdc(53): clk_dram could not be matched with a clock
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(53): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(53): Argument -clock is not an object ID
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(54): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(54): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(56): TD_DATA* could not be matched with a port
+Warning (332174): Ignored filter at DE1_SoC.sdc(56): tv_27m could not be matched with a clock
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(56): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(56): Argument -clock is not an object ID
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(57): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(57): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(58): TD_HS could not be matched with a port
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(58): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(58): Argument -clock is not an object ID
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(59): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(59): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(60): TD_VS could not be matched with a port
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(60): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(60): Argument -clock is not an object ID
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(61): Argument <targets> is an empty collection
+Warning (332049): Ignored set_input_delay at DE1_SoC.sdc(61): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(68): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(68): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(69): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(69): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(70): DRAM_ADDR* could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(70): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(70): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(71): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(71): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(72): DRAM_*DQM could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(72): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(72): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(73): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(73): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(74): DRAM_BA* could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(74): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(74): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(75): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(75): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(76): DRAM_RAS_N could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(76): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(76): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(77): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(77): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(78): DRAM_CAS_N could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(78): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(78): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(79): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(79): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(80): DRAM_WE_N could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(80): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(80): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(81): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(81): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(82): DRAM_CKE could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(82): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(82): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(83): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(83): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(84): DRAM_CS_N could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(84): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(84): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(85): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(85): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(87): VGA_R* could not be matched with a port
+Warning (332174): Ignored filter at DE1_SoC.sdc(87): clk_vga could not be matched with a clock
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(87): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(87): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(88): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(88): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(89): VGA_G* could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(89): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(89): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(90): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(90): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(91): VGA_B* could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(91): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(91): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(92): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(92): Argument -clock is not an object ID
+Warning (332174): Ignored filter at DE1_SoC.sdc(93): VGA_BLANK could not be matched with a port
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(93): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(93): Argument -clock is not an object ID
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(94): Argument <targets> is an empty collection
+Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(94): Argument -clock is not an object ID
+Warning (332060): Node: clock_divider:cdiv|divided_clocks[25] was determined to be a clock but was found without an associated clock assignment.
+Warning (332060): Node: clock_divider:cdiv|divided_clocks[25] was determined to be a clock but was found without an associated clock assignment.
+Warning (332060): Node: clock_divider:cdiv|divided_clocks[25] was determined to be a clock but was found without an associated clock assignment.
+Warning (332060): Node: clock_divider:cdiv|divided_clocks[25] was determined to be a clock but was found without an associated clock assignment.
