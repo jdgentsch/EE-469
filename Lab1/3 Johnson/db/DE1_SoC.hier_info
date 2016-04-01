@@ -1,0 +1,100 @@
+|syncJohnTop
+LEDR[0] << syncJohn:mySyncJohn.port0
+LEDR[1] << syncJohn:mySyncJohn.port0
+LEDR[2] << syncJohn:mySyncJohn.port0
+LEDR[3] << syncJohn:mySyncJohn.port0
+CLOCK_50 => CLOCK_50.IN1
+SW[0] => ~NO_FANOUT~
+SW[1] => ~NO_FANOUT~
+SW[2] => ~NO_FANOUT~
+SW[3] => ~NO_FANOUT~
+SW[4] => ~NO_FANOUT~
+SW[5] => ~NO_FANOUT~
+SW[6] => ~NO_FANOUT~
+SW[7] => ~NO_FANOUT~
+SW[8] => ~NO_FANOUT~
+SW[9] => SW[9].IN1
+
+
+|syncJohnTop|syncJohn:mySyncJohn
+out[0] <= out[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+out[1] <= out[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+out[2] <= out[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+out[3] <= out[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clk => out[0]~reg0.CLK
+clk => out[1]~reg0.CLK
+clk => out[2]~reg0.CLK
+clk => out[3]~reg0.CLK
+rst => out.OUTPUTSELECT
+rst => out.OUTPUTSELECT
+rst => out.OUTPUTSELECT
+rst => out.OUTPUTSELECT
+
+
+|syncJohnTop|clock_divider:cdiv
+clock => divided_clocks[0]~reg0.CLK
+clock => divided_clocks[1]~reg0.CLK
+clock => divided_clocks[2]~reg0.CLK
+clock => divided_clocks[3]~reg0.CLK
+clock => divided_clocks[4]~reg0.CLK
+clock => divided_clocks[5]~reg0.CLK
+clock => divided_clocks[6]~reg0.CLK
+clock => divided_clocks[7]~reg0.CLK
+clock => divided_clocks[8]~reg0.CLK
+clock => divided_clocks[9]~reg0.CLK
+clock => divided_clocks[10]~reg0.CLK
+clock => divided_clocks[11]~reg0.CLK
+clock => divided_clocks[12]~reg0.CLK
+clock => divided_clocks[13]~reg0.CLK
+clock => divided_clocks[14]~reg0.CLK
+clock => divided_clocks[15]~reg0.CLK
+clock => divided_clocks[16]~reg0.CLK
+clock => divided_clocks[17]~reg0.CLK
+clock => divided_clocks[18]~reg0.CLK
+clock => divided_clocks[19]~reg0.CLK
+clock => divided_clocks[20]~reg0.CLK
+clock => divided_clocks[21]~reg0.CLK
+clock => divided_clocks[22]~reg0.CLK
+clock => divided_clocks[23]~reg0.CLK
+clock => divided_clocks[24]~reg0.CLK
+clock => divided_clocks[25]~reg0.CLK
+clock => divided_clocks[26]~reg0.CLK
+clock => divided_clocks[27]~reg0.CLK
+clock => divided_clocks[28]~reg0.CLK
+clock => divided_clocks[29]~reg0.CLK
+clock => divided_clocks[30]~reg0.CLK
+clock => divided_clocks[31]~reg0.CLK
+divided_clocks[0] <= divided_clocks[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[1] <= divided_clocks[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[2] <= divided_clocks[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[3] <= divided_clocks[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[4] <= divided_clocks[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[5] <= divided_clocks[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[6] <= divided_clocks[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[7] <= divided_clocks[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[8] <= divided_clocks[8]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[9] <= divided_clocks[9]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[10] <= divided_clocks[10]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[11] <= divided_clocks[11]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[12] <= divided_clocks[12]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[13] <= divided_clocks[13]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[14] <= divided_clocks[14]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[15] <= divided_clocks[15]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[16] <= divided_clocks[16]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[17] <= divided_clocks[17]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[18] <= divided_clocks[18]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[19] <= divided_clocks[19]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[20] <= divided_clocks[20]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[21] <= divided_clocks[21]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[22] <= divided_clocks[22]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[23] <= divided_clocks[23]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[24] <= divided_clocks[24]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[25] <= divided_clocks[25]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[26] <= divided_clocks[26]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[27] <= divided_clocks[27]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[28] <= divided_clocks[28]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[29] <= divided_clocks[29]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[30] <= divided_clocks[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+divided_clocks[31] <= divided_clocks[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+
