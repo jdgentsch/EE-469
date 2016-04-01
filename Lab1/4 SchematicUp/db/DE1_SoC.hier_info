@@ -1,0 +1,100 @@
+|syncUp_DE1
+LEDR[0] << syncSchematic:mySyncSchm.q
+LEDR[1] << syncSchematic:mySyncSchm.q
+LEDR[2] << syncSchematic:mySyncSchm.q
+LEDR[3] << syncSchematic:mySyncSchm.q
+LEDR[4] << <GND>
+LEDR[5] << <GND>
+LEDR[6] << <GND>
+LEDR[7] << <GND>
+LEDR[8] << <GND>
+LEDR[9] << <GND>
+SW[0] => SW[0].IN1
+SW[1] => ~NO_FANOUT~
+SW[2] => ~NO_FANOUT~
+SW[3] => ~NO_FANOUT~
+CLOCK_50 => CLOCK_50.IN1
+
+
+|syncUp_DE1|syncSchematic:mySyncSchm
+clk => DFF_inst3.CLK
+clk => SYNTHESIZED_WIRE_14.CLK
+clk => SYNTHESIZED_WIRE_13.CLK
+clk => SYNTHESIZED_WIRE_12.CLK
+reset => DFF_inst3.ACLR
+reset => SYNTHESIZED_WIRE_14.ACLR
+reset => SYNTHESIZED_WIRE_13.ACLR
+reset => SYNTHESIZED_WIRE_12.ACLR
+q[0] <= SYNTHESIZED_WIRE_12.DB_MAX_OUTPUT_PORT_TYPE
+q[1] <= SYNTHESIZED_WIRE_13.DB_MAX_OUTPUT_PORT_TYPE
+q[2] <= SYNTHESIZED_WIRE_14.DB_MAX_OUTPUT_PORT_TYPE
+q[3] <= DFF_inst3.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|syncUp_DE1|clockDiv:clkDiv
+clkIn => clkOut[0]~reg0.CLK
+clkIn => clkOut[1]~reg0.CLK
+clkIn => clkOut[2]~reg0.CLK
+clkIn => clkOut[3]~reg0.CLK
+clkIn => clkOut[4]~reg0.CLK
+clkIn => clkOut[5]~reg0.CLK
+clkIn => clkOut[6]~reg0.CLK
+clkIn => clkOut[7]~reg0.CLK
+clkIn => clkOut[8]~reg0.CLK
+clkIn => clkOut[9]~reg0.CLK
+clkIn => clkOut[10]~reg0.CLK
+clkIn => clkOut[11]~reg0.CLK
+clkIn => clkOut[12]~reg0.CLK
+clkIn => clkOut[13]~reg0.CLK
+clkIn => clkOut[14]~reg0.CLK
+clkIn => clkOut[15]~reg0.CLK
+clkIn => clkOut[16]~reg0.CLK
+clkIn => clkOut[17]~reg0.CLK
+clkIn => clkOut[18]~reg0.CLK
+clkIn => clkOut[19]~reg0.CLK
+clkIn => clkOut[20]~reg0.CLK
+clkIn => clkOut[21]~reg0.CLK
+clkIn => clkOut[22]~reg0.CLK
+clkIn => clkOut[23]~reg0.CLK
+clkIn => clkOut[24]~reg0.CLK
+clkIn => clkOut[25]~reg0.CLK
+clkIn => clkOut[26]~reg0.CLK
+clkIn => clkOut[27]~reg0.CLK
+clkIn => clkOut[28]~reg0.CLK
+clkIn => clkOut[29]~reg0.CLK
+clkIn => clkOut[30]~reg0.CLK
+clkIn => clkOut[31]~reg0.CLK
+clkOut[0] <= clkOut[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[1] <= clkOut[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[2] <= clkOut[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[3] <= clkOut[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[4] <= clkOut[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[5] <= clkOut[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[6] <= clkOut[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[7] <= clkOut[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[8] <= clkOut[8]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[9] <= clkOut[9]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[10] <= clkOut[10]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[11] <= clkOut[11]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[12] <= clkOut[12]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[13] <= clkOut[13]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[14] <= clkOut[14]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[15] <= clkOut[15]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[16] <= clkOut[16]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[17] <= clkOut[17]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[18] <= clkOut[18]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[19] <= clkOut[19]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[20] <= clkOut[20]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[21] <= clkOut[21]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[22] <= clkOut[22]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[23] <= clkOut[23]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[24] <= clkOut[24]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[25] <= clkOut[25]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[26] <= clkOut[26]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[27] <= clkOut[27]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[28] <= clkOut[28]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[29] <= clkOut[29]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[30] <= clkOut[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[31] <= clkOut[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+
+

@@ -7,7 +7,7 @@
 
 //Declaration of DE1_SoC inputs and outputs: LED as output,
 //an active-low reset on Switch 0 and a 50 MHz clock
-module syncDown_DE1(LEDR, SW, CLOCK_50);
+module syncUp_DE1(LEDR, SW, CLOCK_50);
 
 	//Declaration of clocks, switches, and LEDs for usage
 	output [9:0] LEDR;

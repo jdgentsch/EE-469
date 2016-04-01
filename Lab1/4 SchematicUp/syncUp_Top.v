@@ -8,7 +8,7 @@
 //Create a connection between the testbench and converted schematic .bdf file
 //`include "syncSchematic.v"
 
-module syncDown_Top;
+module syncUp_Top;
 
 	// Connect the two modules
 	wire [3:0] qBench;

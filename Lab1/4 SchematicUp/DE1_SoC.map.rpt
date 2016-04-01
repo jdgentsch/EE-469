@@ -1,5 +1,5 @@
 Analysis & Synthesis report for DE1_SoC
-Thu Mar 31 21:41:06 2016
+Thu Mar 31 22:28:01 2016
 Quartus II 64-Bit Version 14.0.0 Build 200 06/17/2014 SJ Web Edition
 
 
@@ -10,7 +10,16 @@ Quartus II 64-Bit Version 14.0.0 Build 200 06/17/2014 SJ Web Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Analysis & Synthesis Messages
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. Registers Removed During Synthesis
+  9. General Register Statistics
+ 10. Parameter Settings for User Entity Instance: Top-level Entity: |syncUp_DE1
+ 11. Port Connectivity Checks: "clockDiv:clkDiv"
+ 12. Post-Synthesis Netlist Statistics for Top Partition
+ 13. Elapsed Time Per Partition
+ 14. Analysis & Synthesis Messages
 
 
 
@@ -34,22 +43,27 @@ agreement for further details.
 
 
 
-+--------------------------------------------------------------------------+
-; Analysis & Synthesis Summary                                             ;
-+-----------------------------+--------------------------------------------+
-; Analysis & Synthesis Status ; Failed - Thu Mar 31 21:41:06 2016          ;
-; Quartus II 64-Bit Version   ; 14.0.0 Build 200 06/17/2014 SJ Web Edition ;
-; Revision Name               ; DE1_SoC                                    ;
-; Top-level Entity Name       ; DE1_SoC                                    ;
-; Family                      ; Cyclone V                                  ;
-; Logic utilization (in ALMs) ; N/A until Partition Merge                  ;
-; Total registers             ; N/A until Partition Merge                  ;
-; Total pins                  ; N/A until Partition Merge                  ;
-; Total virtual pins          ; N/A until Partition Merge                  ;
-; Total block memory bits     ; N/A until Partition Merge                  ;
-; Total PLLs                  ; N/A until Partition Merge                  ;
-; Total DLLs                  ; N/A until Partition Merge                  ;
-+-----------------------------+--------------------------------------------+
++------------------------------------------------------------------------------+
+; Analysis & Synthesis Summary                                                 ;
++---------------------------------+--------------------------------------------+
+; Analysis & Synthesis Status     ; Successful - Thu Mar 31 22:28:01 2016      ;
+; Quartus II 64-Bit Version       ; 14.0.0 Build 200 06/17/2014 SJ Web Edition ;
+; Revision Name                   ; DE1_SoC                                    ;
+; Top-level Entity Name           ; syncUp_DE1                                 ;
+; Family                          ; Cyclone V                                  ;
+; Logic utilization (in ALMs)     ; N/A                                        ;
+; Total registers                 ; 5                                          ;
+; Total pins                      ; 15                                         ;
+; Total virtual pins              ; 0                                          ;
+; Total block memory bits         ; 0                                          ;
+; Total DSP Blocks                ; 0                                          ;
+; Total HSSI RX PCSs              ; 0                                          ;
+; Total HSSI PMA RX Deserializers ; 0                                          ;
+; Total HSSI TX PCSs              ; 0                                          ;
+; Total HSSI PMA TX Serializers   ; 0                                          ;
+; Total PLLs                      ; 0                                          ;
+; Total DLLs                      ; 0                                          ;
++---------------------------------+--------------------------------------------+
 
 
 +---------------------------------------------------------------------------------------------------------------------------+
@@ -58,7 +72,7 @@ agreement for further details.
 ; Option                                                                          ; Setting            ; Default Value      ;
 +---------------------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                                          ; 5CGXFC7C7F23C8     ;                    ;
-; Top-level entity name                                                           ; DE1_SoC            ; DE1_SoC            ;
+; Top-level entity name                                                           ; syncUp_DE1         ; DE1_SoC            ;
 ; Family name                                                                     ; Cyclone V          ; Cyclone IV GX      ;
 ; Use smart compilation                                                           ; Off                ; Off                ;
 ; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation      ; On                 ; On                 ;
@@ -157,28 +171,171 @@ agreement for further details.
 +----------------------------+-------------+
 
 
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                       ;
++----------------------------------+-----------------+------------------------+--------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type              ; File Name with Absolute Path                                                         ; Library ;
++----------------------------------+-----------------+------------------------+--------------------------------------------------------------------------------------+---------+
+; syncUp_DE1.v                     ; yes             ; User Verilog HDL File  ; C:/Users/Jack/Dropbox/College/Spr16/EE 469/EE-469/Lab1/4 SchematicUp/syncUp_DE1.v    ;         ;
+; syncSchematic.v                  ; yes             ; User Verilog HDL File  ; C:/Users/Jack/Dropbox/College/Spr16/EE 469/EE-469/Lab1/4 SchematicUp/syncSchematic.v ;         ;
++----------------------------------+-----------------+------------------------+--------------------------------------------------------------------------------------+---------+
+
+
++--------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                                                ;
++---------------------------------------------+----------------------------------------------+
+; Resource                                    ; Usage                                        ;
++---------------------------------------------+----------------------------------------------+
+; Estimate of Logic utilization (ALMs needed) ; 3                                            ;
+;                                             ;                                              ;
+; Combinational ALUT usage for logic          ; 5                                            ;
+;     -- 7 input functions                    ; 0                                            ;
+;     -- 6 input functions                    ; 0                                            ;
+;     -- 5 input functions                    ; 0                                            ;
+;     -- 4 input functions                    ; 1                                            ;
+;     -- <=3 input functions                  ; 4                                            ;
+;                                             ;                                              ;
+; Dedicated logic registers                   ; 5                                            ;
+;                                             ;                                              ;
+; I/O pins                                    ; 15                                           ;
+; Total DSP Blocks                            ; 0                                            ;
+; Maximum fan-out node                        ; syncSchematic:mySyncSchm|SYNTHESIZED_WIRE_12 ;
+; Maximum fan-out                             ; 5                                            ;
+; Total fan-out                               ; 44                                           ;
+; Average fan-out                             ; 1.10                                         ;
++---------------------------------------------+----------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                           ;
++-------------------------------+-------------------+--------------+-------------------+------------+------+--------------+--------------------------------------+--------------+
+; Compilation Hierarchy Node    ; LC Combinationals ; LC Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                  ; Library Name ;
++-------------------------------+-------------------+--------------+-------------------+------------+------+--------------+--------------------------------------+--------------+
+; |syncUp_DE1                   ; 5 (0)             ; 5 (0)        ; 0                 ; 0          ; 15   ; 0            ; |syncUp_DE1                          ; work         ;
+;    |clockDiv:clkDiv|          ; 1 (1)             ; 1 (1)        ; 0                 ; 0          ; 0    ; 0            ; |syncUp_DE1|clockDiv:clkDiv          ; work         ;
+;    |syncSchematic:mySyncSchm| ; 4 (4)             ; 4 (4)        ; 0                 ; 0          ; 0    ; 0            ; |syncUp_DE1|syncSchematic:mySyncSchm ; work         ;
++-------------------------------+-------------------+--------------+-------------------+------------+------+--------------+--------------------------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++-------------------------------------------------------------+
+; Registers Removed During Synthesis                          ;
++----------------------------------------+--------------------+
+; Register name                          ; Reason for Removal ;
++----------------------------------------+--------------------+
+; clockDiv:clkDiv|clkOut[1..31]          ; Lost fanout        ;
+; Total Number of Removed Registers = 31 ;                    ;
++----------------------------------------+--------------------+
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 5     ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 4     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++----------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: Top-level Entity: |syncUp_DE1 ;
++----------------+-------+---------------------------------------------------+
+; Parameter Name ; Value ; Type                                              ;
++----------------+-------+---------------------------------------------------+
+; clkBit         ; 0     ; Signed Integer                                    ;
++----------------+-------+---------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "clockDiv:clkDiv"                                                                             ;
++---------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port          ; Type   ; Severity ; Details                                                                             ;
++---------------+--------+----------+-------------------------------------------------------------------------------------+
+; clkOut[31..1] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++---------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------+
+; Post-Synthesis Netlist Statistics for Top Partition ;
++-----------------------+-----------------------------+
+; Type                  ; Count                       ;
++-----------------------+-----------------------------+
+; arriav_ff             ; 5                           ;
+;     CLR               ; 4                           ;
+;     plain             ; 1                           ;
+; arriav_lcell_comb     ; 6                           ;
+;     normal            ; 6                           ;
+;         0 data inputs ; 1                           ;
+;         1 data inputs ; 2                           ;
+;         2 data inputs ; 1                           ;
+;         3 data inputs ; 1                           ;
+;         4 data inputs ; 1                           ;
+; boundary_port         ; 15                          ;
+;                       ;                             ;
+; Max LUT depth         ; 1.00                        ;
+; Average LUT depth     ; 0.77                        ;
++-----------------------+-----------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:00     ;
++----------------+--------------+
+
+
 +-------------------------------+
 ; Analysis & Synthesis Messages ;
 +-------------------------------+
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 14.0.0 Build 200 06/17/2014 SJ Web Edition
-    Info: Processing started: Thu Mar 31 21:41:05 2016
+    Info: Processing started: Thu Mar 31 22:27:59 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DE1_SoC -c DE1_SoC
 Info (11104): Parallel Compilation has detected 4 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 2 of the 2 physical processors detected instead.
 Info (12021): Found 2 design units, including 2 entities, in source file syncup_top.v
-    Info (12023): Found entity 1: syncDown_Top
+    Info (12023): Found entity 1: syncUp_Top
     Info (12023): Found entity 2: Tester
 Info (12021): Found 2 design units, including 2 entities, in source file syncup_de1.v
-    Info (12023): Found entity 1: syncDown_DE1
+    Info (12023): Found entity 1: syncUp_DE1
     Info (12023): Found entity 2: clockDiv
 Info (12021): Found 1 design units, including 1 entities, in source file syncschematic.v
     Info (12023): Found entity 1: syncSchematic
-Error (12007): Top-level design entity "DE1_SoC" is undefined
-Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 1 error, 0 warnings
-    Error: Peak virtual memory: 593 megabytes
-    Error: Processing ended: Thu Mar 31 21:41:06 2016
-    Error: Elapsed time: 00:00:01
-    Error: Total CPU time (on all processors): 00:00:01
+Info (12127): Elaborating entity "syncUp_DE1" for the top level hierarchy
+Info (12128): Elaborating entity "syncSchematic" for hierarchy "syncSchematic:mySyncSchm"
+Info (12128): Elaborating entity "clockDiv" for hierarchy "clockDiv:clkDiv"
+Warning (13024): Output pins are stuck at VCC or GND
+    Warning (13410): Pin "LEDR[4]" is stuck at GND
+    Warning (13410): Pin "LEDR[5]" is stuck at GND
+    Warning (13410): Pin "LEDR[6]" is stuck at GND
+    Warning (13410): Pin "LEDR[7]" is stuck at GND
+    Warning (13410): Pin "LEDR[8]" is stuck at GND
+    Warning (13410): Pin "LEDR[9]" is stuck at GND
+Info (286030): Timing-Driven Synthesis is running
+Info (17049): 31 registers lost all their fanouts during netlist optimizations.
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 3 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "SW[1]"
+    Warning (15610): No output dependent on input pin "SW[2]"
+    Warning (15610): No output dependent on input pin "SW[3]"
+Info (21057): Implemented 20 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 5 input pins
+    Info (21059): Implemented 10 output pins
+    Info (21061): Implemented 5 logic cells
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 11 warnings
+    Info: Peak virtual memory: 634 megabytes
+    Info: Processing ended: Thu Mar 31 22:28:01 2016
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
 
 
