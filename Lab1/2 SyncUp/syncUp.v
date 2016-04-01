@@ -16,10 +16,10 @@ module syncUp(q, clk, rst);
 	assign d[3] = (qb[0] & q[3]) | (qb[1] & q[3]) | (qb[2] & q[3]) | (qb[3] & q[2] & q[1] & q[0]);
 	DFlipFlop dff3 (q[3], qb[3], d[3], clk, rst);
 	
-	assign d[2] = (q[2] & q[0]) | (q[1] & q[2]) | (qb[2] & qb[1] & qb[0]);
+	assign d[2] = (q[2] & qb[0]) | (qb[1] & q[2]) | (qb[2] & q[1] & q[0]);
 	DFlipFlop dff2 (q[2], qb[2], d[2], clk, rst);
 	
-	assign d[1] = q[1] ~^ q[0];
+	assign d[1] = q[1] ^ q[0];
 	DFlipFlop dff1 (q[1], qb[1], d[1], clk, rst);
 	
 	assign d[0] = qb[0];
