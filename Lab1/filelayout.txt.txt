@@ -1,0 +1,16 @@
+Jack Gentsch & Jacky Wang - EE 371 - Professor Peckol
+
+This folder contains the first lab report for EE 371. 
+The lab report is submitted in a PDF format, and contains the details of
+the lab.
+
+Important: each folder contains the top-level module and lower
+level counter module for each counter design. The rippleup counter
+and schematic-level counter contain a _GTK and _DE1 file, each is a
+top-level module that is designed to either:
+1. create a testbench that is usable within GTKwave or 
+2. contains a clock divider to allow operation on the DE1-SoC and SignalTap.
+The Schematic folder contains the .bsf file (schematic level block builder) file.
+
+Thank you for grading our report, and feel free to send any additional 
+questions to jgentsch@uw.edu or tingyu7@uw.edu.
