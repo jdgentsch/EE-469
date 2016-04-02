@@ -104,6 +104,6 @@ Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(93): Argument <targets
 Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(93): Argument -clock is not an object ID
 Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(94): Argument <targets> is an empty collection
 Warning (332049): Ignored set_output_delay at DE1_SoC.sdc(94): Argument -clock is not an object ID
-Warning (332060): Node: clock_divider:cdiv|divided_clocks[25] was determined to be a clock but was found without an associated clock assignment.
+Warning (332060): Node: clock_divider:cdiv|divided_clocks[0] was determined to be a clock but was found without an associated clock assignment.
 Extra Info (176247): Finished moving registers into I/O cells, DSP blocks, and RAM blocks
 Warning (15705): Ignored locations or region assignments to the following nodes
