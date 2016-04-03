@@ -1,8 +1,8 @@
 |syncUpTop
-LEDR[0] <= syncUp:mySyncUp.port0
-LEDR[1] <= syncUp:mySyncUp.port0
-LEDR[2] <= syncUp:mySyncUp.port0
-LEDR[3] <= syncUp:mySyncUp.port0
+LEDR[0] << syncUp:mySyncUp.port0
+LEDR[1] << syncUp:mySyncUp.port0
+LEDR[2] << syncUp:mySyncUp.port0
+LEDR[3] << syncUp:mySyncUp.port0
 CLOCK_50 => CLOCK_50.IN1
 SW[0] => ~NO_FANOUT~
 SW[1] => ~NO_FANOUT~

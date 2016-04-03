@@ -4,7 +4,7 @@
 // Written by Jack Gentsch and Jacky Wang
 // 10/4/2015 instructed by Professor Peckol
 
-module rippleUpCounter(out[3:0], clk, rst);
+module rippleDownCounter(out[3:0], clk, rst);
 
 	//Attaches outputs, clock, and reset to upper level module
 	output wire [3:0] out;

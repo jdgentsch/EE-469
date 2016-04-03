@@ -13,7 +13,7 @@ module counter_GTK;
 	wire [3:0] out;
 
 	// Declare an instance of the ripple counter module
-	rippleUpCounter myRippleCounter(out[3:0], clk, rst);
+	rippleDownCounter myRippleCounter(out[3:0], clk, rst);
 
 	// Declare an instance of the testbench module
 	Tester myTester (clk, rst, out[3:0]);
