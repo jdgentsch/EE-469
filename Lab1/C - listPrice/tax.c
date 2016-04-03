@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <stdio.h>
 
 int main(void)
@@ -36,6 +37,8 @@ int main(void)
 
 }
 =======
+=======
+>>>>>>> origin/master
 #include <stdio.h>
 
 int main(void)
@@ -71,5 +74,9 @@ int main(void)
 
     return 0;
 
+<<<<<<< HEAD
+}
+>>>>>>> origin/master
+=======
 }
 >>>>>>> origin/master
