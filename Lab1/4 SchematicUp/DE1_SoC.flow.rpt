@@ -1,5 +1,5 @@
 Flow report for DE1_SoC
-Thu Mar 31 22:48:41 2016
+Sat Apr 02 22:58:54 2016
 Quartus II 64-Bit Version 14.0.0 Build 200 06/17/2014 SJ Web Edition
 
 
@@ -41,7 +41,7 @@ agreement for further details.
 +------------------------------------------------------------------------------+
 ; Flow Summary                                                                 ;
 +---------------------------------+--------------------------------------------+
-; Flow Status                     ; Successful - Thu Mar 31 22:48:31 2016      ;
+; Flow Status                     ; Successful - Sat Apr 02 22:58:38 2016      ;
 ; Quartus II 64-Bit Version       ; 14.0.0 Build 200 06/17/2014 SJ Web Edition ;
 ; Revision Name                   ; DE1_SoC                                    ;
 ; Top-level Entity Name           ; syncUp_DE1                                 ;
@@ -68,7 +68,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 03/31/2016 22:47:33 ;
+; Start date & time ; 04/02/2016 22:57:24 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; DE1_SoC             ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ agreement for further details.
 +-------------------------------------+---------------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                                 ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+---------------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 121530745711464.145948965313816       ; --            ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 121530745711464.145966304316588       ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                    ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                     ; --            ; --          ; --         ;
 ; PARTITION_COLOR                     ; 16764057                              ; --            ; syncUp_DE1  ; Top        ;
@@ -96,11 +96,11 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:01     ; 1.0                     ; 613 MB              ; 00:00:01                           ;
-; Fitter                    ; 00:00:40     ; 1.4                     ; 1940 MB             ; 00:00:52                           ;
-; Assembler                 ; 00:00:11     ; 1.0                     ; 699 MB              ; 00:00:11                           ;
-; TimeQuest Timing Analyzer ; 00:00:08     ; 1.0                     ; 944 MB              ; 00:00:07                           ;
-; Total                     ; 00:01:00     ; --                      ; --                  ; 00:01:11                           ;
+; Analysis & Synthesis      ; 00:00:02     ; 1.0                     ; 609 MB              ; 00:00:02                           ;
+; Fitter                    ; 00:00:51     ; 1.4                     ; 1946 MB             ; 00:01:04                           ;
+; Assembler                 ; 00:00:15     ; 1.0                     ; 699 MB              ; 00:00:14                           ;
+; TimeQuest Timing Analyzer ; 00:00:12     ; 1.0                     ; 946 MB              ; 00:00:09                           ;
+; Total                     ; 00:01:20     ; --                      ; --                  ; 00:01:29                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

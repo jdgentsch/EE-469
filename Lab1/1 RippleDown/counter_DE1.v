@@ -22,7 +22,7 @@ module counter_DE1(LEDR, CLOCK_50, SW);
 	assign LEDR[9:4] = 0;
 	
 	//Declare an instance of the synthesized schematic module
-	rippleUpCounter myRippleUp (.out(LEDR[3:0]), .clk(clk[clkBit]), .rst(SW[0]));
+	rippleDownCounter myRippleDown (.out(LEDR[3:0]), .clk(clk[clkBit]), .rst(SW[0]));
 
 	//Creates a clock divider to allow for a slower clock
 	clockDiv clkDiv(.clkIn(CLOCK_50), .clkOut(clk));

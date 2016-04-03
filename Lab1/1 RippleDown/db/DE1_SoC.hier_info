@@ -1,14 +1,14 @@
 |counter_DE1
-LEDR[0] <= rippleUpCounter:myRippleUp.out
-LEDR[1] <= rippleUpCounter:myRippleUp.out
-LEDR[2] <= rippleUpCounter:myRippleUp.out
-LEDR[3] <= rippleUpCounter:myRippleUp.out
-LEDR[4] <= <GND>
-LEDR[5] <= <GND>
-LEDR[6] <= <GND>
-LEDR[7] <= <GND>
-LEDR[8] <= <GND>
-LEDR[9] <= <GND>
+LEDR[0] << rippleDownCounter:myRippleDown.out
+LEDR[1] << rippleDownCounter:myRippleDown.out
+LEDR[2] << rippleDownCounter:myRippleDown.out
+LEDR[3] << rippleDownCounter:myRippleDown.out
+LEDR[4] << <GND>
+LEDR[5] << <GND>
+LEDR[6] << <GND>
+LEDR[7] << <GND>
+LEDR[8] << <GND>
+LEDR[9] << <GND>
 CLOCK_50 => CLOCK_50.IN1
 SW[0] => SW[0].IN1
 SW[1] => ~NO_FANOUT~
@@ -16,7 +16,7 @@ SW[2] => ~NO_FANOUT~
 SW[3] => ~NO_FANOUT~
 
 
-|counter_DE1|rippleUpCounter:myRippleUp
+|counter_DE1|rippleDownCounter:myRippleDown
 out[0] <= DFlipFlop:ff0.q
 out[1] <= DFlipFlop:ff1.q
 out[2] <= DFlipFlop:ff2.q
@@ -25,7 +25,7 @@ clk => clk.IN1
 rst => rst.IN4
 
 
-|counter_DE1|rippleUpCounter:myRippleUp|DFlipFlop:ff0
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff0
 q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 D => q~reg0.DATAIN
@@ -33,7 +33,7 @@ clk => q~reg0.CLK
 rst => q~reg0.ACLR
 
 
-|counter_DE1|rippleUpCounter:myRippleUp|DFlipFlop:ff1
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff1
 q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 D => q~reg0.DATAIN
@@ -41,7 +41,7 @@ clk => q~reg0.CLK
 rst => q~reg0.ACLR
 
 
-|counter_DE1|rippleUpCounter:myRippleUp|DFlipFlop:ff2
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff2
 q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 D => q~reg0.DATAIN
@@ -49,7 +49,7 @@ clk => q~reg0.CLK
 rst => q~reg0.ACLR
 
 
-|counter_DE1|rippleUpCounter:myRippleUp|DFlipFlop:ff3
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff3
 q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
 D => q~reg0.DATAIN
