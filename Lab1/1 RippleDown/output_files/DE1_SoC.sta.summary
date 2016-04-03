@@ -2,244 +2,132 @@
 TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
+Type  : Slow 1100mV 85C Model Setup 'altera_reserved_tck'
+Slack : 10.403
+TNS   : 0.000
+
 Type  : Slow 1100mV 85C Model Setup 'CLOCK_50'
-Slack : -4.724
-TNS   : -52.227
-
-Type  : Slow 1100mV 85C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -1.877
-TNS   : -1.877
-
-Type  : Slow 1100mV 85C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -1.712
-TNS   : -1.712
-
-Type  : Slow 1100mV 85C Model Setup 'clockDiv:clkDiv|clkOut[25]'
-Slack : -1.554
-TNS   : -1.554
-
-Type  : Slow 1100mV 85C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : -1.136
-TNS   : -2.266
+Slack : 15.618
+TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Hold 'CLOCK_50'
-Slack : -0.162
-TNS   : -0.162
-
-Type  : Slow 1100mV 85C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : 0.077
+Slack : 0.187
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : 0.252
+Type  : Slow 1100mV 85C Model Hold 'altera_reserved_tck'
+Slack : 0.355
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : 0.292
+Type  : Slow 1100mV 85C Model Recovery 'altera_reserved_tck'
+Slack : 15.201
 TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Hold 'clockDiv:clkDiv|clkOut[25]'
-Slack : 0.363
+Type  : Slow 1100mV 85C Model Removal 'altera_reserved_tck'
+Slack : 0.851
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50'
-Slack : -0.724
-TNS   : -28.793
+Slack : 8.876
+TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : -0.724
-TNS   : -2.421
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 15.269
+TNS   : 0.000
 
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -0.724
-TNS   : -1.223
-
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -0.724
-TNS   : -1.221
-
-Type  : Slow 1100mV 85C Model Minimum Pulse Width 'clockDiv:clkDiv|clkOut[25]'
-Slack : -0.724
-TNS   : -1.106
+Type  : Slow 1100mV 0C Model Setup 'altera_reserved_tck'
+Slack : 10.775
+TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Setup 'CLOCK_50'
-Slack : -5.141
-TNS   : -56.010
-
-Type  : Slow 1100mV 0C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -1.971
-TNS   : -1.971
-
-Type  : Slow 1100mV 0C Model Setup 'clockDiv:clkDiv|clkOut[25]'
-Slack : -1.737
-TNS   : -1.737
-
-Type  : Slow 1100mV 0C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -1.693
-TNS   : -1.693
-
-Type  : Slow 1100mV 0C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : -1.009
-TNS   : -2.018
+Slack : 15.680
+TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Hold 'CLOCK_50'
-Slack : -0.251
-TNS   : -0.251
-
-Type  : Slow 1100mV 0C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : 0.118
+Slack : 0.174
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : 0.328
+Type  : Slow 1100mV 0C Model Hold 'altera_reserved_tck'
+Slack : 0.501
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : 0.424
+Type  : Slow 1100mV 0C Model Recovery 'altera_reserved_tck'
+Slack : 15.348
 TNS   : 0.000
 
-Type  : Slow 1100mV 0C Model Hold 'clockDiv:clkDiv|clkOut[25]'
-Slack : 0.527
+Type  : Slow 1100mV 0C Model Removal 'altera_reserved_tck'
+Slack : 0.791
 TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50'
-Slack : -0.724
-TNS   : -28.891
-
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : -0.724
-TNS   : -2.225
-
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -0.724
-TNS   : -1.113
-
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -0.724
-TNS   : -1.111
-
-Type  : Slow 1100mV 0C Model Minimum Pulse Width 'clockDiv:clkDiv|clkOut[25]'
-Slack : -0.724
-TNS   : -1.104
-
-Type  : Fast 1100mV 85C Model Setup 'CLOCK_50'
-Slack : -1.918
-TNS   : -9.204
-
-Type  : Fast 1100mV 85C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -0.617
-TNS   : -0.617
-
-Type  : Fast 1100mV 85C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -0.590
-TNS   : -0.590
-
-Type  : Fast 1100mV 85C Model Setup 'clockDiv:clkDiv|clkOut[25]'
-Slack : -0.562
-TNS   : -0.562
-
-Type  : Fast 1100mV 85C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : -0.080
-TNS   : -0.159
-
-Type  : Fast 1100mV 85C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -0.194
-TNS   : -0.194
-
-Type  : Fast 1100mV 85C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -0.183
-TNS   : -0.183
-
-Type  : Fast 1100mV 85C Model Hold 'clockDiv:clkDiv|clkOut[25]'
-Slack : -0.093
-TNS   : -0.093
-
-Type  : Fast 1100mV 85C Model Hold 'CLOCK_50'
-Slack : 0.095
+Slack : 8.859
 TNS   : 0.000
 
-Type  : Fast 1100mV 85C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : 0.147
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 15.259
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Setup 'altera_reserved_tck'
+Slack : 12.961
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Setup 'CLOCK_50'
+Slack : 17.483
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'CLOCK_50'
+Slack : 0.059
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'altera_reserved_tck'
+Slack : 0.168
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Recovery 'altera_reserved_tck'
+Slack : 16.222
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Removal 'altera_reserved_tck'
+Slack : 0.411
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50'
-Slack : -0.271
-TNS   : -2.340
-
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : 0.117
+Slack : 8.501
 TNS   : 0.000
 
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : 0.145
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 14.928
 TNS   : 0.000
 
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'clockDiv:clkDiv|clkOut[25]'
-Slack : 0.148
-TNS   : 0.000
-
-Type  : Fast 1100mV 85C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : 0.161
+Type  : Fast 1100mV 0C Model Setup 'altera_reserved_tck'
+Slack : 13.502
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Setup 'CLOCK_50'
-Slack : -1.614
-TNS   : -8.216
-
-Type  : Fast 1100mV 0C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -0.588
-TNS   : -0.588
-
-Type  : Fast 1100mV 0C Model Setup 'clockDiv:clkDiv|clkOut[25]'
-Slack : -0.550
-TNS   : -0.550
-
-Type  : Fast 1100mV 0C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -0.547
-TNS   : -0.547
-
-Type  : Fast 1100mV 0C Model Setup 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : -0.026
-TNS   : -0.052
-
-Type  : Fast 1100mV 0C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : -0.191
-TNS   : -0.191
-
-Type  : Fast 1100mV 0C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : -0.163
-TNS   : -0.163
-
-Type  : Fast 1100mV 0C Model Hold 'clockDiv:clkDiv|clkOut[25]'
-Slack : -0.096
-TNS   : -0.096
+Slack : 17.673
+TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Hold 'CLOCK_50'
-Slack : -0.006
-TNS   : -0.006
+Slack : 0.032
+TNS   : 0.000
 
-Type  : Fast 1100mV 0C Model Hold 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : 0.133
+Type  : Fast 1100mV 0C Model Hold 'altera_reserved_tck'
+Slack : 0.207
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Recovery 'altera_reserved_tck'
+Slack : 16.359
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Removal 'altera_reserved_tck'
+Slack : 0.366
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50'
-Slack : -0.277
-TNS   : -2.380
-
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff2|q'
-Slack : 0.140
+Slack : 8.457
 TNS   : 0.000
 
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'clockDiv:clkDiv|clkOut[25]'
-Slack : 0.146
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff1|q'
-Slack : 0.156
-TNS   : 0.000
-
-Type  : Fast 1100mV 0C Model Minimum Pulse Width 'rippleDownCounter:myRippleDown|DFlipFlop:ff0|q'
-Slack : 0.157
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'altera_reserved_tck'
+Slack : 14.892
 TNS   : 0.000
 
 ------------------------------------------------------------
