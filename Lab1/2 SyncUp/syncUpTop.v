@@ -12,7 +12,7 @@ module syncUpTop (LEDR, CLOCK_50, SW);
 
  	wire [31:0] clk; // choosing from 32 different clock speeds
 
- 	syncUp mySyncUp (LEDR[3:0], clk[25], SW[9]); // Instantiate syncUp module; clock speed 0.75Hz
+ 	syncUp mySyncUp (LEDR[3:0], clk[0], SW[9]); // Instantiate syncUp module; clock speed 0.75Hz
 
  	clock_divider cdiv (CLOCK_50, clk); // Instantiate clock_divider module
 
