@@ -1,8 +1,14 @@
-|syncJohnTop
-LEDR[0] << syncJohn:mySyncJohn.port0
-LEDR[1] << syncJohn:mySyncJohn.port0
-LEDR[2] << syncJohn:mySyncJohn.port0
-LEDR[3] << syncJohn:mySyncJohn.port0
+|counter_DE1
+LEDR[0] << rippleDownCounter:myRippleDown.out
+LEDR[1] << rippleDownCounter:myRippleDown.out
+LEDR[2] << rippleDownCounter:myRippleDown.out
+LEDR[3] << rippleDownCounter:myRippleDown.out
+LEDR[4] << <GND>
+LEDR[5] << <GND>
+LEDR[6] << <GND>
+LEDR[7] << <GND>
+LEDR[8] << <GND>
+LEDR[9] << <GND>
 CLOCK_50 => CLOCK_50.IN1
 SW[0] => ~NO_FANOUT~
 SW[1] => ~NO_FANOUT~
@@ -16,85 +22,111 @@ SW[8] => ~NO_FANOUT~
 SW[9] => SW[9].IN1
 
 
-|syncJohnTop|syncJohn:mySyncJohn
-out[0] <= out[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-out[1] <= out[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-out[2] <= out[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-out[3] <= out[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-clk => out[0]~reg0.CLK
-clk => out[1]~reg0.CLK
-clk => out[2]~reg0.CLK
-clk => out[3]~reg0.CLK
-rst => out.OUTPUTSELECT
-rst => out.OUTPUTSELECT
-rst => out.OUTPUTSELECT
-rst => out.OUTPUTSELECT
+|counter_DE1|rippleDownCounter:myRippleDown
+out[0] <= out[0].DB_MAX_OUTPUT_PORT_TYPE
+out[1] <= out[1].DB_MAX_OUTPUT_PORT_TYPE
+out[2] <= out[2].DB_MAX_OUTPUT_PORT_TYPE
+out[3] <= DFlipFlop:ff3.q
+clk => clk.IN1
+rst => rst.IN4
 
 
-|syncJohnTop|clock_divider:cdiv
-clock => divided_clocks[0]~reg0.CLK
-clock => divided_clocks[1]~reg0.CLK
-clock => divided_clocks[2]~reg0.CLK
-clock => divided_clocks[3]~reg0.CLK
-clock => divided_clocks[4]~reg0.CLK
-clock => divided_clocks[5]~reg0.CLK
-clock => divided_clocks[6]~reg0.CLK
-clock => divided_clocks[7]~reg0.CLK
-clock => divided_clocks[8]~reg0.CLK
-clock => divided_clocks[9]~reg0.CLK
-clock => divided_clocks[10]~reg0.CLK
-clock => divided_clocks[11]~reg0.CLK
-clock => divided_clocks[12]~reg0.CLK
-clock => divided_clocks[13]~reg0.CLK
-clock => divided_clocks[14]~reg0.CLK
-clock => divided_clocks[15]~reg0.CLK
-clock => divided_clocks[16]~reg0.CLK
-clock => divided_clocks[17]~reg0.CLK
-clock => divided_clocks[18]~reg0.CLK
-clock => divided_clocks[19]~reg0.CLK
-clock => divided_clocks[20]~reg0.CLK
-clock => divided_clocks[21]~reg0.CLK
-clock => divided_clocks[22]~reg0.CLK
-clock => divided_clocks[23]~reg0.CLK
-clock => divided_clocks[24]~reg0.CLK
-clock => divided_clocks[25]~reg0.CLK
-clock => divided_clocks[26]~reg0.CLK
-clock => divided_clocks[27]~reg0.CLK
-clock => divided_clocks[28]~reg0.CLK
-clock => divided_clocks[29]~reg0.CLK
-clock => divided_clocks[30]~reg0.CLK
-clock => divided_clocks[31]~reg0.CLK
-divided_clocks[0] <= divided_clocks[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[1] <= divided_clocks[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[2] <= divided_clocks[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[3] <= divided_clocks[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[4] <= divided_clocks[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[5] <= divided_clocks[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[6] <= divided_clocks[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[7] <= divided_clocks[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[8] <= divided_clocks[8]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[9] <= divided_clocks[9]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[10] <= divided_clocks[10]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[11] <= divided_clocks[11]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[12] <= divided_clocks[12]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[13] <= divided_clocks[13]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[14] <= divided_clocks[14]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[15] <= divided_clocks[15]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[16] <= divided_clocks[16]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[17] <= divided_clocks[17]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[18] <= divided_clocks[18]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[19] <= divided_clocks[19]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[20] <= divided_clocks[20]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[21] <= divided_clocks[21]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[22] <= divided_clocks[22]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[23] <= divided_clocks[23]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[24] <= divided_clocks[24]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[25] <= divided_clocks[25]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[26] <= divided_clocks[26]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[27] <= divided_clocks[27]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[28] <= divided_clocks[28]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[29] <= divided_clocks[29]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[30] <= divided_clocks[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-divided_clocks[31] <= divided_clocks[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff0
+q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+D => q~reg0.DATAIN
+clk => q~reg0.CLK
+rst => q~reg0.ACLR
+
+
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff1
+q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+D => q~reg0.DATAIN
+clk => q~reg0.CLK
+rst => q~reg0.ACLR
+
+
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff2
+q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+D => q~reg0.DATAIN
+clk => q~reg0.CLK
+rst => q~reg0.ACLR
+
+
+|counter_DE1|rippleDownCounter:myRippleDown|DFlipFlop:ff3
+q <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+qBar <= q~reg0.DB_MAX_OUTPUT_PORT_TYPE
+D => q~reg0.DATAIN
+clk => q~reg0.CLK
+rst => q~reg0.ACLR
+
+
+|counter_DE1|clockDiv:clkDiv
+clkIn => clkOut[0]~reg0.CLK
+clkIn => clkOut[1]~reg0.CLK
+clkIn => clkOut[2]~reg0.CLK
+clkIn => clkOut[3]~reg0.CLK
+clkIn => clkOut[4]~reg0.CLK
+clkIn => clkOut[5]~reg0.CLK
+clkIn => clkOut[6]~reg0.CLK
+clkIn => clkOut[7]~reg0.CLK
+clkIn => clkOut[8]~reg0.CLK
+clkIn => clkOut[9]~reg0.CLK
+clkIn => clkOut[10]~reg0.CLK
+clkIn => clkOut[11]~reg0.CLK
+clkIn => clkOut[12]~reg0.CLK
+clkIn => clkOut[13]~reg0.CLK
+clkIn => clkOut[14]~reg0.CLK
+clkIn => clkOut[15]~reg0.CLK
+clkIn => clkOut[16]~reg0.CLK
+clkIn => clkOut[17]~reg0.CLK
+clkIn => clkOut[18]~reg0.CLK
+clkIn => clkOut[19]~reg0.CLK
+clkIn => clkOut[20]~reg0.CLK
+clkIn => clkOut[21]~reg0.CLK
+clkIn => clkOut[22]~reg0.CLK
+clkIn => clkOut[23]~reg0.CLK
+clkIn => clkOut[24]~reg0.CLK
+clkIn => clkOut[25]~reg0.CLK
+clkIn => clkOut[26]~reg0.CLK
+clkIn => clkOut[27]~reg0.CLK
+clkIn => clkOut[28]~reg0.CLK
+clkIn => clkOut[29]~reg0.CLK
+clkIn => clkOut[30]~reg0.CLK
+clkIn => clkOut[31]~reg0.CLK
+clkOut[0] <= clkOut[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[1] <= clkOut[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[2] <= clkOut[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[3] <= clkOut[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[4] <= clkOut[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[5] <= clkOut[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[6] <= clkOut[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[7] <= clkOut[7]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[8] <= clkOut[8]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[9] <= clkOut[9]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[10] <= clkOut[10]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[11] <= clkOut[11]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[12] <= clkOut[12]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[13] <= clkOut[13]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[14] <= clkOut[14]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[15] <= clkOut[15]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[16] <= clkOut[16]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[17] <= clkOut[17]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[18] <= clkOut[18]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[19] <= clkOut[19]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[20] <= clkOut[20]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[21] <= clkOut[21]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[22] <= clkOut[22]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[23] <= clkOut[23]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[24] <= clkOut[24]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[25] <= clkOut[25]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[26] <= clkOut[26]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[27] <= clkOut[27]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[28] <= clkOut[28]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[29] <= clkOut[29]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[30] <= clkOut[30]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+clkOut[31] <= clkOut[31]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 
 
