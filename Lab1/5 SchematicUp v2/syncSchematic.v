@@ -17,6 +17,15 @@
 // VERSION		"Version 14.0.0 Build 200 06/17/2014 SJ Web Edition"
 // CREATED		"Sun Apr 03 17:23:40 2016"
 
+
+
+
+// A four-stage synchrnous up counter with active low reset- Counter 4 of EE 469 Lab 1
+// Note that this lower level module is the schematic level model of the counter.
+
+// Written by Jack Gentsch, Jacky Wang, and Chinh Bui
+// 4/3/2016 instructed by Professor Peckol
+
 module syncSchematic(
 	clk,
 	reset,

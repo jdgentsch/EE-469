@@ -1,9 +1,9 @@
-// Ripple down counter - Counter 4 of EE 371 Lab 1, utilizes the schematic model.
+// Synchronous Up Counter - Counter 4 of EE 469 Lab 1, utilizes the schematic model.
 // Note that this file uses Quartus synthesized Verilog, and is intended for
 // use in running GTKwave on the PC.
 
-// Written by Jack Gentsch and Jacky Wang
-// 10/4/2015 instructed by Professor Peckol
+// Written by Jack Gentsch, Jacky Wang, and Chinh Bui
+// 4/3/2016 instructed by Professor Peckol
 
 //Create a connection between the testbench and converted schematic .bdf file
 `include "syncSchematic.v"
