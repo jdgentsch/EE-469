@@ -1,6 +1,6 @@
-Jack Gentsch & Jacky Wang - EE 371 - Professor Peckol
+Jack Gentsch, Jacky Wang, Chinh Bui - EE 469 - Professor Peckol
 
-This folder contains the first lab report for EE 371. 
+This folder contains the first lab report for EE 469. 
 The lab report is submitted in a PDF format, and contains the details of
 the lab.
 
@@ -13,4 +13,4 @@ top-level module that is designed to either:
 The Schematic folder contains the .bsf file (schematic level block builder) file.
 
 Thank you for grading our report, and feel free to send any additional 
-questions to jgentsch@uw.edu or tingyu7@uw.edu.
+questions to jgentsch@uw.edu, tingyu7@uw.edu, of chihnbuivn1989@gmail.com.
