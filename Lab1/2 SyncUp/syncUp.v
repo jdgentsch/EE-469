@@ -1,4 +1,4 @@
-// A four-stage synchrnous up counter with active low reset- Counter 1 of EE 469 Lab 1
+// A four-stage synchrnous up counter with active low reset- Counter 2 of EE 469 Lab 1
 // Note that this lower level module is the dataflow level model of the counter.
 
 // Written by Jack Gentsch, Jacky Wang, and Chinh Bui

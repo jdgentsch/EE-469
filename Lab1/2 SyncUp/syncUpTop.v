@@ -1,4 +1,4 @@
-// A four-stage synchrnous up counter counter with active low reset- Counter 1 of EE 469 Lab 1
+// A four-stage synchrnous up counter counter with active low reset- Counter 2 of EE 469 Lab 1
 // Note that this upper level module is intended for use with the DE1_SoC and Spinal Tap.
 
 // Written by Jack Gentsch, Jacky Wang, and Chinh Bui
