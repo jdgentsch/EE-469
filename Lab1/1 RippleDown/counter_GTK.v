@@ -1,11 +1,11 @@
-// A four-stage ripple up counter with active low reset- Counter 1 of EE 371 Lab 1
+// A four-stage ripple up counter with active low reset- Counter 1 of EE 469 Lab 1
 // Note that this upper level module is intended for use with GTKwave on the PC.
 
-// Written by Jack Gentsch and Jacky Wang
-// 10/4/2015 instructed by Professor Peckol
+// Written by Jack Gentsch, Jacky Wang, and Chinh Bui
+// 4/3/2016 instructed by Professor Peckol
 
 //Create a connection between the testbench and converted schematic .bdf file
-//`include "rippleUpCounter.v"
+`include "rippleDownCounter.v"
 
 module counter_GTK;
 	// connect the two modules
