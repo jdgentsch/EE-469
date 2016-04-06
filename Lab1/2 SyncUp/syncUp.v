@@ -1,11 +1,8 @@
-// EE 469
-// Coders: Chinh Bui, Jack Gentsch, Jacky Wang
-// Spring 2016
-// Lab 1
+// A four-stage synchrnous up counter with active low reset- Counter 1 of EE 469 Lab 1
+// Note that this lower level module is the dataflow model of the counter.
 
-// A four stage (4 bit) synchronous up counter, with
-// active low reset, using a dataflow level model and
-// the D flip-flop model given in part 1.
+// Written by Jack Gentsch, Jacky Wang, and Chinh Bui
+// 4/3/2016 instructed by Professor Peckol
 
 module syncUp(q, clk, rst);
 	output [3:0] q;
