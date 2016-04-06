@@ -11,19 +11,12 @@ module syncJohn(out, clk, rst);
 	output reg [3:0] out; // present state output
 	input clk, rst;
 
-	reg [3:0] ns; // next state output
-
-	always @(*)
-	begin
-		ns[3] = ~out[0];
-		ns[2:0] = out[3:1];
-	end
-
 	// DFF
 	always @(posedge clk)
 		if (!rst)
 			out <= 4'b0000;	
-		else
-			out <= ns;
-
+		else begin
+			out[3]  <= ~out[0];
+			out[2:0] <= out[3:1];
+		end
 endmodule
