@@ -15,7 +15,7 @@
 
 // PROGRAM		"Quartus II 64-Bit"
 // VERSION		"Version 14.0.0 Build 200 06/17/2014 SJ Web Edition"
-// CREATED		"Thu Mar 31 22:16:25 2016"
+// CREATED		"Sun Apr 03 17:23:40 2016"
 
 module syncSchematic(
 	clk,
@@ -28,46 +28,43 @@ input wire	clk;
 input wire	reset;
 output wire	[3:0] q;
 
-wire	SYNTHESIZED_WIRE_11;
+reg	out0;
+reg	out1;
+reg	out2;
+reg	out3;
+wire	SYNTHESIZED_WIRE_0;
 wire	SYNTHESIZED_WIRE_1;
 wire	SYNTHESIZED_WIRE_2;
 wire	SYNTHESIZED_WIRE_3;
-reg	SYNTHESIZED_WIRE_12;
-reg	SYNTHESIZED_WIRE_13;
-reg	DFF_inst3;
 wire	SYNTHESIZED_WIRE_4;
-reg	SYNTHESIZED_WIRE_14;
 wire	SYNTHESIZED_WIRE_5;
 wire	SYNTHESIZED_WIRE_6;
 wire	SYNTHESIZED_WIRE_7;
 wire	SYNTHESIZED_WIRE_8;
-wire	SYNTHESIZED_WIRE_10;
+wire	SYNTHESIZED_WIRE_9;
 
 assign	SYNTHESIZED_WIRE_1 = 1;
 assign	SYNTHESIZED_WIRE_3 = 1;
 assign	SYNTHESIZED_WIRE_6 = 1;
 assign	SYNTHESIZED_WIRE_8 = 1;
 
-// These lines were manually added by the designer to ensure that the outputs were actually being connected.
-assign q[3] = DFF_inst3;
-assign q[2] = SYNTHESIZED_WIRE_14;
-assign q[1] = SYNTHESIZED_WIRE_13;
-assign q[0] = SYNTHESIZED_WIRE_12;
+
+
 
 always@(posedge clk or negedge reset or negedge SYNTHESIZED_WIRE_1)
 begin
 if (!reset)
 	begin
-	SYNTHESIZED_WIRE_12 <= 0;
+	out0 <= 0;
 	end
 else
 if (!SYNTHESIZED_WIRE_1)
 	begin
-	SYNTHESIZED_WIRE_12 <= 1;
+	out0 <= 1;
 	end
 else
 	begin
-	SYNTHESIZED_WIRE_12 <= SYNTHESIZED_WIRE_11;
+	out0 <= SYNTHESIZED_WIRE_0;
 	end
 end
 
@@ -76,42 +73,42 @@ always@(posedge clk or negedge reset or negedge SYNTHESIZED_WIRE_3)
 begin
 if (!reset)
 	begin
-	SYNTHESIZED_WIRE_13 <= 0;
+	out1 <= 0;
 	end
 else
 if (!SYNTHESIZED_WIRE_3)
 	begin
-	SYNTHESIZED_WIRE_13 <= 1;
+	out1 <= 1;
 	end
 else
 	begin
-	SYNTHESIZED_WIRE_13 <= SYNTHESIZED_WIRE_2;
+	out1 <= SYNTHESIZED_WIRE_2;
 	end
 end
 
-assign	SYNTHESIZED_WIRE_10 = ~(SYNTHESIZED_WIRE_12 | SYNTHESIZED_WIRE_13);
+assign	SYNTHESIZED_WIRE_9 = out1 & out0;
 
-assign	SYNTHESIZED_WIRE_7 = DFF_inst3 ^ SYNTHESIZED_WIRE_4;
+assign	SYNTHESIZED_WIRE_7 = out3 ^ SYNTHESIZED_WIRE_4;
 
-assign	SYNTHESIZED_WIRE_4 = ~(SYNTHESIZED_WIRE_14 | SYNTHESIZED_WIRE_13 | SYNTHESIZED_WIRE_12);
+assign	SYNTHESIZED_WIRE_4 = out2 & out1 & out0;
 
-assign	SYNTHESIZED_WIRE_11 =  ~SYNTHESIZED_WIRE_12;
+assign	SYNTHESIZED_WIRE_0 =  ~out0;
 
 
 always@(posedge clk or negedge reset or negedge SYNTHESIZED_WIRE_6)
 begin
 if (!reset)
 	begin
-	SYNTHESIZED_WIRE_14 <= 0;
+	out2 <= 0;
 	end
 else
 if (!SYNTHESIZED_WIRE_6)
 	begin
-	SYNTHESIZED_WIRE_14 <= 1;
+	out2 <= 1;
 	end
 else
 	begin
-	SYNTHESIZED_WIRE_14 <= SYNTHESIZED_WIRE_5;
+	out2 <= SYNTHESIZED_WIRE_5;
 	end
 end
 
@@ -120,16 +117,16 @@ always@(posedge clk or negedge reset or negedge SYNTHESIZED_WIRE_8)
 begin
 if (!reset)
 	begin
-	DFF_inst3 <= 0;
+	out3 <= 0;
 	end
 else
 if (!SYNTHESIZED_WIRE_8)
 	begin
-	DFF_inst3 <= 1;
+	out3 <= 1;
 	end
 else
 	begin
-	DFF_inst3 <= SYNTHESIZED_WIRE_7;
+	out3 <= SYNTHESIZED_WIRE_7;
 	end
 end
 
@@ -137,9 +134,13 @@ end
 
 
 
-assign	SYNTHESIZED_WIRE_2 = SYNTHESIZED_WIRE_13 ^ SYNTHESIZED_WIRE_11;
+assign	SYNTHESIZED_WIRE_2 = out1 ^ out0;
 
-assign	SYNTHESIZED_WIRE_5 = SYNTHESIZED_WIRE_14 ^ SYNTHESIZED_WIRE_10;
+assign	SYNTHESIZED_WIRE_5 = out2 ^ SYNTHESIZED_WIRE_9;
 
+assign	q[2] = out2;
+assign	q[1] = out1;
+assign	q[0] = out0;
+assign	q[3] = out3;
 
 endmodule

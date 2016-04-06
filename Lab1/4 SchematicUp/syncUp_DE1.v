@@ -11,7 +11,7 @@ module syncUp_DE1(LEDR, SW, CLOCK_50);
 
 	//Declaration of clocks, switches, and LEDs for usage
 	output [9:0] LEDR;
-	input [3:0] SW;
+	input [9:0] SW;
 	input CLOCK_50;
 	wire [31:0] clk;
 	
@@ -22,7 +22,7 @@ module syncUp_DE1(LEDR, SW, CLOCK_50);
 	assign LEDR[9:4] = 0;
 	
 	//Declare an instance of the synthesized schematic module
-	syncSchematic mySyncSchm (.q(LEDR[3:0]), .clk(clk[clkBit]), .reset(SW[0]));
+	syncSchematic mySyncSchm (.q(LEDR[3:0]), .clk(clk[clkBit]), .reset(SW[9]));
 
 	//Creates a clock divider to allow for a slower clock
 	clockDiv clkDiv(.clkIn(CLOCK_50), .clkOut(clk));

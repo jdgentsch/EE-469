@@ -1,0 +1,157 @@
+$date
+	Sun Apr 03 17:25:16 2016
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module syncUp_Top $end
+$scope module mySyncSchm $end
+$var wire 1 ! SYNTHESIZED_WIRE_0 $end
+$var wire 1 " SYNTHESIZED_WIRE_1 $end
+$var wire 1 # SYNTHESIZED_WIRE_2 $end
+$var wire 1 $ SYNTHESIZED_WIRE_3 $end
+$var wire 1 % SYNTHESIZED_WIRE_4 $end
+$var wire 1 & SYNTHESIZED_WIRE_5 $end
+$var wire 1 ' SYNTHESIZED_WIRE_6 $end
+$var wire 1 ( SYNTHESIZED_WIRE_7 $end
+$var wire 1 ) SYNTHESIZED_WIRE_8 $end
+$var wire 1 * SYNTHESIZED_WIRE_9 $end
+$var wire 1 + clk $end
+$var wire 1 , reset $end
+$var wire 4 - q [3:0] $end
+$var reg 1 . out0 $end
+$var reg 1 / out1 $end
+$var reg 1 0 out2 $end
+$var reg 1 1 out3 $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+01
+00
+0/
+0.
+b0 -
+0,
+0+
+0*
+1)
+0(
+1'
+0&
+0%
+1$
+0#
+1"
+1!
+$end
+#20
+1+
+#40
+1,
+0+
+#60
+1#
+0!
+b1 -
+1.
+1+
+#80
+0+
+#100
+1!
+1/
+b10 -
+0.
+1+
+#120
+0+
+#140
+1&
+0#
+0!
+1*
+b11 -
+1.
+1+
+#160
+0+
+#180
+1!
+0*
+10
+0/
+b100 -
+0.
+1+
+#200
+0+
+#220
+1#
+0!
+b101 -
+1.
+1+
+#240
+0+
+#260
+1!
+1/
+b110 -
+0.
+1+
+#280
+0+
+#300
+1(
+0&
+0#
+0!
+1%
+1*
+b111 -
+1.
+1+
+#320
+0+
+#340
+1!
+0%
+0*
+11
+00
+0/
+b1000 -
+0.
+1+
+#360
+0+
+#380
+1#
+0!
+b1001 -
+1.
+1+
+#400
+0+
+#420
+1!
+1/
+b1010 -
+0.
+1+
+#440
+0+
+#460
+1&
+0#
+0!
+1*
+b1011 -
+1.
+1+
+#500

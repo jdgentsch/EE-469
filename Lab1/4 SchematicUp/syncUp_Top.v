@@ -6,7 +6,7 @@
 // 10/4/2015 instructed by Professor Peckol
 
 //Create a connection between the testbench and converted schematic .bdf file
-//`include "syncSchematic.v"
+`include "syncSchematic.v"
 
 module syncUp_Top;
 

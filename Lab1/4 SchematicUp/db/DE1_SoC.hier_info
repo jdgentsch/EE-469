@@ -9,26 +9,32 @@ LEDR[6] << <GND>
 LEDR[7] << <GND>
 LEDR[8] << <GND>
 LEDR[9] << <GND>
-SW[0] => SW[0].IN1
+SW[0] => ~NO_FANOUT~
 SW[1] => ~NO_FANOUT~
 SW[2] => ~NO_FANOUT~
 SW[3] => ~NO_FANOUT~
+SW[4] => ~NO_FANOUT~
+SW[5] => ~NO_FANOUT~
+SW[6] => ~NO_FANOUT~
+SW[7] => ~NO_FANOUT~
+SW[8] => ~NO_FANOUT~
+SW[9] => SW[9].IN1
 CLOCK_50 => CLOCK_50.IN1
 
 
 |syncUp_DE1|syncSchematic:mySyncSchm
-clk => DFF_inst3.CLK
-clk => SYNTHESIZED_WIRE_14.CLK
-clk => SYNTHESIZED_WIRE_13.CLK
-clk => SYNTHESIZED_WIRE_12.CLK
-reset => DFF_inst3.ACLR
-reset => SYNTHESIZED_WIRE_14.ACLR
-reset => SYNTHESIZED_WIRE_13.ACLR
-reset => SYNTHESIZED_WIRE_12.ACLR
-q[0] <= SYNTHESIZED_WIRE_12.DB_MAX_OUTPUT_PORT_TYPE
-q[1] <= SYNTHESIZED_WIRE_13.DB_MAX_OUTPUT_PORT_TYPE
-q[2] <= SYNTHESIZED_WIRE_14.DB_MAX_OUTPUT_PORT_TYPE
-q[3] <= DFF_inst3.DB_MAX_OUTPUT_PORT_TYPE
+clk => out3.CLK
+clk => out2.CLK
+clk => out1.CLK
+clk => out0.CLK
+reset => out3.ACLR
+reset => out2.ACLR
+reset => out1.ACLR
+reset => out0.ACLR
+q[0] <= out0.DB_MAX_OUTPUT_PORT_TYPE
+q[1] <= out1.DB_MAX_OUTPUT_PORT_TYPE
+q[2] <= out2.DB_MAX_OUTPUT_PORT_TYPE
+q[3] <= out3.DB_MAX_OUTPUT_PORT_TYPE
 
 
 |syncUp_DE1|clockDiv:clkDiv
