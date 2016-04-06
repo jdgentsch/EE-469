@@ -1,9 +1,8 @@
-// EE 469
-// Coders: Chinh Bui, Jack Gentsch, Jacky Wang
-// Spring 2016
-// Lab 1
+// A four-stage Johnson counter with active low reset- Counter 1 of EE 469 Lab 1
+// Note that this upper level module is intended for use with the DE1_SoC and Spinal Tap.
 
-// Top level module for syncJohn.v
+// Written by Jack Gentsch, Jacky Wang, and Chinh Bui
+// 4/3/2016 instructed by Professor Peckol
 
 module syncJohnTop (LEDR, CLOCK_50, SW);
 	output [3:0] LEDR;

@@ -1,3 +1,9 @@
+// A four-stage Johnson counter with active low reset- Counter 1 of EE 469 Lab 1
+// Note that this upper level module is intended for use with GTKwave on the PC.
+
+// Written by Jack Gentsch, Jacky Wang, and Chinh Bui
+// 4/3/2016 instructed by Professor Peckol
+
 `include "syncJohn.v"
 
 module syncJohnGTK;

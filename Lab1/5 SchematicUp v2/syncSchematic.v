@@ -130,10 +130,6 @@ else
 	end
 end
 
-
-
-
-
 assign	SYNTHESIZED_WIRE_2 = out1 ^ out0;
 
 assign	SYNTHESIZED_WIRE_5 = out2 ^ SYNTHESIZED_WIRE_9;

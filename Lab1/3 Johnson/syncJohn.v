@@ -1,11 +1,8 @@
-// EE 469
-// Coders: Chinh Bui, Jack Gentsch, Jacky Wang
-// Spring 2016
-// Lab 1
+// A four-stage Johnson counter with active low reset- Counter 1 of EE 469 Lab 1
+// Note that this lower level module is the behavioral level model of the counter.
 
-// A four stage (4 bit) synchronous Johnson counter,
-// with active low reset, using a behavioural level
-// model.
+// Written by Jack Gentsch, Jacky Wang, and Chinh Bui
+// 4/3/2016 instructed by Professor Peckol
 
 module syncJohn(out, clk, rst);
 	output reg [3:0] out; // present state output
