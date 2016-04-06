@@ -1,6 +1,5 @@
 // A four-stage ripple down counter with active low reset- Counter 1 of EE 469 Lab 1
-// Note that this upper level module is intended 
-// for use with the DE1_SoC and Spinal Tap.
+// Note that this upper level module is intended for use with the DE1_SoC and Spinal Tap.
 
 // Written by Jack Gentsch, Jacky Wang, and Chinh Bui
 // 4/3/2016 instructed by Professor Peckol
