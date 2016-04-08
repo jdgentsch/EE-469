@@ -1,0 +1,26 @@
+#Ignore all files
+*
+
+#Git files
+!.gitattributes
+!.gitignore
+
+
+#Do not ignore directories (up to 3 levels)
+!*/
+!*/*/
+!*/*/*/
+
+#Source files
+!*.v
+!*.c
+
+#Documentation files
+!*.docx
+!*.txt
+
+#Programming files
+!*.qpf
+!*.cdf
+!*.sof
+!*.stp
