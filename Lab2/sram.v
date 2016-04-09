@@ -7,6 +7,8 @@ module sram (data, clk, adrx, nOE, read);
 	input [10:0] adrx;
 	input nOE; //Active-low output enable
 	input read;
+	
+	wire [15:0] mdrInput;
 
 	reg [15:0] mem [0:2047];
 	reg [10:0] mar;
@@ -14,17 +16,18 @@ module sram (data, clk, adrx, nOE, read);
 	
 	//Tristate data lines dependent on output enable signal
 	assign data = ~nOE ? mdr : 16'bz;
+	assign mdrInput = read ? mem[adrx][15:0] : data;
 	
 	//Clocked memory data register, can change state every clock cycle
-	always @(posedge clk)
+	always @(posedge clk or negedge read)
 		//Store value asserted by the SRAM
 		//if (read)
-			mdr <= mem[adrx][15:0];
+			mdr <= mdrInput;
 
 	//Perform the write operation when read signal is strobed high
 	always @(posedge read)
-		[15:0]mem[mar] <= mdr;
+		mem[mar][15:0] <= mdr;
 
-	always @(negedge read)
-		mdr <= data;
+	//always @(negedge read)
+	//	mdr <= mdrInput;
 endmodule
