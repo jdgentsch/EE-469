@@ -16,7 +16,10 @@ module sram (data, clk, adrx, nOE, read);
 	
 	//Tristate data lines dependent on output enable signal
 	assign data = ~nOE ? mdr : 16'bz;
-	assign mdrInput = read ? mem[adrx][15:0] : data;
+	assign mdrInput = read ? mem[mar][15:0] : data;
+	
+	//link address input to memory address register
+	always @* mar = adrx;
 	
 	//Clocked memory data register, can change state every clock cycle
 	always @(posedge clk or negedge read)
