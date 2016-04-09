@@ -1,15 +1,30 @@
-module sram (data, adrx, nOE, read);
-	//Will use convention of [storedData] ram [adrx] format at the moment
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 2: SRAM module for our memory subsystem
+//EE 469 with James Peckol 4/8/16
+module sram (data, clk, adrx, nOE, read);
 	inout [15:0] data;
+	input clk;
 	input [10:0] adrx;
-	input nOE;
+	input nOE; //Active-low output enable
 	input read;
 
 	reg [15:0] mem [0:2047];
+	reg [10:0] mar;
+	reg [15:0] mdr;
 	
-	assign data = ~nOE ? mem[adrx][15:0] : 16'bz;
+	//Tristate data lines dependent on output enable signal
+	assign data = ~nOE ? mdr : 16'bz;
+	
+	//Clocked memory data register, can change state every clock cycle
+	always @(posedge clk)
+		//Store value asserted by the SRAM
+		//if (read)
+			mdr <= mem[adrx][15:0];
+
 	//Perform the write operation when read signal is strobed high
 	always @(posedge read)
-		//Overwrites the memory at proper address using the input signal on the data bus
-		mem[adrx][15:0] <= data;
+		[15:0]mem[mar] <= mdr;
+
+	always @(negedge read)
+		mdr <= data;
 endmodule
