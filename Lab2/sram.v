@@ -19,20 +19,17 @@ module sram (data, clk, adrx, nOE, read);
 
 	assign mdrInput = read ? mem[mar][15:0] : data;
 	
-	//link address input to memory address register
+	//Updates address value whenever address changes
 	always @(adrx)
 		mar <= adrx;
 	
 	//Clocked memory data register, can change state every clock cycle
 	always @(posedge clk)
 		//Store value asserted by the SRAM
-		//if (read)
-			mdr <= mdrInput;
+		mdr <= mdrInput;
 
 	//Perform the write operation when read signal is strobed high
 	always @(posedge read)
 		mem[mar][15:0] <= mdr;
 
-	//always @(negedge read)
-	//	mdr <= mdrInput;
 endmodule

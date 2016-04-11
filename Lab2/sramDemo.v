@@ -30,7 +30,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
  	clock_divider cdiv (CLOCK_50, clk);
 
   	// tri-state driver for our inout port
- 	assign data[7:0] = nOE ? mem[7:0] : 8'bz;
+ 	assign data = nOE ? mem : 16'bz;
 
   	assign rst = SW[9];
  	assign enterRead = ~KEY[0];
@@ -50,8 +50,6 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 			ledDriver[1] <= 0;
 			nOE <= 1;
 			read <= 1;
-			adrx[10:0] <= 11'b0;
-			mem[15:0] <= 16'b0000000001111111;
 			state <= idle;
 
 		end else begin
@@ -60,14 +58,14 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 				idle: begin
 					if (enterRead) begin
 						ledDriver <= 10'b0;
-						adrx[7:0] <= 8'b0;
+						adrx <= 11'b0;
 						nOE <= 0;
 						read <= 1;
 						state <= readDo;
 					end else if (enterWrite) begin
 						ledDriver <= 10'b0000000011;
-						adrx[7:0] <= 8'b0;
-						mem[7:0] <= 8'b01111111;
+						adrx <= 11'b0;
+						mem <= 16'b000000001111111;
 						nOE <= 1;
 						read <= 0;
 						state <= writeDo;
@@ -89,8 +87,8 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 						read <= 1;
 						state <= idle;
 					end else begin
-						mem[7:0] <= mem[7:0] - 1'b1;
-						adrx[7:0] <= adrx[7:0] + 1'b1;
+						mem <= mem - 1'b1;
+						adrx <= adrx + 1'b1;
 						read <= 0;
 						state <= writeDo;
 					end
@@ -105,10 +103,10 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 				//Prepares to read the next byte of data from the SRAM
 				readSet: begin
 					if (adrx[7:0] == 8'b01111111) begin
-						adrx[7:0] <= 8'b0;
+						adrx <= 11'b0;
 						state <= idle;
 					end else begin
-						adrx[7:0] <= adrx[7:0] + 1'b1;
+						adrx <= adrx + 1'b1;
 						state <= readDo;
 					end
 				end
