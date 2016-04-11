@@ -15,7 +15,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 	reg [7:0] adrx;
 	reg [7:0] mem;
 
-	wire data [7:0];
+	wire [7:0] data;
 	wire rst;
 	wire enterWrite;
 	wire enterRead;
