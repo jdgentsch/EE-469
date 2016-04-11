@@ -45,10 +45,10 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 		if (rst) begin
 			ledDriver[0] <= 1;
 			ledDriver[1] <= 0;
-			notOuten <= 1;
+			nOE <= 1;
 			read <= 1;
 			adrx <= 8'b00000000;
-			ramIO <= 8'b01111111;
+			mem <= 8'b01111111;
 			state <= idle;
 
 		end else begin
@@ -58,14 +58,14 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 					if (enterRead) begin
 						ledDriver <= 10'b0;
 						adrx <= 8'b0;
-						notOuten <= 0;
+						nOE <= 0;
 						read <= 1;
 						state <= readDo;
 					end else if (enterWrite) begin
 						ledDriver <= 10'b0000000011;
 						adrx <= 8'b0;
-						ramIO <= 8'b01111111;
-						notOuten <= 1;
+						mem <= 8'b01111111;
+						nOE <= 1;
 						read <= 0;
 						state <= writeDo;
 					end else begin
@@ -86,7 +86,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 						read <= 1;
 						state <= idle;
 					end else begin
-						ramIO <= ramIO - 8'b00000001;
+						mem <= mem - 8'b00000001;
 						adrx <= adrx + 8'b00000001;
 						read <= 0;
 						state <= writeDo;
