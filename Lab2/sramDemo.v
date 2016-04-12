@@ -23,11 +23,11 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 
 	wire [31:0] clk; // choosing from 32 different clock speeds
 
-	// instantiate the sram module
- 	sram mySram (.data(data), .clk(CLOCK_50), .adrx(adrx), .nOE(nOE), .read(read));
-
 	// instantiate clock_divider module
  	clock_divider cdiv (CLOCK_50, clk);
+
+	// instantiate the sram module
+ 	sram mySram (.data(data), .clk(CLOCK_50), .adrx(adrx), .nOE(nOE), .read(read));
 
   	// tri-state driver for our inout port
  	assign data = nOE ? mem : 16'bz;
@@ -50,6 +50,8 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 			ledDriver[1] <= 0;
 			nOE <= 1;
 			read <= 1;
+			adrx <= 11'b0;
+			mem <= 16'b0000000001111111;
 			state <= idle;
 
 		end else begin
@@ -65,7 +67,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 					end else if (enterWrite) begin
 						ledDriver <= 10'b0000000011;
 						adrx <= 11'b0;
-						mem <= 16'b000000001111111;
+						mem <= 16'b0000000001111111;
 						nOE <= 1;
 						read <= 0;
 						state <= writeDo;

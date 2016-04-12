@@ -17,7 +17,7 @@ module sram (data, clk, adrx, nOE, read);
 	//Tristate data lines dependent on output enable signal
 	assign data = ~nOE ? mdr : 16'bz;
 
-	assign mdrInput = read ? mem[mar][15:0] : data;
+	assign mdrInput = read ? mem[mar] : data;
 	
 	//Updates address value whenever address changes
 	always @(adrx)
@@ -30,6 +30,6 @@ module sram (data, clk, adrx, nOE, read);
 
 	//Perform the write operation when read signal is strobed high
 	always @(posedge read)
-		mem[mar][15:0] <= mdr;
+		mem[mar] <= mdr;
 
 endmodule
