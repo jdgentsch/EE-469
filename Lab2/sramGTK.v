@@ -49,11 +49,11 @@ module Tester (swTest, keyTest, clockTest, ledrTest);
 			clockTest = 0;
 			#stimDelay swTest[9] = 1;
 			#stimDelay swTest[9] = 0;
-			#stimDelay keyTest[1] = 1;
 			#stimDelay keyTest[1] = 0;
+			#stimDelay keyTest[1] = 1;
 			#(60*stimDelay); 
-			#stimDelay keyTest[0] = 1;
 			#stimDelay keyTest[0] = 0;
+			#stimDelay keyTest[0] = 1;
 			#(60*stimDelay); 			// needed to see END of simulation
 			$finish; 					// finish simulation
 		end
