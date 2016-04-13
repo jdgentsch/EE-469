@@ -15,10 +15,6 @@
 !*.v
 !*.c
 
-#Documentation files
-!*.docx
-!*.txt
-
 #Programming files
 !*.qpf
 !*.cdf
