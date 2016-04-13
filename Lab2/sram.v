@@ -20,7 +20,7 @@ module sram (data, clk, adrx, nOE, read);
 	assign mdrInput = read ? mem[mar] : data;
 	
 	//Updates MAR and MDR every clock cycle
-	always @(posedge clk)
+	always @(negedge clk)
 	begin
 		//Store value asserted by the SRAM
 		mar <= adrx;
