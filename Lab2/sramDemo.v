@@ -27,7 +27,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
  	clock_divider cdiv (CLOCK_50, clk);
 
 	// instantiate the sram module
- 	sram mySram (.data(data), .clk(CLOCK_50), .adrx(adrx), .nOE(nOE), .read(read));
+ 	sram mySram (.data(data), .clk(clk[23]), .adrx(adrx), .nOE(nOE), .read(read));
 
   	// tri-state driver for our inout port
  	assign data = nOE ? mem : 16'bz;
@@ -43,7 +43,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 
   	reg [2:0] state;
 
-	always @(posedge CLOCK_50) begin
+	always @(posedge clk[23]) begin
 		//Initialize the system to allow reading and writing
 		if (rst) begin
 			ledDriver[0] <= 1;
