@@ -24,10 +24,10 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 	wire [31:0] clk; // choosing from 32 different clock speeds
 
 	// instantiate clock_divider module
- 	clock_divider cdiv (CLOCK_50, clk);
+ 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
 
 	// instantiate the sram module
- 	sram mySram (.data(data), .clk(clk[21]), .adrx(adrx), .nOE(nOE), .read(read));
+ 	sram mySram (.data(data), .clk(clk), .adrx(adrx), .nOE(nOE), .read(read));
 
   	// tri-state driver for our inout port
  	assign data = nOE ? mem : 16'bz;
@@ -124,15 +124,17 @@ endmodule
 
 
  // divided_clocks[0] = 25MHz, [1] = 12.5Mhz, ... [23] = 3Hz, [24] = 1.5Hz, [25] = 0.75Hz, ...
-module clock_divider (clock, divided_clocks);
-	input clock;
-	output [31:0] divided_clocks;
+module clock_divider (clk_out, clk_in, slowDown);
+	output clk_out;
 	reg [31:0] divided_clocks;
+	input clk_in, slowDown;
+	
+	assign clk_out = slowDown ? divided_clocks[23] : clk_in;
 	
 	initial
 		divided_clocks = 0;
 	
-	always @(posedge clock)
+	always @(posedge clk_in)
 		divided_clocks = divided_clocks + 1;
 		
 endmodule
