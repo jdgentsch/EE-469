@@ -17,7 +17,7 @@
 // PROGRAM "Quartus II 64-Bit"
 // VERSION "Version 14.0.0 Build 200 06/17/2014 SJ Web Edition"
 
-// DATE "04/15/2016 23:36:14"
+// DATE "04/16/2016 00:03:21"
 
 // 
 // Device: Altera 5CSEMA5F31C6 Package FBGA896
@@ -42,10 +42,10 @@ input 	altera_reserved_tms;
 input 	altera_reserved_tck;
 input 	altera_reserved_tdi;
 output 	altera_reserved_tdo;
-output 	reg [9:0] LEDR ;
-input 	reg [9:0] SW ;
-input 	reg [3:0] KEY ;
-input 	reg CLOCK_50 ;
+output 	[9:0] LEDR;
+input 	[9:0] SW;
+input 	[3:0] KEY;
+input 	CLOCK_50;
 
 // Design Ports Information
 // LEDR[0]	=>  Location: PIN_V16,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 16mA
@@ -1769,6 +1769,14 @@ wire [9:0] ledDriver;
 wire [31:0] \myRegFile|writeEnAndSel ;
 wire [4:0] adrx;
 wire [31:0] \cdiv|divided_clocks ;
+wire [0:0] \auto_signaltap_0|acq_trigger_in_reg ;
+wire [43:0] \auto_signaltap_0|acq_data_in_reg ;
+wire [0:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_depth_offload_gen:stp_offload_buff_mgr_inst|status_read_pointer_counter|auto_generated|counter_reg_bit ;
+wire [14:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_depth_offload_gen:stp_offload_buff_mgr_inst|status_data_shift_out|dffs ;
+wire [3:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|crc_rom_sr|word_counter ;
+wire [3:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|crc_rom_sr|WORD_SR ;
+wire [16:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|status_register|dffs ;
+wire [15:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|tdo_crc_gen:tdo_crc_calc|lfsr ;
 wire [4:0] \auto_hub|jtag_hub_gen:sld_jtag_hub_inst|mixer_addr_reg ;
 wire [9:0] \auto_hub|jtag_hub_gen:sld_jtag_hub_inst|jtag_ir_reg ;
 wire [10:0] \auto_hub|jtag_hub_gen:sld_jtag_hub_inst|irsr_reg ;
@@ -1781,7 +1789,6 @@ wire [2:0] \auto_hub|jtag_hub_gen:sld_jtag_hub_inst|shadow_jsm|tms_cnt ;
 wire [15:0] \auto_hub|jtag_hub_gen:sld_jtag_hub_inst|shadow_jsm|state ;
 wire [4:0] \auto_hub|jtag_hub_gen:sld_jtag_hub_inst|hub_info_reg|word_counter ;
 wire [3:0] \auto_hub|jtag_hub_gen:sld_jtag_hub_inst|hub_info_reg|WORD_SR ;
-wire [43:0] \auto_signaltap_0|acq_data_in_reg ;
 wire [15:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|tdo_crc_val_shift_reg ;
 wire [31:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|tdo_crc_len_reg ;
 wire [6:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|last_trigger_address_delayed ;
@@ -1802,13 +1809,6 @@ wire [6:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_
 wire [43:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_depth_offload_gen:stp_offload_buff_mgr_inst|ram_data_shift_out|dffs ;
 wire [14:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_depth_offload_gen:stp_offload_buff_mgr_inst|info_data_shift_out|dffs ;
 wire [3:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_depth_offload_gen:stp_offload_buff_mgr_inst|status_advance_pointer_counter|auto_generated|counter_reg_bit ;
-wire [0:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_depth_offload_gen:stp_offload_buff_mgr_inst|status_read_pointer_counter|auto_generated|counter_reg_bit ;
-wire [14:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_depth_offload_gen:stp_offload_buff_mgr_inst|status_data_shift_out|dffs ;
-wire [3:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|crc_rom_sr|word_counter ;
-wire [3:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|crc_rom_sr|WORD_SR ;
-wire [16:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|status_register|dffs ;
-wire [15:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|tdo_crc_gen:tdo_crc_calc|lfsr ;
-wire [0:0] \auto_signaltap_0|acq_trigger_in_reg ;
 
 wire [39:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_ram_gen:stp_buffer_ram|auto_generated|ram_block1a0_PORTBDATAOUT_bus ;
 wire [39:0] \auto_signaltap_0|sld_signaltap_body|sld_signaltap_body|stp_non_zero_ram_gen:stp_buffer_ram|auto_generated|ram_block1a40_PORTBDATAOUT_bus ;

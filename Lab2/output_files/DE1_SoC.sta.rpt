@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for DE1_SoC
-Fri Apr 15 23:36:06 2016
+Sat Apr 16 00:03:18 2016
 Quartus II 64-Bit Version 14.0.0 Build 200 06/17/2014 SJ Web Edition
 
 
@@ -116,14 +116,15 @@ agreement for further details.
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
 ; Number detected on machine ; 4           ;
-; Maximum allowed            ; 4           ;
+; Maximum allowed            ; 2           ;
 ;                            ;             ;
-; Average used               ; 1.47        ;
-; Maximum used               ; 4           ;
+; Average used               ; 1.16        ;
+; Maximum used               ; 2           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-4         ;  15.8%      ;
+;     Processor 2            ;  15.8%      ;
+;     Processors 3-4         ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -132,7 +133,7 @@ agreement for further details.
 +---------------+--------+--------------------------+
 ; SDC File Path ; Status ; Read at                  ;
 +---------------+--------+--------------------------+
-; DE1_SoC.sdc   ; OK     ; Fri Apr 15 23:35:32 2016 ;
+; DE1_SoC.sdc   ; OK     ; Sat Apr 16 00:02:59 2016 ;
 +---------------+--------+--------------------------+
 
 
@@ -949,10 +950,10 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
     Info: Version 14.0.0 Build 200 06/17/2014 SJ Web Edition
-    Info: Processing started: Fri Apr 15 23:35:23 2016
+    Info: Processing started: Sat Apr 16 00:02:57 2016
 Info: Command: quartus_sta DE1_SoC -c DE1_SoC
 Info: qsta_default_script.tcl version: #1
-Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (11104): Parallel Compilation has detected 4 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 2 of the 2 physical processors detected instead.
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
 Info (332164): Evaluating HDL-embedded SDC commands
@@ -1069,17 +1070,17 @@ Info (332146): Worst-case minimum pulse width slack is 8.505
     Info (332119):    14.756               0.000 altera_reserved_tck 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info (144001): Generated suppressed messages file C:/UDub/Spring_2016/EE_469/EE-469/Lab2/output_files/DE1_SoC.sta.smsg
+Info (144001): Generated suppressed messages file C:/Users/Jack/Dropbox/College/Spr16/EE 469/EE-469/Lab2/output_files/DE1_SoC.sta.smsg
 Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 1032 megabytes
-    Info: Processing ended: Fri Apr 15 23:36:06 2016
-    Info: Elapsed time: 00:00:43
-    Info: Total CPU time (on all processors): 00:00:55
+    Info: Peak virtual memory: 995 megabytes
+    Info: Processing ended: Sat Apr 16 00:03:18 2016
+    Info: Elapsed time: 00:00:21
+    Info: Total CPU time (on all processors): 00:00:15
 
 
 +-----------------------------------------------+
 ; TimeQuest Timing Analyzer Suppressed Messages ;
 +-----------------------------------------------+
-The suppressed messages can be found in C:/UDub/Spring_2016/EE_469/EE-469/Lab2/output_files/DE1_SoC.sta.smsg.
+The suppressed messages can be found in C:/Users/Jack/Dropbox/College/Spr16/EE 469/EE-469/Lab2/output_files/DE1_SoC.sta.smsg.
 
 
