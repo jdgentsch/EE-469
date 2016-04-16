@@ -43,7 +43,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 
   	reg [2:0] state;
 
-	always @(posedge clk[21]) begin
+	always @(posedge clk) begin
 		//Initialize the system to allow reading and writing
 		if (rst) begin
 			ledDriver[0] <= 1;

@@ -33,8 +33,12 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 	reg [31:0] writeData;
 	reg writeEn;
 	
-	assign readAdrx1 = adrx;
-	assign readAdrx0 = adrx;
+	wire [4:0] rdAdrx1;
+	wire [4:0] rdAdrx0;
+	wire [4:0] writeAdrx;
+	
+	assign rdAdrx1 = adrx;
+	assign rdAdrx0 = adrx;
 	assign writeAdrx = adrx;
 	
 	always @(posedge clk) begin
@@ -49,10 +53,10 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 			case (state)
 				//Write to the lower 16 registers
 				writeLower: begin
-					ledDriver[9:8] <= 2'b10;
-					adrx <= adrx + 1;
-					if (adrx < 15) begin
-						writeData <= writeData - 1;
+					ledDriver[9:8] <= 2'b01;
+					adrx <= adrx + 1'b1;
+					if (adrx < 5'b01111) begin
+						writeData <= writeData - 1'b1;
 						state <= writeLower;
 					end else begin
 						writeData <= 32'h0000FFF0;
@@ -62,13 +66,13 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 				//Write to the upper 16 registers
 				writeUpper: begin
 					ledDriver[9:8] <= 2'b10;
-					adrx <= adrx + 1;
-					if (adrx < 31) begin
-						writeData <= writeData + 1;
+					adrx <= adrx + 1'b1;
+					if (adrx < 5'b11111) begin
+						writeData <= writeData + 1'b1;
 						state <= writeUpper;
 					end else begin
 						writeData <= 32'h00000000;
-						adrx <= 0;
+						adrx <= 5'b0;
 						writeEn <= 1'b0;
 						if (~KEY[0]) begin
 							state <= readLower;
@@ -84,7 +88,7 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 					writeEn <= 1'b0;
 					if (~KEY[0]) begin
 						state <= readLower;
-						adrx <= adrx + 1;
+						adrx <= adrx + 1'b1;
 					end else begin
 						state <= readUpper;
 						adrx <= 5'b10000;
@@ -98,7 +102,7 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 						adrx <= 5'b0;
 					end else begin
 						state <= readUpper;
-						adrx <= adrx + 1;
+						adrx <= adrx + 1'b1;
 					end
 					ledDriver[9:0] <= {2'b0, rdData0[7:0]};
 				end
