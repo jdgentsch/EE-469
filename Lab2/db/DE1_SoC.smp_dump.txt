@@ -1,0 +1,8 @@
+
+State Machine - |regFileDemo|state
+Name state~4 state~3 state~2 
+state.writeLower 0 0 0 
+state.idle 0 0 1 
+state.writeUpper 0 1 1 
+state.readLower 0 1 0 
+state.readUpper 1 0 1 
