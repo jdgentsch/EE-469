@@ -1,23 +1,16 @@
-module register (readLine0, readLine1, writeEn, clk, rdSel0, rdSel1, writeData);
-	output [31:0] readLine0, readLine1;
+module register (result, writeEn, clk, writeData);
+	output [31:0] result;
 	input writeEn, clk;
-	input rdSel0, rdSel1;
 	input [31:0] writeData;
 	
-	wire writeClk;
-	wire [31:0] result;
-	
-	// Tristate devices driving the two output read bitlines
-	assign readLine0 = rdSel0 ? result : 32'bz;
-	assign readLine1 = rdSel1 ? result : 32'bz;
-	
-	//And the enable and clock signal to determine exactly when a write occurs
-	assign writeClk = writeEn & clk;
+	wire [31:0] enabledData;
 	
 	// Instantiation of 32 flip-flops for the register
 	genvar i;
 		generate for (i = 0; i < 32; i = i + 1) begin : reg_bits_gen
-			DFlipFlop reg_bit (result[i], writeClk, writeData[i]);
+			bufif1(enabledData[i], writeData[i], writeEn);
+			bufif0(enabledData[i], result[i], writeEn);
+			DFlipFlop reg_bit (result[i], clk, enabledData[i]);
 		end endgenerate
 
 endmodule
