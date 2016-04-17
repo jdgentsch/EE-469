@@ -22,7 +22,7 @@ module counter_GTK;
 	initial
 		begin
 			$dumpfile("rippleCount.vcd");
-			$dumpvars(1,myRippleCounter);
+			$dumpvars(0,myRippleCounter);
 		end
 endmodule
 
