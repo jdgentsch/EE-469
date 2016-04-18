@@ -11,26 +11,26 @@
 
 float getDuration(void);
 
-float computeVel(float duration);
+float computeVelocity(float distance, float duration);
 
-float computeTime(float velocity);
+float duration(float distance, float velocity, float headWind);
 
-int printFlightTime(float time);
+void displayResult(float duration);
 
 // the main program
 int main(void)
 {
-	float duration = getDuration();
+	float dur = getDuration();
 
-	while (duration <= 0)
+	while (dur <= 0)
 	{
 		printf("Invalid flight duration. Please try again!\n");
-		duration = getDuration();
+		dur = getDuration();
 	}
 
-	float velocity = computeVel(duration);
-	float flightTime = computeTime(velocity);
-	printFlightTime(flightTime);
+	float velocity = computeVelocity(S2L, dur);
+	float flightTime = duration(S2L, velocity, HEAD_WIND);
+	displayResult(flightTime);
 
 	return 0;
 }
@@ -50,9 +50,9 @@ float getDuration(void)
 
 // computes and prints the estimated velocity of the aircraft in mph as a
 // floating point number
-float computeVel(float duration)
+float computeVelocity(float distance, float duration)
 {
-	float velocity = S2L / duration;
+	float velocity = distance / duration;
 
 	printf("The estimated velocity of the aircraft is %.2f MPH\n", velocity);
 
@@ -61,18 +61,16 @@ float computeVel(float duration)
 
 // computes the estimated duration of flight in mph as a floating number
 // and takes head wind into account for the calculation
-float computeTime(float velocity)
+float duration(float distance, float velocity, float headWind )
 {
-	float flightTime = S2L / (velocity - HEAD_WIND);
+	float flightTime = distance / (velocity - headWind);
 
 	return flightTime;
 }
 
 // prints the estimated duration of flight in mph
-int printFlightTime(float time)
+void displayResult(float duration)
 {
 	printf("With a head wind of %.2f MPH, the estimated flight duration is "
-           "%.2f hour(s).", HEAD_WIND, time);
-
-	return 0;
+           "%.2f hour(s).", HEAD_WIND, duration);
 }
