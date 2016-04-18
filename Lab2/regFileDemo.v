@@ -10,7 +10,6 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 	input [3:0] KEY;
 
 	wire rst;
-	reg [9:0] ledDriver;
 	wire clk; // choosing from 32 different clock speeds
 	wire [31:0] rdData0;
 	wire [31:0] rdData1;
@@ -26,8 +25,9 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
   	assign rst = SW[9];
 	
 	//Displays state on the upper two bits, read data on lower eight
-	assign LEDR = {state[1:0], (KEY[0] ? rdData1[7:0] : rdData0[7:0] )};
-
+	assign LEDR = {state[1:0], (KEY[0] ? rdData1[7:0] : rdData0[7:0])};
+	//assign LEDR = {state[1:0], rdData0[7:0]};
+	
  	// state encoding
  	parameter [1:0] idle = 2'b11, writeLower = 2'b01, writeUpper = 2'b10, read = 2'b00;
   	reg [1:0] state;
@@ -46,7 +46,6 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 	always @(posedge clk) begin
 		//Initialize the system to allow reading and writing
 		if (rst) begin
-			ledDriver <= 10'b0;
 			writeEn <= 1'b1;
 			writeData <= 32'hFFFF000F;
 			adrx <= 5'b0;
@@ -55,7 +54,6 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 			case (state)
 				//Write to the lower 16 registers
 				writeLower: begin
-					ledDriver[9:8] <= 2'b01;
 					adrx <= adrx + 5'b1;
 					if (adrx < 5'b01111) begin
 						writeData <= writeData - 32'b1;
@@ -67,7 +65,6 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 				end
 				//Write to the upper 16 registers
 				writeUpper: begin
-					ledDriver[9:8] <= 2'b10;
 					adrx <= adrx + 5'b1;
 					if (adrx < 5'b11111) begin
 						writeData <= writeData + 1'b1;
@@ -77,7 +74,6 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 						adrx <= 5'b0;
 						writeEn <= 1'b0;
 						state <= read;
-						adrx <= 5'b0;
 					end
 				end
 				//Read from the lower registers
