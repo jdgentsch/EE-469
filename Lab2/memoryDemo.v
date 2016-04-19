@@ -118,9 +118,9 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 				
 				//Read from the lower registers
 				rfRead: begin
-					if (adrx[4:0] < {4'b0, block[1:0], 5'b11111}) begin
+					if (adrx[10:0] < {4'b0, block[1:0], 5'b11111}) begin
 						writeEn <= 1'b0;
-						adrx <= adrx + 5'b1;
+						adrx <= adrx + 11'b1;
 						state <= rfRead;
 					end else begin
 						adrx <= {4'b0, block[1:0], 5'b0};
@@ -175,7 +175,7 @@ module clock_divider (clk_out, clk_in, slowDown);
 	reg [31:0] divided_clocks;
 	input clk_in, slowDown;
 	
-	assign clk_out = slowDown ? divided_clocks[23] : clk_in;
+	assign clk_out = slowDown ? divided_clocks[1] : clk_in;
 	
 	initial
 		divided_clocks = 0;

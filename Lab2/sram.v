@@ -23,9 +23,12 @@ module sram (data, clk, adrx, nOE, read);
 	always @(negedge clk)
 	begin
 		//Store value asserted by the SRAM
-		mar <= adrx;
+		//mar <= adrx;
 		mdr <= mdrInput;
 	end
+	
+	always @(posedge clk)
+		mar <= adrx;
 
 	//Perform the write operation when read signal is strobed high
 	always @(posedge read)

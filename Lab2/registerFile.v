@@ -28,22 +28,22 @@ module registerFile (rdData0, rdData1, rdAdrx0, rdAdrx1, writeAdrx, writeData, c
 	genvar j;
 		generate for (j = 0; j < 32; j = j + 1) begin : mux_gen
 			mux32 read0Mux (.out(rdData0[j]), .sel(rdAdrx0),
-					 .in({regResult[0][j], regResult[1][j], regResult[2][j], regResult[3][j],
-							regResult[4][j], regResult[5][j], regResult[6][j], regResult[7][j],
-							regResult[8][j], regResult[9][j], regResult[10][j], regResult[11][j],
-							regResult[12][j], regResult[13][j], regResult[14][j], regResult[15][j],
-							regResult[16][j], regResult[17][j], regResult[18][j], regResult[19][j],
-							regResult[20][j], regResult[21][j], regResult[22][j], regResult[23][j],
-							regResult[24][j], regResult[25][j], regResult[26][j], regResult[27][j],
-							regResult[28][j], regResult[29][j], regResult[30][j], regResult[31][j]}));
+					 .in({regResult[31][j], regResult[30][j], regResult[29][j], regResult[28][j],
+							regResult[27][j], regResult[26][j], regResult[25][j], regResult[24][j],
+							regResult[23][j], regResult[22][j], regResult[21][j], regResult[20][j],
+							regResult[19][j], regResult[18][j], regResult[17][j], regResult[16][j],
+							regResult[15][j], regResult[14][j], regResult[13][j], regResult[12][j],
+							regResult[11][j], regResult[10][j], regResult[9][j], regResult[8][j],
+							regResult[7][j], regResult[6][j], regResult[5][j], regResult[4][j],
+							regResult[3][j], regResult[2][j], regResult[1][j], regResult[0][j]}));
 			mux32 read1Mux (.out(rdData1[j]), .sel(rdAdrx1),
-					 .in({regResult[0][j], regResult[1][j], regResult[2][j], regResult[3][j],
-							regResult[4][j], regResult[5][j], regResult[6][j], regResult[7][j],
-							regResult[8][j], regResult[9][j], regResult[10][j], regResult[11][j],
-							regResult[12][j], regResult[13][j], regResult[14][j], regResult[15][j],
-							regResult[16][j], regResult[17][j], regResult[18][j], regResult[19][j],
-							regResult[20][j], regResult[21][j], regResult[22][j], regResult[23][j],
-							regResult[24][j], regResult[25][j], regResult[26][j], regResult[27][j],
-							regResult[28][j], regResult[29][j], regResult[30][j], regResult[31][j]}));
+					 .in({regResult[31][j], regResult[30][j], regResult[29][j], regResult[28][j],
+							regResult[27][j], regResult[26][j], regResult[25][j], regResult[24][j],
+							regResult[23][j], regResult[22][j], regResult[21][j], regResult[20][j],
+							regResult[19][j], regResult[18][j], regResult[17][j], regResult[16][j],
+							regResult[15][j], regResult[14][j], regResult[13][j], regResult[12][j],
+							regResult[11][j], regResult[10][j], regResult[9][j], regResult[8][j],
+							regResult[7][j], regResult[6][j], regResult[5][j], regResult[4][j],
+							regResult[3][j], regResult[2][j], regResult[1][j], regResult[0][j]}));
 		end endgenerate
 	endmodule

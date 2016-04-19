@@ -12,7 +12,7 @@ module memory (rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,
 	input sramRead;
 	
 	//Register file input control signals
-	input [31:0] rfWriteAdrx, rfRdAdrx1, rfRdAdrx0;
+	input [4:0] rfWriteAdrx, rfRdAdrx1, rfRdAdrx0;
 	input rfWriteEn;
 	
 	//Multiplexer control signals
@@ -29,6 +29,6 @@ module memory (rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,
 	//utilizing control logic in the CPU.
 	registerFile  myRegFile (.rdData0(rdRF0), .rdData1(rdRF1), .rdAdrx0(rfRdAdrx0), .rdAdrx1(rfRdAdrx1),
 									 .writeAdrx(rfWriteAdrx), .writeData(data), .clk(clk), .writeEn(rfWriteEn));
-	sram mySram (.data(data[15:0]), .clk(clk), .adrx(sramAdrx), .nOE(sramNotOutEn), .read(sramRead));
+	sram mySram (.data(data), .clk(clk), .adrx(sramAdrx), .nOE(sramNotOutEn), .read(sramRead));
 
 endmodule
