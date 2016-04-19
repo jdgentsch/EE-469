@@ -67,9 +67,8 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 		if (rst) begin
 			block <= 2'b11;
 			writeEn <= 1'b0; //Disable RF write
-			sramDataIn <= 16'h007F; //Begin writing 127 to address 0
+			sramDataIn <= 32'h007F; //Begin writing 127 to address 0
 			adrx <= 11'b0;
-			state <= writeSet;
 			
 			//SRAM setup state
 			sramNotOutEn <= 1'b1;
@@ -86,7 +85,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 				end
 				//Initializes conditions for writing the next byte
 				writeSet: begin
-					if (adrx[7:0] == 8'b01111111) begin
+					if (adrx[7:0] == 8'b01111111 && sramDataIn == 32'b0) begin
 						//Conclude writing to the SRAM, transfer to the RF
 						sramRead <= 1'b1;
 						sramNotOutEn <= 1'b0;
@@ -97,7 +96,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 						block <= 2'b00;
 						state <= rfWrite;
 					end else begin
-						sramDataIn <= sramDataIn - 16'b1;
+						sramDataIn <= sramDataIn - 32'b1;
 						adrx <= adrx + 11'b1;
 						sramRead <= 1'b0;
 						state <= writeDo;
@@ -105,7 +104,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 				end
 				
 				rfWrite: begin
-					if (adrx[4:0] < 5'b11111) begin
+					if (adrx[10:0] < {4'b0, block[1:0], 5'b11111}) begin
 						adrx <= adrx + 11'b1;
 						state <= rfWrite;
 					end else begin
@@ -119,7 +118,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 				
 				//Read from the lower registers
 				rfRead: begin
-					if (adrx[4:0] < 5'b11111) begin
+					if (adrx[4:0] < {4'b0, block[1:0], 5'b11111}) begin
 						writeEn <= 1'b0;
 						adrx <= adrx + 5'b1;
 						state <= rfRead;
@@ -148,7 +147,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 						writeEn <= 1'b1;
 						state <= rfWrite;
 					end else begin
-						sramDataIn <= sramDataIn - 16'b1;
+						sramDataIn <= sramDataIn - 32'b1;
 						adrx <= adrx + 11'b1;
 						sramRead <= 1'b0;
 						state <= writeDo;
