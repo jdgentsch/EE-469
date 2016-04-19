@@ -29,7 +29,7 @@ module sramDemo (LEDR, SW, KEY, CLOCK_50);
 	// instantiate the sram module
  	sram mySram (.data(data), .clk(clk), .adrx(adrx), .nOE(nOE), .read(read));
 
-  	// tri-state driver for our inout port
+  	// tri-state driver for the inout port
  	assign data = nOE ? mem : 16'bz;
 
   	assign rst = SW[9];
