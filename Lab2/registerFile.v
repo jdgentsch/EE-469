@@ -18,8 +18,10 @@ module registerFile (rdData0, rdData1, rdAdrx0, rdAdrx1, writeAdrx, writeData, c
 	decoder readDecoder0 (.select(rdSel0), .adrx(rdAdrx0));
 	decoder readDecoder1 (.select(rdSel1), .adrx(rdAdrx1));
 	
+	assign regResult[0][31:0] = 32'b0;
+	
 	genvar i;
-		generate for (i = 0; i < 32; i = i + 1) begin : reg_gen
+		generate for (i = 1; i < 32; i = i + 1) begin : reg_gen
 			and(writeEnAndSel[i], writeEn, writeSel[i]);
 			register myReg (.result(regResult[i][31:0]), .writeEn(writeEnAndSel[i]), .clk(clk),
 								 .writeData(writeData));

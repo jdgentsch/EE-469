@@ -23,7 +23,7 @@ module sram (data, clk, adrx, nOE, read);
 	always @(negedge clk)
 	begin
 		//Store value asserted by the SRAM
-		//mar <= adrx;
+	//	mar <= adrx;
 		mdr <= mdrInput;
 	end
 	

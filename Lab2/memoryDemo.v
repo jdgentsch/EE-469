@@ -42,6 +42,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 	reg sramRead;
 	reg sramNotOutEn;
 	reg [1:0] block; //The block of sram being dealt with
+	reg [4:0] countWrites;
 	
 	wire [1:0] dataMuxSel;
 	
@@ -118,54 +119,54 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 				
 				//Read from the lower registers
 				rfRead: begin
-					if (adrx[10:0] < {4'b0, block[1:0], 5'b11111}) begin
+					if (adrx[10:0] < {4'b0, block[1:0], 5'b01111}) begin
 						writeEn <= 1'b0;
 						adrx <= adrx + 11'b1;
 						state <= rfRead;
 					end else begin
-						adrx <= {4'b0, block[1:0], 5'b0};
-						state <= rfRead; //Infinite loop for now
+						countWrites = 5'b0;
+						case (block)
+							2'b00: adrx <= 11'd128;
+							2'b01: adrx <= 11'd145;
+							2'b10: adrx <= 11'd162;
+							2'b11: adrx <= 11'd179;
+							default: adrx <= 11'b0;
+						endcase
+						state <= writeBackDo;
+					end
 				end
 				
-				/*
 				writeBackDo: begin
 					sramRead <= 1'b1;
-					state <= writeSet;
+					state <= writeBackSet;
 				end
-				
 				
 				//Initializes conditions for writing the next byte
 				writeBackSet: begin
-					if (adrx == 11'b11000011 && block == 2'b11) begin
+					if (adrx == 11'd195 && block == 2'b11) begin
 						//Have processed all three blocks
 						state <= idle;
-					if (adrx[7:0] == 8'b01111111) begin
-						//Conclude writing to the SRAM, transfer to the RF
+					end else if (countWrites == 5'b11111) begin
+						//Conclude writing to the SRAM, transfer to the next block
+						countWrites <= 5'b0;
 						sramRead <= 1'b1;
 						sramNotOutEn <= 1'b0;
 						adrx <= {4'b0, block[1:0], 5'b0};
 						writeEn <= 1'b1;
 						state <= rfWrite;
 					end else begin
-						sramDataIn <= sramDataIn - 32'b1;
 						adrx <= adrx + 11'b1;
+						countWrites <= countWrites + 5'b1;
 						sramRead <= 1'b0;
-						state <= writeDo;
+						state <= writeBackDo;
 					end
-				end
-
-				
-				
-				*/
 				end
 				default: begin
 					state <= idle;
 				end
-				
 			endcase
 		end
 	end
-
 endmodule
 
 
