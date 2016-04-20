@@ -41,7 +41,7 @@ float getDuration(void)
 {
 	float duration = 0;
 
-	printf("What is the duration (hours) of flight to London from Seattle?\n");
+	printf("What is the duration (hours) of a flight to London from Seattle?\n");
 	scanf("%f", &duration);
 	getchar();
 
