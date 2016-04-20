@@ -27,8 +27,11 @@ module sram (data, clk, adrx, nOE, read);
 		mdr <= mdrInput;
 	end
 	
-	always @(posedge clk)
+	always @(clk) begin
 		mar <= adrx;
+	end
+	//always @(posedge clk)
+	//	mar <= adrx;
 
 	//Perform the write operation when read signal is strobed high
 	always @(posedge read)
