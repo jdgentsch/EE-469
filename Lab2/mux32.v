@@ -1,12 +1,13 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //EE 469, Dr. Peckol 4/15/16
-// A single 32-input mux, which can be decomposed into 2-input muxes.
+// A single 32-input mux, which is decomposed into 2-input mux units.
 module mux32 (out, sel, in);
 	output out;
 	input [4:0] sel;
 	input [31:0] in;
 	wire [3:0] connect;
 	
+	//4 8-input muxes composes the 32-input mux
 	mux8 myMux8_3 (.result(connect[3]), .sel(sel[2:0]), .in(in[31:24]));
 	mux8 myMux8_2 (.result(connect[2]), .sel(sel[2:0]), .in(in[23:16]));
 	mux8 myMux8_1 (.result(connect[1]), .sel(sel[2:0]), .in(in[15:8]));
@@ -47,6 +48,7 @@ module mux2 (result, sel, in);
 	input sel;
 	input [1:0] in;
 
+	//A 2-input mux is simply two tristate buffers
 	bufif1(result, in[1], sel);
 	bufif0(result, in[0], sel);
 

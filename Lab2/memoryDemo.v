@@ -20,7 +20,6 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 	//Displays the memory block being read on the upper two bits,
 	//read data on lower eight (determined by the state of key 0)
 	assign LEDR = {block[1:0], data[7:0]};
-	//(KEY[0] ? rdData1[7:0] : rdData0[7:0])};
 	
 	// instantiate clock_divider module
  	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
@@ -31,7 +30,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 	
  	// state encoding
 	//Necessary states: idle, write to SRAM, write to RF, read from RF, writeback to sram (4x).
-	//block[1:0] keeps track of the sram block being written/read at a time 
+	//register block[1:0] keeps track of the sram block being written/read at a time 
  	parameter [2:0] idle = 3'b000, writeDo = 3'b001, writeSet = 3'b010,
 						 rfWrite = 3'b011, rfRead = 3'b100, writeBackDo = 3'b101, writeBackSet = 3'b110;
 	
@@ -42,20 +41,19 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 	reg sramRead;
 	reg sramNotOutEn;
 	reg [1:0] block; //The block of sram being dealt with
-	reg [3:0] countWrites;
+	reg [3:0] countWrites; //Count number of writebacks completed
 	
 	wire [1:0] dataMuxSel;
-	
 	wire [4:0] rdAdrx1;
 	wire [4:0] rdAdrx0;
 	wire [4:0] writeAdrx;
 	wire [31:0] data;
 	
-	//Force sram data driver to be disabled if sram output is enabled, or readline output
+	//Force sram data driver to be disabled if sram output is enabled, or a readline is output
 	assign data = dataMuxSel[1] | ~sramNotOutEn ? 32'bz : sramDataIn;
 	
 	//Allow read lines to output onto the shared data line only if the sram is disabled
-	//Particularly, the rfRead and writeback stages
+	//Particularly, for use in the rfRead and writeback stages
 	assign dataMuxSel[1] = (state > rfWrite) & sramNotOutEn ? 1'b1 : 1'b0;
 	assign dataMuxSel[0] = ~KEY[0];
 	
@@ -70,14 +68,12 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 			writeEn <= 1'b0; //Disable RF write
 			sramDataIn <= 32'h007F; //Begin writing 127 to address 0
 			adrx <= 11'b0;
-			
-			//SRAM setup state
+			//SRAM setup
 			sramNotOutEn <= 1'b1;
 			sramRead <= 1'b0;
 			state <= writeDo;		
 		end else begin
 			case (state)
-				//Write to the lower 16 registers
 				//Tells the SRAM to write the prepared byte of data
 				writeDo: begin
 					block <= 2'b10;
@@ -103,12 +99,14 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 						state <= writeDo;
 					end
 				end
-				
+				//Write a block to the register file
 				rfWrite: begin
 					if (adrx[10:0] < {4'b0, block[1:0], 5'b11111}) begin
+						//Keep writing to the RF
 						adrx <= adrx + 11'b1;
 						state <= rfWrite;
 					end else begin
+						//Begin reading the previously written values
 						adrx <= {4'b0, block[1:0], 5'b0};
 						writeEn <= 1'b0;
 						//Disable sram output so we can view readlines
@@ -117,7 +115,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 					end
 				end
 				
-				//Read from the lower registers
+				//Read from the register file
 				rfRead: begin
 					if (adrx[10:0] < {4'b0, block[1:0], 5'b01111}) begin
 						writeEn <= 1'b0;
@@ -127,6 +125,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 						countWrites = 4'b0;
 						sramRead <= 1'b0;
 						sramNotOutEn <= 1'b1;
+						//SRAM address to be written to, determined by the current block
 						case (block)
 							2'b00: adrx <= 11'd128;
 							2'b01: adrx <= 11'd144;
@@ -138,18 +137,20 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 					end
 				end
 				
+				//Trigger SRAM read to writeback from RF to SRAM
 				writeBackDo: begin
 					sramRead <= 1'b1;
 					state <= writeBackSet;
 				end
 				
-				//Initializes conditions for writing the next byte
+				//Initializes conditions for writing the next byte to SRAM
 				writeBackSet: begin
-					if (adrx == 11'd191) begin //$$ block == 2'b11) begin
-						//Have processed all three blocks
+					if (adrx == 11'd191) begin
+						//Have processed all three blocks, demo is concluded
 						state <= idle;
 					end else if (countWrites == 4'b1111) begin
 						//Conclude writing to the SRAM, transfer to the next block
+						//and write values to the register file
 						countWrites <= 4'b0;
 						sramRead <= 1'b1;
 						sramNotOutEn <= 1'b0;
@@ -158,6 +159,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 						block <= block + 2'b01;
 						state <= rfWrite;
 					end else begin
+						//Continue writing to the SRAM from RF
 						adrx <= adrx + 11'b1;
 						countWrites <= countWrites + 4'b1;
 						sramRead <= 1'b0;
@@ -173,12 +175,13 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 endmodule
 
 
- // divided_clocks[0] = 25MHz, [1] = 12.5Mhz, ... [23] = 3Hz, [24] = 1.5Hz, [25] = 0.75Hz, ...
+// divided_clocks[0] = 25MHz, [1] = 12.5Mhz, ... [23] = 3Hz, [24] = 1.5Hz, [25] = 0.75Hz, ...
 module clock_divider (clk_out, clk_in, slowDown);
 	output clk_out;
 	reg [31:0] divided_clocks;
 	input clk_in, slowDown;
 	
+	//Choose clock frequency for signal tap display or LED display
 	assign clk_out = slowDown ? divided_clocks[23] : clk_in;
 	
 	initial

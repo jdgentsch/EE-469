@@ -26,7 +26,6 @@ module regFileDemo (LEDR, SW, KEY, CLOCK_50);
 	
 	//Displays state on the upper two bits, read data on lower eight
 	assign LEDR = {state[1:0], (KEY[0] ? rdData1[7:0] : rdData0[7:0])};
-	//assign LEDR = {state[1:0], rdData0[7:0]};
 	
  	// state encoding
  	parameter [1:0] idle = 2'b11, writeLower = 2'b01, writeUpper = 2'b10, read = 2'b00;

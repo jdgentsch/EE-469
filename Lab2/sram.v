@@ -16,25 +16,23 @@ module sram (data, clk, adrx, nOE, read);
 	
 	//Tristate data lines dependent on output enable signal
 	assign data = ~nOE ? mdr : 32'bz;
-
+	
+	//Bidirectional data feeding into MDR
 	assign mdrInput = read ? mem[mar] : data;
 	
-	//Updates MAR and MDR every clock cycle
-	always @(negedge clk)
-	begin
-		//Store value asserted by the SRAM
-	//	mar <= adrx;
+	//Updates MDR on the clock edge using the recent MAR
+	//Thus we must clock data in on the negative edge
+	always @(negedge clk) begin
 		mdr <= mdrInput;
 	end
 	
-	always @(clk) begin
+	//Update MAR as a typical register
+	always @(posedge clk) begin
 		mar <= adrx;
 	end
-	//always @(posedge clk)
-	//	mar <= adrx;
 
 	//Perform the write operation when read signal is strobed high
-	always @(posedge read)
+	always @(posedge read) begin
 		mem[mar] <= mdr[15:0];
-
+	end
 endmodule

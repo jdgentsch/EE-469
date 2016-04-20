@@ -1,3 +1,6 @@
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 2: SRAM test vector for iVerilog
+//EE 469 with James Peckol 4/15/16
 `include "sramDemo.v"
 `include "sram.v"
 
@@ -12,13 +15,13 @@ module sramGTK;
 	// declare an instance of the sramTop module
 	sramDemo mySramDemo (ledrBench, swBench, keyBench, clockBench);
 
-	// declare an instance of the testIt module
+	// declare an instance of the testbench
 	Tester aTester (swBench, keyBench, clockBench, ledrBench);
 
 	// file for gtkwave
 	initial
 		begin
-			$dumpfile("sramDemo.vcd");
+			$dumpfile("sramGTK.vcd");
 			$dumpvars(1, mySramDemo);
 		end
 		
@@ -32,12 +35,6 @@ module Tester (swTest, keyTest, clockTest, ledrTest);
 	input [9:0] ledrTest;
 
 	parameter stimDelay = 150;
-
-	// initial // Response
-	// begin
-	// 	$display("\t\t rstTest clkTest outTest ");
-	// 	$monitor("\t\t %b\t %b \t %b", rstTest, clkTest, outTest );
-	// end
 
 	always begin
 		#(stimDelay/10) clockTest= ~clockTest;

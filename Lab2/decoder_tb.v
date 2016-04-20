@@ -1,7 +1,9 @@
 `timescale 1ns/100ps
-//`include "decoder.v"
+`include "decoder.v"
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 2: decoder iVerilog system test
+//EE 469 with James Peckol 4/15/16
 module decoder_tb();
 
 	wire wr_en;

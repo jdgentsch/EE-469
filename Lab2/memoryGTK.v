@@ -1,3 +1,6 @@
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 2: Memory integrated system test vector for iVerilog
+//EE 469 with James Peckol 4/15/16
 `timescale 1ns/100ps
 `include "registerFile.v"
 `include "register.v"
@@ -5,7 +8,7 @@
 `include "decoder.v"
 `include "memory.v"
 `include "sram.v"
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 module memory_tb();
 
 	wire [31:0] rdRF1, rdRF0, data;				
@@ -22,7 +25,7 @@ module memory_tb();
 
 	// creating simulation file
 	initial begin
-		$dumpfile ("memory.vcd");
+		$dumpfile ("memoryGTK.vcd");
 		$dumpvars (0, test0);
 		$dumpvars (0, dut);
 	end
@@ -41,6 +44,7 @@ module memory_tester(rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,	
 	output reg [1:0] dataMuxSel;
 	reg [31:0] sramWriteData;
 	
+	// Drive data bus based on mux select for the reg file
 	assign data = dataMuxSel[1] | ~sramNotOutEn ? 32'bz : sramWriteData;
 	
 	integer i;
@@ -52,7 +56,7 @@ module memory_tester(rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,	
 	end	
 	
 	initial begin
-	sramNotOutEn = 1'b1; sramRead = 1'b0; //data = 32'b0; 
+	sramNotOutEn = 1'b1; sramRead = 1'b0;
 	rfWriteEn = 1'b0; rfWriteAdrx = 5'b0;
 	rfRdAdrx1 = 5'b0; rfRdAdrx0 = 5'b0; sramAdrx = 11'b0; dataMuxSel = 2'b0;
 	sramWriteData = 32'hFFFFFFFF;
@@ -83,12 +87,6 @@ module memory_tester(rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,	
 		sramAdrx = sramAdrx + 11'b1;
 		rfRdAdrx1 = rfRdAdrx1 + 5'b1;
 	end
-
-	//dataMuxSel = 2'b01;
-	#DELAY
-	//dataMuxSel = 2'b10;
-	#DELAY
-	//dataMuxSel = 2'b11;
 	#(DELAY*4);
 	$finish;
 	end

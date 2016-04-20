@@ -1491,8 +1491,7 @@
         <events use_custom_flow_control="no">
           <level enabled="yes" name="condition1" type="basic">'writeEn' == either edge
             <power_up enabled="yes">
-            </power_up>
-            <op_node/>
+            </power_up><op_node/>
           </level>
         </events>
         <storage_qualifier_events>
@@ -1541,6 +1540,6 @@
     <single attribute="jtag widget visible" value="1"/>
     <single attribute="lock mode" value="2"/>
     <multi attribute="frame size" size="2" value="1366,705"/>
-    <multi attribute="jtag widget size" size="2" value="350,0"/>
+    <multi attribute="jtag widget size" size="2" value="350,120"/>
   </global_info>
 </session>

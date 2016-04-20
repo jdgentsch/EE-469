@@ -1,3 +1,6 @@
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 2: regFile Demo
+//EE 469 with James Peckol 4/15/16
 `include "register.v"
 `include "mux32.v"
 
@@ -39,12 +42,6 @@ module Tester (rdAdrx0, rdAdrx1, writeAdrx, writeData, clk, writeEn);
 	
 	parameter stimDelay = 150;
 
-	// initial // Response
-	// begin
-	// 	$display("\t\t rstTest clkTest outTest ");
-	// 	$monitor("\t\t %b\t %b \t %b", rstTest, clkTest, outTest );
-	// end
-
 	always begin
 		#(stimDelay/10) clk= ~clk;
 	end
@@ -54,7 +51,6 @@ module Tester (rdAdrx0, rdAdrx1, writeAdrx, writeData, clk, writeEn);
 	initial // Stimulus
 	begin
 			clk = 0;
-			//rdAdrx0, rdAdrx1, writeAdrx, writeData, clk, writeEn
 			writeEn = 1;
 			writeData = 32'b0;
 			writeAdrx = 5'b0;
