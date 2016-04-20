@@ -57,7 +57,7 @@ module Tester (rdAdrx0, rdAdrx1, writeAdrx, writeData, clk, writeEn);
 			//Write data
 			for (i = 0; i < 32; i = i + 1) begin
 				#stimDelay 
-				writeAdrx = writeAdrx + 5'b1; 
+				writeAdrx = writeAdrx + 5'b1;
 				writeData = writeData + 32'b1;
 			end
 			writeEn = 1'b0;

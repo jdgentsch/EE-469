@@ -42,7 +42,7 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 	reg sramRead;
 	reg sramNotOutEn;
 	reg [1:0] block; //The block of sram being dealt with
-	reg [4:0] countWrites;
+	reg [3:0] countWrites;
 	
 	wire [1:0] dataMuxSel;
 	
@@ -124,12 +124,14 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 						adrx <= adrx + 11'b1;
 						state <= rfRead;
 					end else begin
-						countWrites = 5'b0;
+						countWrites = 4'b0;
+						sramRead <= 1'b0;
+						sramNotOutEn <= 1'b1;
 						case (block)
 							2'b00: adrx <= 11'd128;
-							2'b01: adrx <= 11'd145;
-							2'b10: adrx <= 11'd162;
-							2'b11: adrx <= 11'd179;
+							2'b01: adrx <= 11'd144;
+							2'b10: adrx <= 11'd160;
+							2'b11: adrx <= 11'd176;
 							default: adrx <= 11'b0;
 						endcase
 						state <= writeBackDo;
@@ -143,20 +145,21 @@ module memoryDemo (LEDR, SW, KEY, CLOCK_50);
 				
 				//Initializes conditions for writing the next byte
 				writeBackSet: begin
-					if (adrx == 11'd195 && block == 2'b11) begin
+					if (adrx == 11'd191) begin //$$ block == 2'b11) begin
 						//Have processed all three blocks
 						state <= idle;
-					end else if (countWrites == 5'b11111) begin
+					end else if (countWrites == 4'b1111) begin
 						//Conclude writing to the SRAM, transfer to the next block
-						countWrites <= 5'b0;
+						countWrites <= 4'b0;
 						sramRead <= 1'b1;
 						sramNotOutEn <= 1'b0;
-						adrx <= {4'b0, block[1:0], 5'b0};
+						adrx <= {4'b0, block[1:0] + 2'b01, 5'b0};
 						writeEn <= 1'b1;
+						block <= block + 2'b01;
 						state <= rfWrite;
 					end else begin
 						adrx <= adrx + 11'b1;
-						countWrites <= countWrites + 5'b1;
+						countWrites <= countWrites + 4'b1;
 						sramRead <= 1'b0;
 						state <= writeBackDo;
 					end
@@ -176,7 +179,7 @@ module clock_divider (clk_out, clk_in, slowDown);
 	reg [31:0] divided_clocks;
 	input clk_in, slowDown;
 	
-	assign clk_out = slowDown ? divided_clocks[1] : clk_in;
+	assign clk_out = slowDown ? divided_clocks[23] : clk_in;
 	
 	initial
 		divided_clocks = 0;
