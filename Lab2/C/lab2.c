@@ -22,7 +22,7 @@ int main(void)
 {
 	float dur = getDuration();
 
-	while (0 <= dur)
+	while (dur <= 0)
 	{
 		printf("Invalid flight duration. Please try again!\n");
 		dur = getDuration();
