@@ -37,7 +37,7 @@ module memory_tester(rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,	
 					rfWriteAdrx, rfRdAdrx1, rfRdAdrx0, rfWriteEn, dataMuxSel);			 // o,o,o,o,o
 
 	input [31:0] rdRF1, rdRF0;
-	inout wire [31:0] data;
+	inout [31:0] data;
 	output reg clk, sramNotOutEn, sramRead, rfWriteEn;
 	output reg [10:0] sramAdrx;
 	output reg [4:0] rfWriteAdrx, rfRdAdrx1, rfRdAdrx0;
@@ -64,14 +64,16 @@ module memory_tester(rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,	
 	//Write values into the SRAM
 	for (i = 0; i < 32; i = i + 1) begin
 		#DELAY
-		sramRead = 1;
+		sramRead = 1'b1;
 		#DELAY
 		sramWriteData = sramWriteData - 32'b1;
 		sramAdrx = sramAdrx + 32'b1;
-		sramRead = 0;
+		sramRead = 1'b0;
 	end
 	#DELAY
 	sramNotOutEn = 1'b0; rfWriteEn = 1'b1; sramAdrx = 11'b0;
+	sramRead = 1'b1;
+	#DELAY
 	//Write values from the sram into the regfile
 	for (i = 0; i < 32; i = i + 1) begin
 		#DELAY
@@ -79,12 +81,13 @@ module memory_tester(rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,	
 		sramAdrx = sramAdrx + 11'b1;
 		rfRdAdrx1 = rfRdAdrx1 + 5'b1;
 	end
+	#DELAY
 	dataMuxSel = 2'b11; rfRdAdrx1 = 5'b0; sramAdrx = 11'b0;
-	//Read values from the SRAM
+	sramNotOutEn = 1'b1; rfWriteEn = 1'b0;
+	#DELAY
+	//Read values from the regfile
 		for (i = 0; i < 32; i = i + 1) begin
 		#DELAY
-		rfWriteAdrx = rfWriteAdrx + 5'b1;
-		sramAdrx = sramAdrx + 11'b1;
 		rfRdAdrx1 = rfRdAdrx1 + 5'b1;
 	end
 	#(DELAY*4);
