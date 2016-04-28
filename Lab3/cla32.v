@@ -1,13 +1,13 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //EE 469, Dr. Peckol 4/15/16
-// 32-bit Carry Look Ahead (cla) Adder built using 4-bit clas
+// 32-bit Carry Look Ahead (cla) Adder built using 4-bit cla's
 module cla32 (sum, Cout, inA, inB, Cin);
 	output [31:0] sum;
 	output Cout;
 	input [31:0] inA, inB;
 	input Cin;
 
-	wire [7:0] c; // carry in
+	wire [7:0] c; // carrys passed between CLA modules
 
 	assign c[0] = Cin;
 
@@ -45,12 +45,14 @@ module cla4 (sum, Cout, inA, inB, Cin);
 
 	assign c[3] = g[2] | (g[1] & p[2]) | (g[0] & p[1] & p[2]) | (c[0] & p[0] & p[1] & p[2]);
 
-	assign Cout = g[3] | (g[2] & p[3]) | (g[1] & p[2] & p[3]) | (g[0] & p[1] & p[2] & p[3]) |
-				  (c[0] & p[0] & p[1] & p[2] & p[3]);
+	assign Cout = gGroup | (pGroup & c[0])
+	
+	//g[3] | (g[2] & p[3]) | (g[1] & p[2] & p[3]) | (g[0] & p[1] & p[2] & p[3]) |
+	//			  (c[0] & p[0] & p[1] & p[2] & p[3]);
 
 	// compute group propagate and generate
-	//assign pG = p[0] & (p[1] & p[2] & p[3]);
-	//assign gG = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]);
+	assign pGroup = p[0] & (p[1] & p[2] & p[3]);
+	assign gGroup = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]);
 
 	// compute sum
 	assign sum = p ^ c;

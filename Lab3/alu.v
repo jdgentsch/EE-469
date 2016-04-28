@@ -2,9 +2,9 @@
 //Lab 3: ALU with dataflow model
 //EE 469 with James Peckol 4/22/16
 
-module alu (busOut, zero, overflow, Cout, neg, busA, busB, control);
+module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 	output [31:0] busOut;
-	output zero, overflow, Cout, neg;
+	output zero, overflow, carry, neg;
 	input [31:0] busA, busB;
 	input [2:0] control;
 
