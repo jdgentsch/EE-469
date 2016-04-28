@@ -1,10 +1,20 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //EE 469, Dr. Peckol 4/15/16
 // 32-bit Carry Look Ahead (cla) Adder built using 4-bit clas
+module cla32 (sum, Cout, inA, inB, Cin);
+	output [31:0] sum;
+	output Cout;
+	input [31:0] inA, inB;
+	input Cin;
 
+	
+
+endmodule
+
+// 4-bit cla
 module cla4 (sum, Cout, inA, inB, Cin);
 	output [3:0] sum;
-	output Cout
+	output Cout;
 	//, pG, gG; // propagate and generate group
 	input [3:0] inA, inB;
 	input Cin;
