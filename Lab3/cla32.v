@@ -12,14 +12,14 @@ module cla32 (sum, Cout, inA, inB, Cin);
 	assign c[0] = Cin;
 
 	// staking 8 4-bit clas to form 32-bit clas
-	cla4 cla4_0 (sum[3:0], c[1], inA[3:0], inB[3:0], c[0]);
-	cla4 cla4_1 (sum[7:4], c[2], inA[7:4], inB[7:4], c[1]);
-	cla4 cla4_2 (sum[11:8], c[3], inA[11:8], inB[11:8], c[2]);
-	cla4 cla4_3 (sum[15:12], c[4], inA[15:12], inB[15:12], c[3]);
-	cla4 cla4_4 (sum[19:16], c[5], inA[19:16], inB[19:16], c[4]);
-	cla4 cla4_5 (sum[23:20], c[6], inA[23:20], inB[23:20], c[5]);
-	cla4 cla4_6 (sum[27:24], c[7], inA[27:24], inB[27:24], c[6]);
 	cla4 cla4_7 (sum[31:28], Cout, inA[31:28], inB[31:28], c[7]);
+	cla4 cla4_6 (sum[27:24], c[7], inA[27:24], inB[27:24], c[6]);
+	cla4 cla4_5 (sum[23:20], c[6], inA[23:20], inB[23:20], c[5]);
+	cla4 cla4_4 (sum[19:16], c[5], inA[19:16], inB[19:16], c[4]);
+	cla4 cla4_3 (sum[15:12], c[4], inA[15:12], inB[15:12], c[3]);
+	cla4 cla4_2 (sum[11:8], c[3], inA[11:8], inB[11:8], c[2]);
+	cla4 cla4_1 (sum[7:4], c[2], inA[7:4], inB[7:4], c[1]);
+	cla4 cla4_0 (sum[3:0], c[1], inA[3:0], inB[3:0], c[0]);
 
 endmodule
 
