@@ -53,5 +53,5 @@ module Tester (swTest, keyTest, clockTest, ledrTest);
 			#stimDelay keyTest[0] = 1;
 			#(60*stimDelay); 			// needed to see END of simulation
 			$finish; 					// finish simulation
-		end
+	end
 endmodule
