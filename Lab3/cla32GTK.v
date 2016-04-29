@@ -31,15 +31,10 @@ module Tester (inA, inB, Cin, sum, Cout, overflow, pGroup, gGroup);
 	input Cout, overflow;
 	input [1:0] pGroup, gGroup;
 
-	parameter stimDelay = 150;
-
-	always begin
-		#(stimDelay/10) clockTest= ~clockTest;
-	end
+	parameter stimDelay = 20;
 
 	initial // Stimulus
 		begin
-				clockTest = 0;
 				#stimDelay inA = 32'h76543210; inB = 32'h87654321; Cin = 1'b0; // should yield FDB97531
 				#stimDelay
 				#stimDelay

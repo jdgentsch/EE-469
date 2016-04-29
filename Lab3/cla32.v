@@ -58,7 +58,7 @@ endmodule
 module cla16 (sum, Cout, pGroup, gGroup, inA, inB, Cin);
 	output [15:0] sum;
 	output Cout;
-	output [3:0] pGroup, gGroup;
+	output pGroup, gGroup;
 	input [15:0] inA, inB;
 	input Cin;
 
