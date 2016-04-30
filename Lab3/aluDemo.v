@@ -58,7 +58,7 @@ module aluDemo (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	always @(posedge clk) begin
 		// Store the results of the ALU when run is toggled
 		if (run) begin
-			resultDisp <= result;
+			resultDisp <= result[15:0];
 			flagReg <= {cFlag, nFlag, vFlag, zFlag};
 		end else begin //Explicit latching
 			resultDisp <= resultDisp;
