@@ -1,7 +1,6 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //Lab 3: ALU with dataflow model
-//EE 469 with James Peckol 4/22/16
-
+//EE 469 with James Peckol 4/28/16
 module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 	output [31:0] busOut;
 	output zero, overflow, carry, neg;
@@ -25,10 +24,10 @@ module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 	assign adderBusB = control[1] ? ~busB : busB;
 	
 	//Adder and subtractor unit, composed of carry look-ahead blocks
-	add32 myAdder (.sum(adderResult), .Cout(adderCarryFlag), .inA(busA), .inB(adderBusB), .Cin(control[1]));
+	cla32 myAdder (.sum(adderResult), .Cout(adderCarryFlag), .inA(busA), .inB(adderBusB), .Cin(control[1]));
 	
 	//Barrel shifter for shift left instructions
-	shifter myBarrelShifter ();
+	barrelShifter myBarrelShifter (.out(shiftResult), .in(busA), .shift(busB[1:0]));
 	
 	//Logical units for and, or, xor operations
 	logic myLogicUnit (.andResult(andResult), .orResult(orResult), .xorResult(xorResult), .inA(busA), .inB(busB));

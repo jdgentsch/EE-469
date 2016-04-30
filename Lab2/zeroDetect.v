@@ -4,14 +4,22 @@
 module zeroDetect (zeroFlag, result);
 	output zeroFlag;
 	input [31:0] result;
+	
+	assign zeroFlag = ~| result;
+	
+	/*
 	wire [15:0] connect0;
 	wire [7:0] connect1;
 	wire [3:0] connect2;
 	wire [1:0] connect3;
+	*/
 	
+	
+	//assign connect0[0] = result[0] | result[1];
+	/*
 	genvar i;
 	generate for (i = 0; i < 16; i = i + 1) begin : first_row_ZD
-		assign connect0[i] = result[2*i + 1] ~| result[2*i];
+		assign connect0[i] = result[(2*i + 1)] ~| result[(2*i)];
 	end endgenerate
 	
 	genvar j;
@@ -31,13 +39,13 @@ module zeroDetect (zeroFlag, result);
 
 	assign connect3[1] = connect2[3] ~& connect2[2];
 	assign connect3[0] = connect2[1] ~& connect2[0];
-
+	*/
 	/*
 	assign connect0[15:0] = result[31] ~| result[30];
 	assign connect1[7:0] = connect0[15] ~& connect0[14];
 	assign connect2[3:0] = connect1[7] ~| connect[6];
 	assign connect3[1:0] = connect2[3] ~& connect2[2];
 	*/
-	assign zeroFlag = connect3[1] ~| connect3[0];
-
+	//assign zeroFlag = connect3[1] ~| connect3[0];
+	
 endmodule

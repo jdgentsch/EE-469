@@ -1,5 +1,6 @@
-// Jack Gentsch
-// EE 469 4/29
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 3: ALU with dataflow model
+//EE 469 with James Peckol 4/29/16
 // A simple module to toggle an input switch high once every 16 clock cycles
 // Resists the oscillating nature of the physical buttons
 module pressDetectDelay (outToggle, inPress, clk);
