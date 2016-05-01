@@ -11,13 +11,10 @@ module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 	wire [31:0] adderBusB;
 	wire adderCarryFlag;
 	
-	//Assignment of the negative and zero flags
+	//Assignment of the status flags
 	assign neg = busOut[31];
 	assign zero = ~| busOut;
-	
-	//Assignment of carry flag INCORRECT FIX
-	//NEEDS TO ACCOUNT FOR SHIFTER...
-	assign carry = adderCarryFlag;
+	assign carry = adderCarryFlag; //Incorrect fix
 	
 	//Calculation of the zero flag
 	//zeroDetect myZeroDetect (.zeroFlag(zero), .result(busOut));
@@ -30,7 +27,7 @@ module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 	assign adderBusB = control[1] ? ~busB : busB;
 	
 	//Adder and subtractor unit, composed of carry look-ahead blocks
-	cla32 myAdder (.sum(adderResult), .Cout(adderCarryFlag), .inA(busA), .inB(adderBusB), .Cin(control[1]));
+	cla32 myAdder (.sum(adderResult), .Cout(adderCarryFlag), .overflow(overflow), .inA(busA), .inB(adderBusB), .Cin(control[1]));
 	
 	//Barrel shifter for shift left instructions
 	barrelShifter myBarrelShifter (.out(shiftResult), .in(busA), .shift(busB[1:0]));

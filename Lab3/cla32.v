@@ -2,10 +2,9 @@
 // EE 469, Dr. Peckol 4/15/16
 // 32-bit Carry Look Ahead (CLA) Adder built using two 16-bit CLAs
 // Dataflow level modeling
-module cla32 (sum, Cout, overflow, pGroup, gGroup, inA, inB, Cin);
+module cla32 (sum, Cout, overflow, inA, inB, Cin);
 	output [31:0] sum;
 	output Cout, overflow;
-	output [1:0] pGroup, gGroup;
 	input [31:0] inA, inB;
 	input Cin;
 
@@ -16,10 +15,8 @@ module cla32 (sum, Cout, overflow, pGroup, gGroup, inA, inB, Cin);
 	cla16 cla16_0 (sum[15:0], c[1], p[0], g[0], inA[15:0], inB[15:0], c[0]);
 	cla16 cla16_1 (sum[31:16], Cout, p[1], g[1], inA[31:16], inB[31:16], c[1]);
 
-	assign pGroup = p[0] & p[1];
-	assign gGroup = g[1] | g[0] & p[1];
-
 	// compute overflow
+	// This is incorrect - should be Cout ^ carry_input_to_msb_full_adder
 	assign overflow = Cout ^ c[1];
 
 endmodule
