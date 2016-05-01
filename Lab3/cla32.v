@@ -1,6 +1,7 @@
 // Jack Gentsch, Jacky Wang, Chinh Bui
 // EE 469, Dr. Peckol 4/15/16
 // 32-bit Carry Look Ahead (CLA) Adder built using two 16-bit CLAs
+// Dataflow level modeling
 module cla32 (sum, Cout, overflow, pGroup, gGroup, inA, inB, Cin);
 	output [31:0] sum;
 	output Cout, overflow;

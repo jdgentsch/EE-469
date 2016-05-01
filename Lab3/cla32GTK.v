@@ -36,11 +36,8 @@ module Tester (inA, inB, Cin, sum, Cout, overflow, pGroup, gGroup);
 	initial // Stimulus
 		begin
 				#stimDelay inA = 32'h76543210; inB = 32'h87654321; Cin = 1'b0; // should yield FDB97531
-				#stimDelay
-				#stimDelay
-				#stimDelay
-				#stimDelay
-				#stimDelay
+				#stimDelay inA = 32'hFFFFFFFF; inB = 32'h00000001; Cin = 1'b0;
+				#stimDelay inA = 32'hFFFFFFFF; inB = 32'hFFFFFFFF; Cin = 1'b0;
 				$finish;
 		end
 endmodule
