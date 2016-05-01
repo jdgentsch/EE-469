@@ -17,15 +17,16 @@ module cla32 (sum, Cout, overflow, inA, inB, Cin);
 
 	// compute overflow
 	// This is incorrect - should be Cout ^ carry_input_to_msb_full_adder
-	assign overflow = Cout ^ c[1];
+	assign overflow = Cout ^ cla16_1.cla4_3.c[3];
 
 endmodule
 
 
 // 4-bit CLA
-module cla4 (sum, Cout, pGroup, gGroup, inA, inB, Cin);
+module cla4 (sum, Cout, inA, inB, Cin);
 	output [3:0] sum;
-	output Cout, pGroup, gGroup;
+	output Cout;
+	//pGroup, gGroup;
 	input [3:0] inA, inB;
 	input Cin;
 
@@ -40,11 +41,11 @@ module cla4 (sum, Cout, pGroup, gGroup, inA, inB, Cin);
 	assign c[1] = g[0] | (p[0] & c[0]);
 	assign c[2] = g[1] | (g[0] & p[1]) | (c[0] & p[0] & p[1]);
 	assign c[3] = g[2] | (g[1] & p[2]) | (g[0] & p[1] & p[2]) | (c[0] & p[0] & p[1] & p[2]);
-	assign Cout = gGroup | (pGroup & c[0]);
+	assign Cout = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]) | (p[0] & p[1] & p[2] & p[3] & c[0]);
 
 	// compute group propagate and generate
-	assign pGroup = p[0] & p[1] & p[2] & p[3];
-	assign gGroup = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]);
+	//assign pGroup = p[0] & p[1] & p[2] & p[3];
+	//assign gGroup = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]);
 
 	// compute sum
 	assign sum = p ^ c;
@@ -53,10 +54,10 @@ endmodule
 
 
 // stacking four 4-bit CLAs to form 16-bit CLA
-module cla16 (sum, Cout, pGroup, gGroup, inA, inB, Cin);
+module cla16 (sum, Cout, inA, inB, Cin);
 	output [15:0] sum;
 	output Cout;
-	output pGroup, gGroup;
+	//output pGroup, gGroup;
 	input [15:0] inA, inB;
 	input Cin;
 
@@ -69,7 +70,7 @@ module cla16 (sum, Cout, pGroup, gGroup, inA, inB, Cin);
 	cla4 cla4_2 (sum[11:8], c[3], p[2], g[2], inA[11:8], inB[11:8], c[2]);
 	cla4 cla4_3 (sum[15:12], Cout, p[3], g[3], inA[15:12], inB[15:12], c[3]);
  
-	assign pGroup = p[0] & p[1] & p[2] & p[3];
-	assign gGroup = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]);
+	//assign pGroup = p[0] & p[1] & p[2] & p[3];
+	//assign gGroup = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]);
 
 endmodule
