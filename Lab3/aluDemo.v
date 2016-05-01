@@ -1,6 +1,6 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
-//Lab 2: memory system demo
-//EE 469 with James Peckol 4/15/16
+//Lab 3: ALU Functionality Demo
+//EE 469 with James Peckol 4/29/16
 
 //This top-level driver will interface directly with the ALU for testing
 //Controlled by user input to the DE1-SoC to input and read values from the ALU
@@ -42,7 +42,7 @@ module aluDemo (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 
 	// instantiate the register file module
 	alu myALU (.busOut(result), .zero(zFlag), .overflow(vFlag), .carry(cFlag), .neg(nFlag),
-				  .busA({16'b0, opA}), .busB({16'b0, opB}), .control(control));
+				  .busA({{16{opA[15]}}, opA}), .busB({{16{opB[15]}}, opB}), .control(control));
 
 	// Drivers for the 7-segment 4 hex displays
 	hexDriver myHex3 (HEX3, display[15:12]);

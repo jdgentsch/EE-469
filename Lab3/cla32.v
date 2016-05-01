@@ -12,8 +12,8 @@ module cla32 (sum, Cout, overflow, inA, inB, Cin);
 
 	assign c[0] = Cin;
 
-	cla16 cla16_0 (sum[15:0], c[1], p[0], g[0], inA[15:0], inB[15:0], c[0]);
-	cla16 cla16_1 (sum[31:16], Cout, p[1], g[1], inA[31:16], inB[31:16], c[1]);
+	cla16 cla16_0 (sum[15:0], c[1], inA[15:0], inB[15:0], c[0]);
+	cla16 cla16_1 (sum[31:16], Cout, inA[31:16], inB[31:16], c[1]);
 
 	// compute overflow
 	// This is incorrect - should be Cout ^ carry_input_to_msb_full_adder
@@ -65,10 +65,10 @@ module cla16 (sum, Cout, inA, inB, Cin);
 
 	assign c[0] = Cin;
 
-	cla4 cla4_0 (sum[3:0], c[1], p[0], g[0], inA[3:0], inB[3:0], c[0]);
-	cla4 cla4_1 (sum[7:4], c[2], p[1], g[1], inA[7:4], inB[7:4], c[1]);
-	cla4 cla4_2 (sum[11:8], c[3], p[2], g[2], inA[11:8], inB[11:8], c[2]);
-	cla4 cla4_3 (sum[15:12], Cout, p[3], g[3], inA[15:12], inB[15:12], c[3]);
+	cla4 cla4_0 (sum[3:0], c[1], inA[3:0], inB[3:0], c[0]);
+	cla4 cla4_1 (sum[7:4], c[2], inA[7:4], inB[7:4], c[1]);
+	cla4 cla4_2 (sum[11:8], c[3], inA[11:8], inB[11:8], c[2]);
+	cla4 cla4_3 (sum[15:12], Cout, inA[15:12], inB[15:12], c[3]);
  
 	//assign pGroup = p[0] & p[1] & p[2] & p[3];
 	//assign gGroup = g[3] | (g[2] & p[3]) | (g[1] & p[3] & p[2]) | (g[0] & p[3] & p[2] & p[1]);
