@@ -9,11 +9,14 @@ module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 
 	wire [31:0] adderBusB;
 	
+	// state encoding
 	parameter [2:0] NOP = 3'b000, ADD = 3'b001, SUB = 3'b010, AND = 3'b011,
 				    OR = 3'b100, XOR = 3'b101, SLT = 3'b110, SLL = 3'b111;
 
+	// flip the bits if in subtraction mode
 	assign adderBusB = control[1]? ~busB : busB; 
 
+	// 8 control modes
 	always @(*) begin
 		case(control)
 			NOP: busOut = 32'b0;
@@ -57,8 +60,12 @@ module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 				carry = 1'b0;
 				overflow = 1'b0;
 			end
-
-			default
 		endcase
 	end
+
+	// zero and negative status flag
+	always @(*) begin 
+		zero = ~| busOut;; 
+		neg = busOut[31];
+	end 
 endmodule
