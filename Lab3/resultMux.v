@@ -9,6 +9,10 @@ module resultMux (busOut, cFlag, vFlag, control, adderResult, andResult, orResul
 	input [31:0] adderResult, andResult, orResult, xorResult, shiftResult;
 	input adderCFlag, adderVFlag, shiftCFlag, shiftVFlag;
 
+	wire [31:0] sltResult;
+	
+	assign sltResult = {31'b0, adderResult[31]};
+	
 	mux8 cFlagMux (.result(cFlag), .sel(control[2:0]),
 					.in({shiftCFlag, adderCFlag, 1'b0, 1'b0,
 					1'b0, adderCFlag, adderCFlag, 1'b0}));
@@ -20,7 +24,7 @@ module resultMux (busOut, cFlag, vFlag, control, adderResult, andResult, orResul
 	genvar i;
 	generate for (i = 0; i < 32; i = i + 1) begin : alu_result_mux_gen
 		mux8 myMux8 (.result(busOut[i]), .sel(control[2:0]),
-						.in({shiftResult[i], adderResult[i], xorResult[i], orResult[i],
+						.in({shiftResult[i], sltResult[i], xorResult[i], orResult[i],
 							  andResult[i], adderResult[i], adderResult[i], 1'b0}));
 	end endgenerate
 

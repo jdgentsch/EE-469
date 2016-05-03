@@ -40,7 +40,7 @@ module aluDemo (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	// instantiate clock_divider module
  	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[7]));
 
-	// instantiate the register file module
+	// instantiate the ALU module, either alu_behav or alu
 	alu myALU (.busOut(result), .zero(zFlag), .overflow(vFlag), .carry(cFlag), .neg(nFlag),
 				  .busA({{16{opA[15]}}, opA}), .busB({{16{opB[15]}}, opB}), .control(control));
 
