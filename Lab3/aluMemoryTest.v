@@ -32,15 +32,16 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	reg sramNotOutEn;
 	reg sramDoWrite;
 	reg [2:0] state;
-	reg [6:0] iterCount;
+	reg [5:0] iterCount;
 	reg [15:0] memoryInput;
 	
 	parameter [2:0] boot = 3'b000, load = 3'b001, decode = 3'b010, store = 3'b011, writeback = 3'b100;
 	
 	//Manage drive of the data lines, input to the SRAM during boot stage
-	assign data = (state == boot) ? memoryInput : 32'bz;
+	assign data = dataMuxSel[1] | ~sramNotOutEn ? 32'bz : memoryInput;
 	assign reset = SW[9];
-	assign dataMuxSel = (state < load) ? 2'b00 : 2'b01;
+	assign dataMuxSel[1] = (state != boot) & sramNotOutEn ? 1'b1 : 1'b0;
+	assign dataMuxSel[0] = 1'b0;
 	
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
 	
@@ -64,54 +65,54 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	initial begin
 		sramDataIn[0] <= 16'b000_00000_00000_000; //NOOP
 		sramDataIn[1] <= 16'b000_10001_00001_001; //ADD FFFF FFFF
-		sramDataIn[2] <= 16'b000_01001_00010_010; //SUB 9 C
-		sramDataIn[3] <= 16'b000_11111_00011_011; //AND 1F A
-		sramDataIn[4] <= 16'b000_11111_00100_100; //OR 1F A
-		sramDataIn[5] <= 16'b000_11111_00101_101; //XOR 1F A
-		sramDataIn[6] <= 16'b000_01000_00110_110; //SLT 8 F
-		sramDataIn[7] <= 16'b000_01100_00111_111; //SLL C 3
-		sramDataIn[8] <= 16'b000_00000_01000_000; //NOOP
-		sramDataIn[9] <= 16'b000_11100_01001_001; //ADD 1C 8
-		sramDataIn[10] <= 16'b000_00110_01010_010; //SUB 6 D
-		sramDataIn[11] <= 16'b000_10101_01011_011; //AND 15 3
-		sramDataIn[12] <= 16'b000_00111_01100_100; //OR 7 1E
-		sramDataIn[13] <= 16'b000_11011_01101_101; //XOR 1B 9
-		sramDataIn[14] <= 16'b000_11111_01110_110; //SLT 1F 2
-		sramDataIn[15] <= 16'b000_01011_01111_111; //SLL B 1
+		sramDataIn[2] <= 16'b000_10010_00010_010; //SUB 9 C
+		sramDataIn[3] <= 16'b000_10011_00011_011; //AND 1F A
+		sramDataIn[4] <= 16'b000_10100_00100_100; //OR 1F A
+		sramDataIn[5] <= 16'b000_10101_00101_101; //XOR 1F A
+		sramDataIn[6] <= 16'b000_10110_00110_110; //SLT 8 F
+		sramDataIn[7] <= 16'b000_10111_00111_111; //SLL C 3
+		sramDataIn[8] <= 16'b000_11000_01000_000; //NOOP
+		sramDataIn[9] <= 16'b000_11001_01001_001; //ADD 1C 8
+		sramDataIn[10] <= 16'b000_11010_01010_010; //SUB 6 D
+		sramDataIn[11] <= 16'b000_11011_01011_011; //AND 15 3
+		sramDataIn[12] <= 16'b000_11100_01100_100; //OR 7 1E
+		sramDataIn[13] <= 16'b000_11101_01101_101; //XOR 1B 9
+		sramDataIn[14] <= 16'b000_11110_01110_110; //SLT 1F 2
+		sramDataIn[15] <= 16'b000_11111_01111_111; //SLL B 1
 		//END INSTRUCTIONS
 		sramDataIn[16] <= 16'b0000_0000_0000_0000; //NOOP
-		sramDataIn[17] <= 16'b0000_0000_0000_0000; //ADD 9 C
-		sramDataIn[18] <= 16'b0000_0000_0000_0000; //SUB 9 C
-		sramDataIn[19] <= 16'b0000_0000_0000_0000; //AND 1F A
-		sramDataIn[20] <= 16'b0000_0000_0000_0000; //OR 1F A
-		sramDataIn[21] <= 16'b0000_0000_0000_0000; //XOR 1F A
-		sramDataIn[22] <= 16'b0000_0000_0000_0000; //SLT 8 F
-		sramDataIn[23] <= 16'b0000_0000_0000_0000; //SLL C 3
-		sramDataIn[24] <= 16'b0000_0000_0000_0000; //NOOP
-		sramDataIn[25] <= 16'b0000_0000_0000_0000; //ADD 1C 8
-		sramDataIn[26] <= 16'b0000_0000_0000_0000; //SUB 6 D
-		sramDataIn[27] <= 16'b0000_0000_0000_0000; //AND 15 3
-		sramDataIn[28] <= 16'b0000_0000_0000_0000; //OR 7 1E
-		sramDataIn[29] <= 16'b0000_0000_0000_0000; //XOR 1B 9
-		sramDataIn[30] <= 16'b0000_0000_0000_0000; //SLT 1F 2
-		sramDataIn[31] <= 16'b0000_0000_0000_0000; //SLL B 1
+		sramDataIn[17] <= 16'b0000_0000_0000_0001; //ADD 9 C
+		sramDataIn[18] <= 16'b0000_0000_0000_0010; //SUB 9 C
+		sramDataIn[19] <= 16'b0000_0000_0000_0011; //AND 1F A
+		sramDataIn[20] <= 16'b0000_0000_0000_0100; //OR 1F A
+		sramDataIn[21] <= 16'b0000_0000_0000_0101; //XOR 1F A
+		sramDataIn[22] <= 16'b0000_0000_0000_0110; //SLT 8 F
+		sramDataIn[23] <= 16'b0000_0000_0000_0111; //SLL C 3
+		sramDataIn[24] <= 16'b0000_0000_0000_1000; //NOOP
+		sramDataIn[25] <= 16'b0000_0000_0000_1001; //ADD 1C 8
+		sramDataIn[26] <= 16'b0000_0000_0000_1010; //SUB 6 D
+		sramDataIn[27] <= 16'b0000_0000_0000_1011; //AND 15 3
+		sramDataIn[28] <= 16'b0000_0000_0000_1100; //OR 7 1E
+		sramDataIn[29] <= 16'b0000_0000_0000_1101; //XOR 1B 9
+		sramDataIn[30] <= 16'b0000_0000_0000_1110; //SLT 1F 2
+		sramDataIn[31] <= 16'b0000_0000_0000_1111; //SLL B 1
 		//END OPERAND FOR BITLINE A
-		sramDataIn[32] <= 16'b0000_0000_0000_0000; //NOOP
-		sramDataIn[33] <= 16'b0000_0000_0000_0000; //ADD 9 C
-		sramDataIn[34] <= 16'b0000_0000_0000_0000; //SUB 9 C
-		sramDataIn[35] <= 16'b0000_0000_0000_0000; //AND 1F A
-		sramDataIn[36] <= 16'b0000_0000_0000_0000; //OR 1F A
-		sramDataIn[37] <= 16'b0000_0000_0000_0000; //XOR 1F A
-		sramDataIn[38] <= 16'b0000_0000_0000_0000; //SLT 8 F
-		sramDataIn[39] <= 16'b0000_0000_0000_0000; //SLL C 3
-		sramDataIn[40] <= 16'b0000_0000_0000_0000; //NOOP
-		sramDataIn[41] <= 16'b0000_0000_0000_0000; //ADD 1C 8
-		sramDataIn[42] <= 16'b0000_0000_0000_0000; //SUB 6 D
-		sramDataIn[43] <= 16'b0000_0000_0000_0000; //AND 15 3
-		sramDataIn[44] <= 16'b0000_0000_0000_0000; //OR 7 1E
-		sramDataIn[45] <= 16'b0000_0000_0000_0000; //XOR 1B 9
-		sramDataIn[46] <= 16'b0000_0000_0000_0000; //SLT 1F 2
-		sramDataIn[47] <= 16'b0000_0000_0000_0000; //SLL B 1
+		sramDataIn[32] <= 16'b0000_0000_0001_0000; //NOOP
+		sramDataIn[33] <= 16'b0000_0000_0001_0001; //ADD 9 C
+		sramDataIn[34] <= 16'b0000_0000_0001_0010; //SUB 9 C
+		sramDataIn[35] <= 16'b0000_0000_0001_0011; //AND 1F A
+		sramDataIn[36] <= 16'b0000_0000_0001_0100; //OR 1F A
+		sramDataIn[37] <= 16'b0000_0000_0001_0101; //XOR 1F A
+		sramDataIn[38] <= 16'b0000_0000_0001_0110; //SLT 8 F
+		sramDataIn[39] <= 16'b0000_0000_0001_0111; //SLL C 3
+		sramDataIn[40] <= 16'b0000_0000_0001_1000; //NOOP
+		sramDataIn[41] <= 16'b0000_0000_0001_1001; //ADD 1C 8
+		sramDataIn[42] <= 16'b0000_0000_0001_1010; //SUB 6 D
+		sramDataIn[43] <= 16'b0000_0000_0001_1011; //AND 15 3
+		sramDataIn[44] <= 16'b0000_0000_0001_1100; //OR 7 1E
+		sramDataIn[45] <= 16'b0000_0000_0001_1101; //XOR 1B 9
+		sramDataIn[46] <= 16'b0000_0000_0001_1110; //SLT 1F 2
+		sramDataIn[47] <= 16'b0000_0000_0001_1111; //SLL B 1
 	end
 	
 	always @(posedge clk) begin
@@ -124,6 +125,8 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 			sramDoWrite <= 1'b1;
 			sramNotOutEn <= 1'b1;
 			rdAdrx <= 5'b0;
+			iterCount <= 6'b0;
+			memoryInput <= sramDataIn[0];
 			//More reset conditions here... for SRAM, RF ctl mostly.
 		end else begin
 			case (state)
@@ -135,15 +138,16 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 					//Setup data for input into the SRAM
 					end else begin
 						sramDoWrite <= 1'b1;
-						iterCount <= iterCount + 7'b1;
-						if (iterCount == 7'b110000) begin //Write 16 instructions and 32 data values
+						if (iterCount == 6'b110000) begin //Write 16 instructions and 32 data values
+							iterCount <= 6'b0;
 							state <= load;
 							sramRead <= 1'b1;
 							sramNotOutEn <= 1'b0;
 							adrx <= 11'b10000; //Data values start at address 16
 							writeEn <= 1'b1;
 						end else begin
-							memoryInput <= sramDataIn[adrx];
+							iterCount <= iterCount + 6'b1;
+							memoryInput <= sramDataIn[adrx + 1];
 							sramRead <= 1'b0;
 							adrx <= adrx + 11'b1; //Write to the next adrx in SRAM
 						end

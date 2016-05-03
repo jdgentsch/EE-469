@@ -25,7 +25,7 @@ module memory (rdRF1, rdRF0, data, clk, sramAdrx, sramNotOutEn, sramRead,
 	//Data bus multiplexing using control signals
 	genvar i;
 	generate for (i = 0; i < 32; i = i + 1) begin : data_bus_gen
-		mux4 dataBus (.result(data[i]), .sel(2'b0), .in({rdRF1[i], rdRF0[i], 1'bz, 1'bz}));
+		mux4 dataBus (.result(data[i]), .sel(dataMuxSel), .in({rdRF1[i], rdRF0[i], 1'bz, 1'bz}));
 	end endgenerate
 
 	//Instantiation of the register file and sram, with data buses that may be connected
