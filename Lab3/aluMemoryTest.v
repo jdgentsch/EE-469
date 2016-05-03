@@ -26,16 +26,19 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	reg [4:0] writeAdrx;
 	reg [4:0] rdAdrx;
 	reg [1:0] dataMuxSel;
-	reg [15:0] sramDataIn;
+	reg [15:0] sramDataIn [0:15];
 	reg writeEn;
 	reg sramRead;
 	reg sramNotOutEn;
 	reg sramDoWrite;
 	reg [2:0] state;
 	reg [6:0] iterCount;
+	reg [15:0] memoryInput;
 	
 	parameter [2:0] boot = 3'b000, load = 3'b001, decode = 3'b010, store = 3'b011, writeback = 3'b100;
 	
+	//Manage drive of the data lines, input to the SRAM during boot stage
+	assign data = (state == boot) ? memoryInput : 32'bz;
 	assign reset = SW[9];
 	
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
@@ -57,11 +60,32 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	assign rdAdrx0 = (state < writeback) ? data[7:3] : rdAdrx;
 	assign rdAdrx1 = data[12:8];
 	
+	initial begin
+		sramDataIn[0] <= 16'b000_00000_00000_000; //NOOP
+		sramDataIn[1] <= 16'b000_00000_00000_001; //ADD
+		sramDataIn[2] <= 16'b000_00000_00000_010; //SUB
+		sramDataIn[3] <= 16'b000_00000_00000_011; //AND
+		sramDataIn[4] <= 16'b000_00000_00000_100; //OR
+		sramDataIn[5] <= 16'b000_00000_00000_101; //XOR
+		sramDataIn[6] <= 16'b000_00000_00000_110; //SLT
+		sramDataIn[7] <= 16'b000_00000_00000_111; //SLL
+		sramDataIn[8] <= 16'b000_00000_00000_000; //NOOP
+		sramDataIn[9] <= 16'b000_00000_00000_001; //ADD
+		sramDataIn[10] <= 16'b000_00000_00000_010; //SUB
+		sramDataIn[11] <= 16'b000_00000_00000_011; //AND
+		sramDataIn[12] <= 16'b000_00000_00000_100; //OR
+		sramDataIn[13] <= 16'b000_00000_00000_101; //XOR
+		sramDataIn[14] <= 16'b000_00000_00000_110; //SLT
+		sramDataIn[15] <= 16'b000_00000_00000_111; //SLL
+	end
+	
+	
+	
 	always @(posedge clk) begin
 		if (reset) begin
 			state <= boot; //Begin by booting the SRAM
 			adrx <= 11'b0; //SRAM begins writing at address 0
-			dataMuxSel <= 2'b0; //Allow SRAM to output to data lines on boot
+			dataMuxSel <= 2'b0; //Allow SRAM data inputs to drive data lines on boot
 			writeAdrx <= 5'b0;
 			writeEn <= 1'b0;
 			sramRead <= 1'b0;
@@ -78,7 +102,6 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 						sramDoWrite <= 1'b0;
 					//Setup data for input into the SRAM
 					end else begin
-						sramDataIn <= 16'b0; //FIX ADD ACTUAL INSTRUCTIONS
 						sramDoWrite <= 1'b1;
 						iterCount <= iterCount + 7'b1;
 						if (iterCount == 7'b110000) begin //Write 16 instructions and 32 data values
@@ -88,6 +111,7 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 							adrx <= 11'b0;
 							writeEn <= 1'b1;
 						end else begin
+							memoryInput <= sramDataIn[adrx];
 							sramRead <= 1'b0;
 							adrx <= adrx + 11'b1; //Write to the next adrx in SRAM
 						end
