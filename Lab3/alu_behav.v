@@ -28,15 +28,37 @@ module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 				overflow = (busA[31] & adderBusB[31] & ~busOut[31]) | (~busA[31] & ~adderBusB[31] & busOut[31]);
 			end
 
-			AND: busOut = busA & busB;
+			AND: begin 
+				busOut = busA & busB;
+				carry = 1'b0;
+				overflow = 1'b0;
+			end
 
-			OR: busOut = busA | busB;
+			OR: begin 
+				busOut = busA | busB;
+				carry = 1'b0;
+				overflow = 1'b0;
+			end
 
-			XOR: busOut = busA ^ busB;
+			XOR: begin 
+				busOut = busA ^ busB;
+				carry = 1'b0;
+				overflow = 1'b0;
+			end
 
-			SLT: busOut = (busA < busB) ? 32'b1 : 32'b0;
+			SLT: begin 
+				busOut = (busA < busB) ? 32'b1 : 32'b0;
+				carry = 1'b0;
+				overflow = 1'b0;
+			end
 
-			SLL: busOut = busA << busB[1:0];
+			SLL: begin 
+				busOut = busA << busB[1:0];
+				carry = 1'b0;
+				overflow = 1'b0;
+			end
+
+			default
 		endcase
 	end
 endmodule
