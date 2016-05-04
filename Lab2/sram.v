@@ -11,7 +11,7 @@ module sram (data, clk, adrx, nOE, read);
 	wire [31:0] mdrInput;
 
 	reg [15:0] mem [0:2047];
-	reg [10:0] mar;
+	reg [10:0] mar, marIndex;
 	reg [31:0] mdr;
 	
 	//Tristate data lines dependent on output enable signal
@@ -24,6 +24,7 @@ module sram (data, clk, adrx, nOE, read);
 	//Thus we must clock data in on the negative edge
 	always @(negedge clk) begin
 		mdr <= mdrInput;
+		marIndex <= mar;
 	end
 	
 	//Update MAR as a typical register
@@ -33,6 +34,6 @@ module sram (data, clk, adrx, nOE, read);
 
 	//Perform the write operation when read signal is strobed high
 	always @(posedge read) begin
-		mem[mar] <= mdr[15:0];
+		mem[marIndex] <= mdr[15:0];
 	end
 endmodule

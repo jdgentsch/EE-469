@@ -38,13 +38,14 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	parameter [2:0] boot = 3'b000, load = 3'b001, decode = 3'b010, store = 3'b011, writeback = 3'b100;
 	
 	//Manage drive of the data lines, input to the SRAM during boot stage
-	assign data = dataMuxSel[1] | ~sramNotOutEn ? 32'bz : memoryInput;
+	assign data = dataMuxSel[1] | ~sramNotOutEn ? 32'bz : ((state == boot) ? memoryInput : aluResult);
 	assign reset = SW[9];
-	assign dataMuxSel[1] = (state != boot) & sramNotOutEn ? 1'b1 : 1'b0;
+	assign dataMuxSel[1] = (state == writeback) & sramNotOutEn ? 1'b1 : 1'b0;
 	assign dataMuxSel[0] = 1'b0;
 	
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
-	
+	//FIX need to route aluResult to the register inputs for storage, need to carefully manage who is on the common data line, sram output with the instruction or alu with the result?
+	//Idea: put alu result into a register, save it on the next edge in reg file
 	alu myALU (.busOut(aluResult), .zero(zFlag), .overflow(vFlag), .carry(cFlag), .neg(nFlag),
 				  .busA(aluBusA), .busB(aluBusB), .control(aluControl));
 
@@ -63,7 +64,7 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	assign rdAdrx1 = data[12:8];
 	
 	initial begin
-		sramDataIn[0] <= 16'b000_00000_00000_000; //NOOP
+		sramDataIn[0] <= 16'b000_10000_00000_000; //NOOP
 		sramDataIn[1] <= 16'b000_10001_00001_001; //ADD FFFF FFFF
 		sramDataIn[2] <= 16'b000_10010_00010_010; //SUB 9 C
 		sramDataIn[3] <= 16'b000_10011_00011_011; //AND 1F A
@@ -80,7 +81,7 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 		sramDataIn[14] <= 16'b000_11110_01110_110; //SLT 1F 2
 		sramDataIn[15] <= 16'b000_11111_01111_111; //SLL B 1
 		//END INSTRUCTIONS
-		sramDataIn[16] <= 16'b0000_0000_0000_0000; //NOOP
+		sramDataIn[16] <= 16'b0000_0000_0000_0000; //NOOP A B
 		sramDataIn[17] <= 16'b0000_0000_0000_0001; //ADD 9 C
 		sramDataIn[18] <= 16'b0000_0000_0000_0010; //SUB 9 C
 		sramDataIn[19] <= 16'b0000_0000_0000_0011; //AND 1F A
@@ -170,12 +171,14 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 				decode: begin //Interpret and execute SRAM data as ALU instructions
 					//Control signals should read from SRAM and allow ALU to calculate
 					state <= store;
+					//write that reg into the RF;
 					writeEn <= 1'b1;
 					sramNotOutEn <= 1'b1;
 				end
 				store: begin //Save ALU results in the register file
 					//Allow reading from the SRAM next cycle
 					writeEn <= 1'b0;
+					//aluResReg <= aluResult;
 					if (writeAdrx == 5'b11111) begin
 						sramNotOutEn <= 1'b1;
 						adrx <= 11'b0;
