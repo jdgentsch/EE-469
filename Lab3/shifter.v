@@ -25,7 +25,7 @@ module barrelShifter (out, overflow, carry, in, shift);
 	mux2 muxRow1_bit0 (shiftedBy1[0], shift[0], {1'b0, unshifted[0]});			// bit0 mux, output 1'b0 or in[0]
 	genvar i;
 	generate
-		for (i=1; i<32; i=i+1) begin : genRow1
+		for (i=1; i<33; i=i+1) begin : genRow1
 			mux2 muxRow1 (shiftedBy1[i], shift[0], {unshifted[i-1], unshifted[i]});
 		end
 	endgenerate
@@ -35,7 +35,7 @@ module barrelShifter (out, overflow, carry, in, shift);
 	mux2 muxRow2_bit1 (shiftedBy2[1], shift[1], {1'b0, shiftedBy1[1]});			// out[1] mux, output 1'b0 or output [1] from 1st row
 	genvar j;
 	generate
-		for (j=2; j<32; j=j+1) begin : genRow2
+		for (j=2; j<33; j=j+1) begin : genRow2
 			mux2 muxRow2 (shiftedBy2[j], shift[1],{shiftedBy1[j-2], shiftedBy1[j]});
 		end
 	endgenerate
