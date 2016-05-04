@@ -4,13 +4,11 @@
 
 //This top-level driver will interface directly with the ALU for testing
 //Controlled by user input to the DE1-SoC to input and read values from the ALU
-module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
+module aluMemoryTest (LEDR, SW, CLOCK_50);
 	//DE1-SoC wire interface for driving hardware
 	output [9:0] LEDR;
-	output [6:0] HEX5, HEX3, HEX2, HEX1, HEX0;
 	input CLOCK_50;
 	input [9:0] SW;
-	input [3:0] KEY;
 	
 	wire clk; // choosing from 32 different clock speeds
 	wire reset;
@@ -34,11 +32,12 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	reg [2:0] state;
 	reg [5:0] iterCount;
 	reg [15:0] memoryInput;
+	reg [31:0] aluResultReg;
 	
-	parameter [2:0] boot = 3'b000, load = 3'b001, decode = 3'b010, store = 3'b011, writeback = 3'b100;
+	parameter [2:0] boot = 3'b000, load = 3'b001, execute = 3'b010, store = 3'b011, writeback = 3'b100;
 	
 	//Manage drive of the data lines, input to the SRAM during boot stage
-	assign data = dataMuxSel[1] | ~sramNotOutEn ? 32'bz : ((state == boot) ? memoryInput : aluResult);
+	assign data = dataMuxSel[1] | ~sramNotOutEn ? 32'bz : ((state == boot) ? memoryInput : aluResultReg);
 	assign reset = SW[9];
 	assign dataMuxSel[1] = (state == writeback) & sramNotOutEn ? 1'b1 : 1'b0;
 	assign dataMuxSel[0] = 1'b0;
@@ -65,7 +64,7 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 	
 	initial begin
 		sramDataIn[0] <= 16'b000_10000_00000_000; //NOOP
-		sramDataIn[1] <= 16'b000_10001_00001_001; //ADD FFFF FFFF
+		sramDataIn[1] <= 16'b000_10001_00001_001; //ADD 9 C
 		sramDataIn[2] <= 16'b000_10010_00010_010; //SUB 9 C
 		sramDataIn[3] <= 16'b000_10011_00011_011; //AND 1F A
 		sramDataIn[4] <= 16'b000_10100_00100_100; //OR 1F A
@@ -134,7 +133,7 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 				boot: begin //Write instructions and operand data into the SRAM
 					//Trigger the read signal to write prepared data to the SRAM
 					if (sramDoWrite == 1'b1) begin
-						sramRead <= 1'b1;
+						sramRead <= 1'b0;
 						sramDoWrite <= 1'b0;
 					//Setup data for input into the SRAM
 					end else begin
@@ -146,10 +145,11 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 							sramNotOutEn <= 1'b0;
 							adrx <= 11'b10000; //Data values start at address 16
 							writeEn <= 1'b1;
+							writeAdrx <= 5'b11111;
 						end else begin
 							iterCount <= iterCount + 6'b1;
 							memoryInput <= sramDataIn[adrx + 1];
-							sramRead <= 1'b0;
+							sramRead <= 1'b1;
 							adrx <= adrx + 11'b1; //Write to the next adrx in SRAM
 						end
 					end
@@ -161,43 +161,46 @@ module aluMemoryTest (LEDR, HEX5, HEX3, HEX2, HEX1, HEX0, SW, KEY, CLOCK_50);
 						writeAdrx <= writeAdrx + 5'b1;
 						state <= load;
 					end else begin
-						//Disable RF writing, begin decoding
-						state <= decode;
-						writeAdrx <= 5'b0;
+						//Disable RF writing, begin execution and storing results
+						state <= store;
+						writeAdrx <= 5'b11111;
 						adrx <= 11'b0;
 						writeEn <= 1'b0;
+						//Store the first result on the next clock edge in aluResultReg, write during execution stage
+						sramNotOutEn <= 1'b0;
 					end
 				end
-				decode: begin //Interpret and execute SRAM data as ALU instructions
+				execute: begin //Interpret and execute SRAM data as ALU instructions
 					//Control signals should read from SRAM and allow ALU to calculate
 					state <= store;
-					//write that reg into the RF;
-					writeEn <= 1'b1;
-					sramNotOutEn <= 1'b1;
+					//Write the stored result into the RF on this clockedge
+					writeEn <= 1'b0;
+					sramNotOutEn <= 1'b0;
 				end
 				store: begin //Save ALU results in the register file
 					//Allow reading from the SRAM next cycle
-					writeEn <= 1'b0;
-					//aluResReg <= aluResult;
-					if (writeAdrx == 5'b11111) begin
-						sramNotOutEn <= 1'b1;
+					sramNotOutEn <= 1'b1;
+					writeEn <= 1'b1;
+					aluResultReg <= aluResult;
+					if (writeAdrx == 5'b11111 && adrx != 11'b0) begin
 						adrx <= 11'b0;
+						rdAdrx <= 5'b0;
 						sramDoWrite <= 1'b1;
+						sramRead <= 1'b0;
 						state <= writeback;
 					end else begin
-						sramNotOutEn <= 1'b0;
 						adrx <= adrx + 11'b1;
 						writeAdrx <= writeAdrx + 5'b1;
-						state <= decode;
+						state <= execute;
 					end
 				end
 				writeback: begin //Move results from registers into SRAM
 					if (sramDoWrite) begin
-						sramRead <= 1'b1;
+						sramRead <= 1'b0;
 						sramDoWrite <= 1'b0;
 					end else begin
 						sramDoWrite <= 1'b1;
-						sramRead <= 1'b0;
+						sramRead <= 1'b1;
 						rdAdrx <= rdAdrx + 5'b1;
 						adrx <= adrx + 11'b1;
 					end
@@ -215,7 +218,7 @@ module clock_divider (clk_out, clk_in, slowDown);
 	input clk_in, slowDown;
 	
 	//Choose clock frequency for signal tap display or LED display
-	assign clk_out = slowDown ? divided_clocks[23] : clk_in;
+	assign clk_out = slowDown ? divided_clocks[1] : clk_in;
 	
 	initial
 		divided_clocks = 0;
