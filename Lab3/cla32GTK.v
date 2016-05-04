@@ -7,13 +7,12 @@
 module cla32GTK;
 	wire [31:0] sum;
 	wire Cout, overflow;
-	wire [1:0] pGroup, gGroup;
 	wire [31:0] inA, inB;
 	wire Cin;
 
 	//declare instances of dut and tester modules
-	cla32 mycla32 (sum, Cout, overflow, pGroup, gGroup, inA, inB, Cin);
-	Tester aTester (inA, inB, Cin, sum, Cout, overflow, pGroup, gGroup);
+	cla32 mycla32 (sum, Cout, overflow, inA, inB, Cin);
+	Tester aTester (inA, inB, Cin, sum, Cout, overflow);
 
 	// file for gtkwave
 	initial
@@ -24,12 +23,11 @@ module cla32GTK;
 endmodule
 
 
-module Tester (inA, inB, Cin, sum, Cout, overflow, pGroup, gGroup);
+module Tester (inA, inB, Cin, sum, Cout, overflow);
 	output reg [31:0] inA, inB;
 	output reg Cin;
 	input [31:0] sum;
 	input Cout, overflow;
-	input [1:0] pGroup, gGroup;
 
 	parameter stimDelay = 20;
 
