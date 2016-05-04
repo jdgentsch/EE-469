@@ -8,10 +8,11 @@ module shifter_tb();
 
 	wire [31:0]in, out;
 	wire [1:0] shift;
+	wire overflow, carry;
 
 	//declare instances of dut and tester modules
-	barrelShifter dut (out,in,shift);	// dut (out,in,in)
-	shiftTester test0 (out,in,shift);				// tester0 (in,out,out)
+	barrelShifter dut (out, overflow, carry, in, shift);	// dut (out,in,in)
+	shiftTester test0 (out, overflow, carry, in, shift);	// tester0 (in,out,out)
 
 	//creating simulation file
 	initial begin
@@ -22,11 +23,12 @@ module shifter_tb();
 endmodule
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-module shiftTester(out, in, shift);				// port types by order: out, out, in
+module shiftTester(out, overflow, carry, in, shift);				// port types by order: out, out, in
 
 	output reg [31:0] in;
 	output reg [1:0] shift;
 	input [31:0] out;
+	input overflow, carry;
 
 	// begin sending stimulus
 	// sending address from location 1 to 31
