@@ -13,8 +13,8 @@ module barrelShifter (out, overflow, carry, in, shift);
 	wire [32:0] shiftedBy1;
 	wire [32:0] shiftedBy2;
 
-	//Input to the barrel shifter is equal to the sign extended input
-	assign unshifted[32:0] = {in[31], in[31:0]};
+	//Input to the barrel shifter is equal to the sign extended input, and a 0 for the carry bit
+	assign unshifted[32:0] = {1'b0, in[31:0]};
 
 	//Overflow of the shifter occurs when the input and output MSB differ in sign
 	assign overflow = in[31] ^ out[31];
