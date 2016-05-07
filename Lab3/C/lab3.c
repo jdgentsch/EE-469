@@ -1,3 +1,6 @@
+//Jack Gentsch Jacky Wang Chinh Bui
+//EE 469 Peckol 4/28/16
+//A simple program to manage pointers and operate on the data
 #include <stdio.h>
 #include <stdlib.h>
 
