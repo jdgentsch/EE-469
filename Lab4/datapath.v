@@ -1,16 +1,20 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //EE 469 with Peckol 5/7/16
 //Datapath connecting data memory, alu, and register file
-module datapath (cFlag, nFlag, vFlag, zFlag, clk, immData, rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, dmemRead, rfRead, aluBusBSel, dmemResultSel);
+module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, dmemAdrx, clk, immData, rfRdAdrx0, rfRdAdrx1,
+					  rfWrAdrx, aluCtl, rfRead, aluBusBSel, dmemResultSel, dmemOutput);
 	//Outputs to interface with the cpu
 	output reg cFlag, nFlag, vFlag, zFlag;
+	output [15:0] dmemDataIn;
+	output [10:0] dmemAdrx;
 	
 	//Input control signals from the cpu
 	input clk;
 	input [31:0] immData;
 	input [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	input [2:0] aluCtl;
-	input dmemRead, rfRead, aluBusBSel, dmemResultSel;
+	input rfRead, aluBusBSel, dmemResultSel;
+	input [15:0] dmemOutput;
 	
 	wire aluCFlag, aluNFlag, aluVFlag, aluZFlag;
 	wire [31:0] aluResult, aluBusB;
@@ -20,16 +24,15 @@ module datapath (cFlag, nFlag, vFlag, zFlag, clk, immData, rfRdAdrx0, rfRdAdrx1,
 	//Instantiation of the ALU
 	alu cpuAlu (.busOut(aluResult), .zero(aluZFlag), .overflow(aluVFlag), .carry(aluCFlag), .neg(aluNFlag),
 				  .busA(rdData0), .busB(aluBusB), .control(aluCtl));
-	
-	//Data memory, a small SRAM
-	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(rdData1[15:0]), .adrx(aluResult[10:0]), .read(dmemRead));
-	
+		
 	//Register file instantiation, 32x32
 	registerFile cpuRF (.rdData0(rdData0), .rdData1(rdData1), .rdAdrx0(rfRdAdrx0),
 							  .rdAdrx1(rfRdAdrx1), .writeAdrx(rfWrAdrx), .writeData(rfWriteData), .clk(clk), .writeEn(~rfRead));
 	
 	//Sign extension of the data memory output
 	assign dmemResult = {{16{dmemOutput[15]}}, dmemOutput[15:0]};
+	assign dmemDataIn = rdData1[15:0];
+	assign dmemAdrx = aluResult[10:0];
 	
 	//Muxing of the alu bus input and data input to the register file
 	genvar i;
