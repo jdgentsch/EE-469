@@ -10,10 +10,10 @@ module pc (currentAdrx, branchAdrx, branch, rst, clk);
 	always @(posedge clk) 
 	begin
 		if (rst)
-			currentAdrx <= 32'b0;
+			currentAdrx <= 32'h0;
 		else if (branch)
 			currentAdrx <= branchAdrx;
 		else
-			currentAdrx <= currentAdrx + 32'h00000004;
+			currentAdrx <= currentAdrx + 32'h1;	// each instruction adrx is 4 bytes
 	end
 endmodule
