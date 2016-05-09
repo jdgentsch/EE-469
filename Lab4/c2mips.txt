@@ -1,0 +1,52 @@
+.data	// Data Memory
+	A: .word 7	// 0-31	0($s0)
+	B: .word 5	// 32-63 2($s0)	
+	C: .word 2	// 64-95 4($s0)
+	D: .word 4	// 96-127 6($s0)
+
+.text	// Instruction Memory
+
+// 1
+// if (A – B) > 3	
+
+	lw $t1 0($s0)
+	lw $t2 2($s0)
+	sub $t1, $t1, $t2
+
+	// li $t3, 0x3
+	addi $t3, $zero, 0x3
+
+	// bgt $t1, $t3, DO
+	slt $t2, $t3, $t1
+	bne $t2, $zero, DO
+------------------------
+// 3
+// C = C << 5;
+// *dPtr = 7;
+
+	lw $t1, 4($s0)
+	sll $t1, $t1, 5
+	sw $t1, 4($s0)
+
+	// li $t1, 7
+	addi $t4, $zero, 0x7
+
+	sw $t4, 6($s0)
+	j END
+------------------------
+// 2
+// C = 6;
+// D = D << 2
+
+DO:
+	// li $t1, 6
+	addi $t4, $zero, 0x6
+
+	sw $t1, 4($s0)
+
+	lw $t1, 6($s0)
+	sll $t1, $t1, 2
+	sw $t1, 6($s0)
+	j END
+------------------------
+END:

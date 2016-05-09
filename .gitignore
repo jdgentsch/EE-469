@@ -14,6 +14,8 @@
 #Source files
 !*.v
 !*.c
+!c_raw.txt
+!c2mips.txt
 
 #Programming files
 !*.qpf
