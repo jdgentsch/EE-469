@@ -16,6 +16,7 @@
 !*.c
 !c_raw.txt
 !c2mips.txt
+!mips2mach.txt
 
 #Programming files
 !*.qpf
