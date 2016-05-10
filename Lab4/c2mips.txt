@@ -1,55 +1,67 @@
 .data	// Data Memory
-	A: .word 7	// dmem[$s0 + 0], 0($s0)
-	B: .word 5	// dmem[$s0 + 1], 1($s0)
-	C: .word 2	// dmem[$s0 + 2], 2($s0)
-	D: .word 4	// dmem[$s0 + 3], 3($s0)
+	A: .word 7	// dmem[$s0 + 0], 0($0)
+	B: .word 5	// dmem[$s0 + 1], 1($0)
+	C: .word 2	// dmem[$s0 + 2], 2($0)
+	D: .word 4	// dmem[$s0 + 3], 3($0)
 
 .text	// Instruction Memory
+
+// store A, B, C and D
+
+[0x00400000]	addi $t1, $zero, 0x7
+[0x00400004]	sw $t1, 0($zero)
+[0x00400008]	addi $t1, $zero, 0x5
+[0x0040000C]	sw $t1, 1($zero)
+[0x00400010]	addi $t1, $zero, 0x2
+[0x00400014]	sw $t1, 2($zero)
+[0x00400018]	addi $t1, $zero, 0x4
+[0x0040001C]	sw $t1, 3($zero)
 
 // 1
 // if (A – B) > 3	
 
-[0x00400000]	lw $t1 0($s0)
-[0x00400004]	lw $t2 1($s0)
-[0x00400008]	sub $t1, $t1, $t2
+[0x00400020]	lw $t1 0($zero)
+[0x00400024]	lw $t2 1($zero)
+[0x00400028]	sub $t1, $t1, $t2
 
 				// li $t3, 0x3
-[0x0040000C]	add $t3, $zero, 0x3
+[0x0040002C]	addi $t3, $zero, 0x3
 
 				// slt $t2, $t3, $t1
 				// bne $t2, $zero, DO
-[0x00400010]	bgt $t1, $t3, DO
+[0x00400030]	bgt $t1, $t3, DO
 
 				// nop
-[0x00400014]	nop
+[0x00400034]	nop
 ---------------------------------------
 // 3
 // C = C << 5;
 // *dPtr = 7;
 
-[0x00400018]	lw $t1, 2($s0)
-[0x0040001C]	sll $t1, $t1, 5
-[0x00400020]	sw $t1, 2($s0)
+[0x00400038]	lw $t1, 2($zero)
+[0x0040003C]	sll $t1, $t1, 5
+[0x00400040]	sw $t1, 2($zero)
 
 				// li $t1, 7
-[0x00400024]	add $t4, $zero, 0x7
+[0x00400044]	addi $t4, $zero, 0x7
 
-[0x00400028]	sw $t4, 3($s0)
-[0x0040002C]	j END
+[0x00400048]	sw $t4, 3($zero)
+[0x0040004C]	j END
 ---------------------------------------
 // 2
 // C = 6;
 // D = D << 2
 
-DO:
+[0x00400050]	DO:
+
 				// li $t1, 6
-[0x00400030]	add $t4, $zero, 0x6
+[0x00400050]	addi $t4, $zero, 0x6
 
-[0x00400034]	sw $t4, 2($s0)
+[0x00400054]	sw $t4, 2($zero)
 
-[0x00400038]	lw $t1, 3($s0)
-[0x0040003C]	sll $t1, $t1, 2
-[0x00400040]	sw $t1, 3($s0)
-[0x00400044]	j END
+[0x00400058]	lw $t1, 3($zero)
+[0x0040005C]	sll $t1, $t1, 2
+[0x00400060]	sw $t1, 3($zero)
+[0x00400064]	j END
 ---------------------------------------
-[0x00400048] END:
+[0x00400068] END:
