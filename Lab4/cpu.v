@@ -7,25 +7,25 @@ module cpu(LEDR, SW, CLOCK_50);
 	input CLOCK_50;
 	input [9:0] SW;
 
-	reg [6:0] pc;
+	//reg [6:0] pc;
 	
-	wire [6:0] instruction;
+	//wire [6:0] instruction;
 	wire reset;
 	wire [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	wire [2:0] aluCtl;
-	wire rfRead, aluBusBSel, dmemResultSel;
+	wire rfWriteEn, aluBusBSel, dmemResultSel;
 	wire [15:0] dmemOutput;
+	wire [31:0] rfRdData;
 	
 	assign reset = SW[9];
 	
-	//Instruction memory, a 32 x 128 SRAM
-	imem cpuInstructionMem(.dataOut(instruction), .adrx(pc));
+	control cpuControl();
 	
 	//Data memory, a 16 x 2k SRAM
-	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(dmemAdrx), .read(dmemRead));
+	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResult[10:0]), .read(dmemRead));
 
-	datapath cpuDatapath(cFlag, nFlag, vFlag, zFlag, dmemDataIn, dmemAdrx, clk, immData, rfRdAdrx0, rfRdAdrx1,
-					  rfWrAdrx, aluCtl, rfRead, aluBusBSel, dmemResultSel, dmemOutput);
+	datapath cpuDatapath(cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, clk, immData, rfRdAdrx0, rfRdAdrx1,
+					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput);
 
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
 
