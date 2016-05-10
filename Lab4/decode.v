@@ -1,12 +1,14 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //Lab 4: Decode module for the control unit in our CPU
 //EE 469 with James Peckol 5/7/16
-module decode ();
+module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
+					branch, immediate, pcDest, instruction, aluResult);
 	output [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	output [2:0] aluCtl;
 	output rfWriteEn, aluBusBSel, dmemResultSel;
 	output branch; //For jumping or branching
 	output [15:0] immediate;
+	output [8:0] pcDest;
 	
 	input [31:0] instruction;
 	input [31:0] aluResult;
@@ -32,83 +34,85 @@ module decode ();
 	//5 bit source reg
 	//16 bit imm or 5 bit reg
 	
-	
 	//Signals dependent on opcode:
 	//dmemResultSel, rfWriteEn, aluCtl
-	case (opcode)
-		nop: begin
-			rfWriteEn <= 1'b0;
-			aluCtl <= 3'b000;
-			dmemResultSel <= 1'b0;
-		end
-		add: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b001;
-			dmemResultSel <= 1'b0;
-		end
-		sub: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b010;
-			dmemResultSel <= 1'b0;
-		end
-		op_and: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b011;
-			dmemResultSel <= 1'b0;
-		end
-		op_or: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b100;
-			dmemResultSel <= 1'b0;
-		end
-		op_xor: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b101;
-			dmemResultSel <= 1'b0;
-		end
-		slt: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b110;
-			dmemResultSel <= 1'b0;
-		end
-		sll: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b111;
-			dmemResultSel <= 1'b0;
-		end
-		lw: begin
-			rfWriteEn <= 1'b1;
-			aluCtl <= 3'b001;
-			dmemResultSel <= 1'b1;
-		end
-		sw: begin
-			rfWriteEn <= 1'b0;
-			aluCtl <= 3'b001;
-			dmemResultSel <= 1'b0;
-		end
-		j: begin
-			rfWriteEn <= 1'b0;
-			aluCtl <= 3'b000;
-			dmemResultSel <= 1'b0;
-			pc <= {instruction[6:0], 2'b00}
-		end
-		jr: begin
-			rfWriteEn <= 1'b0;
-			aluCtl <= 3'b000;
-			dmemResultSel <= 1'b0;
-			pc <= {rfRdData[6:0], 2'b00};
-		end
-		bgt: begin
-			rfWriteEn <= 1'b0;
-			aluCtl <= 3'b010;
-			dmemResultSel <= 1'b0;
-			if (nFlag == 1'b0) begin
-				branch <= 1'b1;
-				pcDest <= {aluResult }
+	always @(*) begin
+		case (opcode)
+			nop: begin
+				rfWriteEn <= 1'b0;
+				aluCtl <= 3'b000;
+				dmemResultSel <= 1'b0;
 			end
-		end
-	endcase
-	
-	
-	
+			add: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b001;
+				dmemResultSel <= 1'b0;
+			end
+			sub: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b010;
+				dmemResultSel <= 1'b0;
+			end
+			op_and: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b011;
+				dmemResultSel <= 1'b0;
+			end
+			op_or: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b100;
+				dmemResultSel <= 1'b0;
+			end
+			op_xor: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b101;
+				dmemResultSel <= 1'b0;
+			end
+			slt: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b110;
+				dmemResultSel <= 1'b0;
+			end
+			sll: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b111;
+				dmemResultSel <= 1'b0;
+			end
+			lw: begin
+				rfWriteEn <= 1'b1;
+				aluCtl <= 3'b001;
+				dmemResultSel <= 1'b1;
+			end
+			sw: begin
+				rfWriteEn <= 1'b0;
+				aluCtl <= 3'b001;
+				dmemResultSel <= 1'b0;
+			end
+			j: begin
+				rfWriteEn <= 1'b0;
+				aluCtl <= 3'b000;
+				dmemResultSel <= 1'b0;
+				pcDest <= {instruction[6:0], 2'b00};
+				branch <= 1'b1;
+			end
+			jr: begin
+				rfWriteEn <= 1'b0;
+				aluCtl <= 3'b001;
+				dmemResultSel <= 1'b0;
+				pcDest <= {aluResult[6:0], 2'b00};
+				branch <= 1'b1;
+			end
+			bgt: begin
+				rfWriteEn <= 1'b0;
+				aluCtl <= 3'b010;
+				dmemResultSel <= 1'b0;
+				if (nFlag) begin
+					branch <= 1'b1;
+					pcDest <= {aluResult[6:0], 2'b00};
+				end else begin
+					branch <= 1'b0;
+				end
+			end
+		endcase
+	end
 endmodule
