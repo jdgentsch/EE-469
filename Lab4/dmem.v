@@ -12,7 +12,9 @@ module dmem (dataOut, clk, dataIn, adrx, read, write);
 	
 	//Perform the write operation @posedge clk & write is asserted
 	always @(posedge clk) begin
-		if (write) mem[adrx] <= dataIn[15:0];
+		if (write) begin
+			mem[adrx] <= dataIn[15:0];
+		end
 	end
 	
 	always @(*) begin

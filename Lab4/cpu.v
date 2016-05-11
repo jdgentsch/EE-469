@@ -6,8 +6,6 @@ module cpu(LEDR, SW, CLOCK_50);
 	output [9:0] LEDR;
 	input CLOCK_50;
 	input [9:0] SW;
-
-	//reg [6:0] pc;
 	
 	wire reset, clk;
 	wire [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
@@ -16,17 +14,18 @@ module cpu(LEDR, SW, CLOCK_50);
 	wire cFlag, nFlag, vFlag, zFlag;
 	wire [15:0] dmemOutput, dmemDataIn, immediate;
 	wire [31:0] rfRdData, aluResult;
+	wire regDest;
 	
 	assign reset = SW[9];
 	
 	control cpuControl(rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-					branch, immediate, aluResult, reset, clk);
+					branch, immediate, regDest, aluResult, reset, clk);
 	
 	//Data memory, a 16 x 2k SRAM
 	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResult[10:0]), .read(dmemRead));
 
 	datapath cpuDatapath(cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, clk, immediate, rfRdAdrx0, rfRdAdrx1,
-					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput);
+					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput, regDest);
 
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
 
