@@ -7,6 +7,7 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, cl
 	output reg cFlag, nFlag, vFlag, zFlag;
 	output [15:0] dmemDataIn;
 	output [31:0] aluResult;
+	output [31:0] rfRdData;
 	
 	//Input control signals from the cpu
 	input clk;
