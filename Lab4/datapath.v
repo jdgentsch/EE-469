@@ -1,16 +1,16 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //EE 469 with Peckol 5/7/16
 //Datapath connecting data memory, alu, and register file
-module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, clk, immData, rfRdAdrx0, rfRdAdrx1,
+module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, clk, immediate, rfRdAdrx0, rfRdAdrx1,
 					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput);
 	//Outputs to interface with the cpu
 	output reg cFlag, nFlag, vFlag, zFlag;
 	output [15:0] dmemDataIn;
-	output [31:0] aluResult;
+	output [31:0] aluResult, rfRdData;
 	
 	//Input control signals from the cpu
 	input clk;
-	input [31:0] immData;
+	input [31:0] immediate;
 	input [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	input [2:0] aluCtl;
 	input rfWriteEn, aluBusBSel, dmemResultSel;
@@ -38,7 +38,7 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, cl
 	//Muxing of the alu bus input and data input to the register file
 	genvar i;
 	generate for (i = 0; i < 32; i = i + 1) begin : aluBusBMux_gen
-		mux2 aluBusBMux (.result(aluBusB[i]), .sel(aluBusBSel), .in({rdData1[i], immData[i]}));
+		mux2 aluBusBMux (.result(aluBusB[i]), .sel(aluBusBSel), .in({rdData1[i], immediate[i]}));
 		mux2 resultSel (.result(rfWriteData[i]), .sel(dmemResultSel), .in({aluResult[i], dmemResult[i]}));
 	end endgenerate
 	

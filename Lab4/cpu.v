@@ -9,22 +9,23 @@ module cpu(LEDR, SW, CLOCK_50);
 
 	//reg [6:0] pc;
 	
-	//wire [6:0] instruction;
-	wire reset;
+	wire reset, clk;
 	wire [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	wire [2:0] aluCtl;
-	wire rfWriteEn, aluBusBSel, dmemResultSel;
-	wire [15:0] dmemOutput;
-	wire [31:0] rfRdData;
+	wire rfWriteEn, aluBusBSel, dmemResultSel, branch, dmemRead;
+	wire cFlag, nFlag, vFlag, zFlag;
+	wire [15:0] dmemOutput, dmemDataIn, immediate;
+	wire [31:0] rfRdData, aluResult;
 	
 	assign reset = SW[9];
 	
-	control cpuControl();
+	control cpuControl(rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
+					branch, immediate, aluResult, reset, clk);
 	
 	//Data memory, a 16 x 2k SRAM
 	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResult[10:0]), .read(dmemRead));
 
-	datapath cpuDatapath(cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, clk, immData, rfRdAdrx0, rfRdAdrx1,
+	datapath cpuDatapath(cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, clk, immediate, rfRdAdrx0, rfRdAdrx1,
 					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput);
 
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));

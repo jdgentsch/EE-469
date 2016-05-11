@@ -16,7 +16,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	
 	wire [4:0] opcode;
 	wire isImm; //True means our instruction has an immediate value
-	
+	/*
 	assign opcode[4:0] = instruction[31:27];
 	assign isImm = instruction[26];
 	assign rfWrAdrx = instruction[25:21];
@@ -24,10 +24,11 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	assign rfRdAdrx0 = instruction[15:11];
 	assign immediate = instruction[15:0];
 	assign aluBusBSel = ~func;
-	
-	parameter [5:0] nop = 5'b00000, add = 5'b00001, sub = 5'b00010, op_and = 5'b00011,
-						 op_or = 5'b00100, op_xor = 5'b00101, slt = 5'b00110, sll = 5'b00111,
-						 lw = 5'b01000, sw = 5'b01001, j = 5'b01010, jr = 5'b01011, bgt = 5'b01100;
+	*/
+	//Add, sub, and, or, xor, slt, sll, jr are all register type
+	parameter [5:0] add = 6'b000000, sub = 6'b000000, op_and = 6'b000000,
+						 op_or = 6'b000000, op_xor = 6'b000000, slt = 6'b000000, sll = 6'b000000,
+						 lw = 6'b100011, sw = 6'b101011, j = 6'b000010, jr = 6'b000000, bgt = 6'b000111; //made our own bgt opcode
 
 	//5 bits for opcode
 	//1 bit for function (imm or reg) for certain instructions

@@ -7,13 +7,12 @@ module pc (pc, branchAdrx, branch, rst, clk);
 	input [8:0] branchAdrx;		// branch taget adrx
 	input branch, rst, clk;			// branch: signal pc to replace with branch target adrx
 
-	always @(posedge clk) 
-	begin
+	always @(posedge clk) begin
 		if (rst)
 			pc <= 9'h0;
 		else if (branch)
 			pc <= branchAdrx;
 		else
-			pc <= currentAdrx + 9'h4;	// each instruction adrx is 4 bytes
+			pc <= pc + 9'h4;	// each instruction adrx is 4 bytes
 	end
 endmodule

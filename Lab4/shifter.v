@@ -10,5 +10,5 @@ module shifter (out, overflow, carry, in, shift);
 
 	//Overflow of the shifter occurs when the input and output MSB differ in sign
 	assign overflow = in[31] ^ out[31];
-	assign {carry, busOut} = {1'b0, busA} << shift[4:0];
+	assign {carry, out} = {1'b0, in} << shift[4:0];
 endmodule
