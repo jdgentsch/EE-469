@@ -102,14 +102,14 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				rfWriteEn <= 1'b0;
 				aluCtl <= 3'b000;
 				dmemResultSel <= 1'b0;
-				//pcDest <= {instruction[6:0], 2'b00};
+				//pcDest <= {instruction[25:0], 2'b00};
 				//jump <= 1'b1;
 			end
 			bgt: begin
 				rfWriteEn <= 1'b0;
 				aluCtl <= 3'b010;
 				dmemResultSel <= 1'b0;
-				/*if (nFlag) begin
+				/*if (~nFlag & ~zFlag) begin
 					branch <= 1'b1;
 					pcDest <= {aluResult[6:0], 2'b00};
 				end else begin
