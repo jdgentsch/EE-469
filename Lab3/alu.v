@@ -27,7 +27,7 @@ module alu (busOut, zero, overflow, carry, neg, busA, busB, control);
 	cla32 myAdder (.sum(adderResult), .Cout(adderCFlag), .overflow(adderVFlag), .inA(busA), .inB(adderBusB), .Cin(control[1]));
 	
 	//Barrel shifter for shift left instructions
-	barrelShifter myBarrelShifter (.out(shiftResult), .overflow(shiftVFlag), .carry(shiftCFlag), .in(busA), .shift(busB[1:0]));
+	shifter myShifter (.out(shiftResult), .overflow(shiftVFlag), .carry(shiftCFlag), .in(busA), .shift(busB[4:0]));
 	
 	//Logical units for and, or, xor operations
 	logicUnit myLogicUnit (.andResult(andResult), .orResult(orResult), .xorResult(xorResult), .inA(busA), .inB(busB));
