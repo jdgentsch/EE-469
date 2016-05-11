@@ -29,7 +29,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	//Opcodes for our instructions
 	//Add, sub, and, or, xor, slt, sll, jr are all register type
 	parameter [5:0] op_reg = 6'b000000, lw = 6'b100011, sw = 6'b101011, 
-						 j = 6'b000010, bgt = 6'b000111; //made our own bgt opcode
+						 j = 6'b000010, bgt = 6'b000111, addi = 6'b001000; //made our own bgt opcode
 
 	//Function parameters for the register instructions
 	parameter [5:0] add = 6'b100000, sub = 6'b100010, op_and = 6'b100100, op_or = 6'b100101,
@@ -107,7 +107,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 			end
 			bgt: begin
 				rfWriteEn <= 1'b0;
-				aluCtl <= 3'b010;
+				aluCtl <= 3'b001;
 				dmemResultSel <= 1'b0;
 				/*if (~nFlag & ~zFlag) begin
 					branch <= 1'b1;
@@ -116,6 +116,13 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 					branch <= 1'b0;
 				end*/
 			end
+
+			addi: begin
+				rfWriteEn <= 1'b0;
+				aluCtl <= 3'b001;
+				dmemResultSel <= 1'b0;
+			end
+
 			default: begin
 				rfWriteEn <= 1'b0;
 				aluCtl <= 3'b000;
