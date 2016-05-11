@@ -2,11 +2,12 @@
 //Lab 4: Decode module for the control unit in our CPU
 //EE 469 with James Peckol 5/7/16
 module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-					branch, immediate, pcDest, instruction, aluResult);
+					branch, jump, immediate, pcDest, instruction, aluResult);
 	output [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	output [2:0] aluCtl;
 	output rfWriteEn, aluBusBSel, dmemResultSel;
-	output branch; //For jumping or branching
+	output branch; //For branching
+	output jump; // For jumping
 	output [15:0] immediate;
 	output [8:0] pcDest;
 	
@@ -24,7 +25,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	assign immediate = instruction[15:0];
 	assign aluBusBSel = ~func;
 	
-	parameter [4:0] nop = 5'b00000, add = 5'b00001, sub = 5'b00010, op_and = 5'b00011,
+	parameter [5:0] nop = 5'b00000, add = 5'b00001, sub = 5'b00010, op_and = 5'b00011,
 						 op_or = 5'b00100, op_xor = 5'b00101, slt = 5'b00110, sll = 5'b00111,
 						 lw = 5'b01000, sw = 5'b01001, j = 5'b01010, jr = 5'b01011, bgt = 5'b01100;
 
@@ -93,14 +94,14 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluCtl <= 3'b000;
 				dmemResultSel <= 1'b0;
 				pcDest <= {instruction[6:0], 2'b00};
-				branch <= 1'b1;
+				jump <= 1'b1;
 			end
 			jr: begin
 				rfWriteEn <= 1'b0;
 				aluCtl <= 3'b001;
 				dmemResultSel <= 1'b0;
 				pcDest <= {aluResult[6:0], 2'b00};
-				branch <= 1'b1;
+				jump <= 1'b1;
 			end
 			bgt: begin
 				rfWriteEn <= 1'b0;
