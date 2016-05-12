@@ -34,81 +34,118 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	//Function parameters for the register instructions
 	parameter [5:0] add = 6'b100000, sub = 6'b100010, op_and = 6'b100100, op_or = 6'b100101,
 						 op_xor = 6'b100110, slt = 6'b101010, sll = 6'b000000, jr = 6'b001000;
+
+	// ALU bus B source
+	parameter REG1 = 1'b0, IMMEDIATE = 1'b1;
+
+	// Determine what drives the write register (regDest)
+	parameter RT = 1'b0, RD = 1'b1; // either a destination reg (RD) or reuse reg 1 (RT)
+
+	// ALU control operations
+	parameter [2:0] NOP = 3'b000, ADD = 3'b001, SUB = 3'b010, AND = 3'b011, OR = 3'b100,
+					XOR	= 3'b101, SLT = 3'b110, SLL = 3'b111;
 	
+
 	always @(*) begin
 		case (opcode)
 			op_reg: begin
 				case (funct)
 					add: begin
 						rfWriteEn <= 1'b1;
-						aluCtl <= 3'b001;
+						aluCtl <= ADD;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 					sub: begin
 						rfWriteEn <= 1'b1;
-						aluCtl <= 3'b010;
+						aluCtl <= SUB;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 					op_and: begin
 						rfWriteEn <= 1'b1;
-						aluCtl <= 3'b011;
+						aluCtl <= AND;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 					op_or: begin
 						rfWriteEn <= 1'b1;
-						aluCtl <= 3'b100;
+						aluCtl <= OR;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 					op_xor: begin
 						rfWriteEn <= 1'b1;
-						aluCtl <= 3'b101;
+						aluCtl <= XOR;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 					slt: begin
 						rfWriteEn <= 1'b1;
-						aluCtl <= 3'b110;
+						aluCtl <= SLT;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 					sll: begin
 						rfWriteEn <= 1'b1;
-						aluCtl <= 3'b111;
+						aluCtl <= SLL;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 					jr: begin
 						rfWriteEn <= 1'b0;
-						aluCtl <= 3'b001;
+						aluCtl <= ADD;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 						//jump <= 1'b1;
 						//pcDest <= rdData1???
 					end
 					default: begin
 						rfWriteEn <= 1'b0;
-						aluCtl <= 3'b000;
+						aluCtl <= NOP;
+						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
+						regDest <= RD;
 					end
 				endcase
 			end
 			lw: begin
 				rfWriteEn <= 1'b1;
-				aluCtl <= 3'b001;
+				aluCtl <= ADD;
+				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b1;
+				regDest <= RT;
 			end
 			sw: begin
 				rfWriteEn <= 1'b0;
-				aluCtl <= 3'b001;
+				aluCtl <= ADD;
+				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
+				regDest <= RT;
 			end
 			j: begin
 				rfWriteEn <= 1'b0;
-				aluCtl <= 3'b000;
+				aluCtl <= NOP;
+				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
+				regDest <= RT;
 				//pcDest <= {instruction[25:0], 2'b00};
 				//jump <= 1'b1;
 			end
 			bgt: begin
 				rfWriteEn <= 1'b0;
-				aluCtl <= 3'b001;
+				aluCtl <= ADD;
+				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
+				regDest <= RT;
 				/*if (~nFlag & ~zFlag) begin
 					branch <= 1'b1;
 					pcDest <= {aluResult[6:0], 2'b00};
@@ -116,17 +153,19 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 					branch <= 1'b0;
 				end*/
 			end
-
 			addi: begin
 				rfWriteEn <= 1'b0;
-				aluCtl <= 3'b001;
+				aluCtl <= ADD;
+				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
+				regDest <= RT;
 			end
-
 			default: begin
 				rfWriteEn <= 1'b0;
-				aluCtl <= 3'b000;
+				aluCtl <= NOP;
+				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
+				regDest <= RT;
 			end
 		endcase
 	end
