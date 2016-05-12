@@ -56,6 +56,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 					sub: begin
 						rfWriteEn <= 1'b1;
@@ -63,6 +64,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 					op_and: begin
 						rfWriteEn <= 1'b1;
@@ -70,6 +72,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 					op_or: begin
 						rfWriteEn <= 1'b1;
@@ -77,6 +80,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 					op_xor: begin
 						rfWriteEn <= 1'b1;
@@ -84,6 +88,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 					slt: begin
 						rfWriteEn <= 1'b1;
@@ -91,6 +96,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 					sll: begin
 						rfWriteEn <= 1'b1;
@@ -98,13 +104,15 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 					jr: begin
 						rfWriteEn <= 1'b0;
-						aluCtl <= ADD;
+						aluCtl <= NOP;
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b1;
 						//jump <= 1'b1;
 						//pcDest <= rdData1???
 					end
@@ -114,6 +122,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= 1'b0;
 						regDest <= RD;
+						branch <= 1'b0;
 					end
 				endcase
 			end
@@ -123,6 +132,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b1;
 				regDest <= RT;
+				branch <= 1'b0;
 			end
 			sw: begin
 				rfWriteEn <= 1'b0;
@@ -130,6 +140,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
 				regDest <= RT;
+				branch <= 1'b0;
 			end
 			j: begin
 				rfWriteEn <= 1'b0;
@@ -137,21 +148,21 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
 				regDest <= RT;
-				//pcDest <= {instruction[25:0], 2'b00};
-				//jump <= 1'b1;
+				pcDest <= instruction[25:0];
+				branch <= 1'b1; 
 			end
 			bgt: begin
 				rfWriteEn <= 1'b0;
-				aluCtl <= ADD;
+				aluCtl <= SUB;
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
 				regDest <= RT;
-				/*if (~nFlag & ~zFlag) begin
+				if (~nFlag & ~zFlag) begin
 					branch <= 1'b1;
-					pcDest <= {aluResult[6:0], 2'b00};
+					pcDest <= immediate;
 				end else begin
 					branch <= 1'b0;
-				end*/
+				end
 			end
 			addi: begin
 				rfWriteEn <= 1'b0;
@@ -159,6 +170,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
 				regDest <= RT;
+				branch <= 1'b0;
 			end
 			default: begin
 				rfWriteEn <= 1'b0;
@@ -166,6 +178,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= 1'b0;
 				regDest <= RT;
+				branch <= 1'b0;
 			end
 		endcase
 	end
