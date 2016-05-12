@@ -10,7 +10,7 @@ module cpu(LEDR, SW, CLOCK_50);
 	wire reset, clk;
 	wire [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	wire [2:0] aluCtl;
-	wire rfWriteEn, aluBusBSel, dmemResultSel, branch, dmemRead;
+	wire rfWriteEn, aluBusBSel, dmemResultSel, branch, dmemRead, dmemWrite;
 	wire cFlag, nFlag, vFlag, zFlag;
 	wire [15:0] dmemOutput, dmemDataIn, immediate;
 	wire [31:0] rfRdData, aluResult;
@@ -22,7 +22,7 @@ module cpu(LEDR, SW, CLOCK_50);
 					branch, immediate, regDest, aluResult, reset, clk);
 	
 	//Data memory, a 16 x 2k SRAM
-	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResult[10:0]), .read(dmemRead));
+	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResult[10:0]), .read(dmemRead), .write(dmemWrite));
 
 	datapath cpuDatapath(cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, clk, immediate, rfRdAdrx0, rfRdAdrx1,
 					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput, regDest);

@@ -3,10 +3,10 @@
 //EE 469 with James Peckol 5/7/16
 
 module control (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-					branch, immediate, regDest, aluResult, reset, clk);
+					dmemRead, dmemWrite, branch, immediate, regDest, aluResult, reset, clk);
 	output [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	output [2:0] aluCtl;
-	output rfWriteEn, aluBusBSel, dmemResultSel, branch;
+	output rfWriteEn, aluBusBSel, dmemResultSel, dmemRead, dmemWrite, branch;
 	output [15:0] immediate;
 	output regDest;
 	input [31:0] aluResult;
@@ -22,7 +22,7 @@ module control (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, d
 	imem controlInstructionMem(.dataOut(instruction), .adrx(pc[8:2]));
 	
 	decode controlDecode(rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-					branch, regDest, immediate, pcDest, instruction, aluResult);
+						 dmemRead, dmemWrite, branch, regDest, immediate, pcDest, instruction, aluResult);
 
 
 endmodule
