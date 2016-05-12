@@ -132,7 +132,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						branch <= 1'b1;
 						dmemRead <= 1'b0;
 						dmemWrite <= 1'b0;
-						//jump <= 1'b1;
+						jump <= 1'b1;
 						//pcDest <= rdData1???
 					end
 					default: begin
@@ -173,8 +173,8 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
-				pcDest <= instruction[25:0];
-				branch <= 1'b1;
+				pcDest <= {instruction[25:0], 2'b00};
+				jump <= 1'b1;
 				dmemRead <= 1'b0;
 				dmemWrite <= 1'b0; 
 			end
@@ -186,7 +186,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				regDest <= RT;
 				if (~nFlag & ~zFlag) begin
 					branch <= 1'b1;
-					pcDest <= immediate;
+					pcDest <= {immediate, 2'b00};
 				end else begin
 					branch <= 1'b0;
 				end
