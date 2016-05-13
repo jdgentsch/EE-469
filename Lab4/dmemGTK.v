@@ -1,3 +1,7 @@
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 4: GTKwave for Data memory module
+//EE 469 with James Peckol 5/7/16
+
 `timescale 1ns/100ps
 `include "dmem.v"
 

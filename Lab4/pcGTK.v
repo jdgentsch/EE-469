@@ -1,3 +1,7 @@
+//Jack Gentsch, Jacky Wang, Chinh Bui
+//Lab 4: GTKwave for program counter
+//EE 469 with James Peckol 5/7/16
+
 `include "pc.v"
 
 module pcGTK;
