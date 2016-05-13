@@ -1,12 +1,13 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //EE 469 with Peckol 5/7/16
 //Datapath connecting data memory, alu, and register file
-module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, clk, immediate, rfRdAdrx0, rfRdAdrx1,
+module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdData0Short, clk, immediate, rfRdAdrx0, rfRdAdrx1,
 					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput, regDest);
 	//Outputs to interface with the cpu
 	output reg cFlag, nFlag, vFlag, zFlag;
 	output [15:0] dmemDataIn;
-	output [31:0] aluResult, rfRdData;
+	output [10:0] aluResultShort;
+	output [8:0] rfRdData0Short;
 	
 	//Input control signals from the cpu
 	input clk;
@@ -22,8 +23,11 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResult, rfRdData, cl
 	wire [31:0] rdData0, rdData1, rfWriteData, dmemResult;
 	wire [15:0] dmemOutput;
 	wire [4:0] regDestAdrx;
+	wire [31:0] aluResult;
 	
-	assign rfRdData = rdData1;
+	assign aluResultShort = aluResult[10:0];
+	assign rfRdData0Short = rdData0[8:0];
+	
 	
 	//Instantiation of the ALU
 	alu cpuAlu (.busOut(aluResult), .zero(aluZFlag), .overflow(aluVFlag), .carry(aluCFlag), .neg(aluNFlag),

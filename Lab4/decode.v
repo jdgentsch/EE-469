@@ -2,18 +2,18 @@
 //Lab 4: Decode module for the control unit in our CPU
 //EE 469 with James Peckol 5/7/16
 module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-			   dmemRead, dmemWrite, branch, jump, regDest, immediate, pcDest, instruction, aluResult);
+			   dmemWrite, branchCtl, regDest, immediate, pcDest, instruction,
+				cFlag, nFlag, vFlag, zFlag);
 	output [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	output reg [2:0] aluCtl;
-	output reg rfWriteEn, aluBusBSel, dmemResultSel, dmemRead, dmemWrite;
-	output reg branch; //For branching
-	output reg jump; // For jumping
+	output reg rfWriteEn, aluBusBSel, dmemResultSel, dmemWrite;
+	output reg [1:0] branchCtl; //For branching
 	output reg regDest;
 	output [15:0] immediate;
-	output reg [8:0] pcDest;
+	output [8:0] pcDest;
 	
 	input [31:0] instruction;
-	input [31:0] aluResult;
+	input cFlag, nFlag, vFlag, zFlag;
 	
 	wire [5:0] opcode;
 	wire [5:0] funct;
@@ -25,15 +25,16 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	assign rfRdAdrx1 = instruction[20:16];
 	assign rfWrAdrx = instruction[15:11];
 	assign immediate = instruction[15:0];
+	assign pcDest = immediate[8:0];
 	
 	//Opcodes for our instructions
 	//Add, sub, and, or, xor, slt, sll, jr are all register type
 	parameter [5:0] op_reg = 6'b000000, lw = 6'b100011, sw = 6'b101011, 
-						 j = 6'b000010, bgt = 6'b000111, addi = 6'b001000; //made our own bgt opcode
+						 j = 6'b000010, bne = 6'b000101, addi = 6'b001000; //made our own bgt opcode
 
 	//Function parameters for the register instructions
-	parameter [5:0] add = 6'b100000, sub = 6'b100010, op_and = 6'b100100, op_or = 6'b100101,
-						 op_xor = 6'b100110, slt = 6'b101010, sll = 6'b000000, jr = 6'b001000;
+	parameter [5:0] op_add = 6'b100000, op_sub = 6'b100010, op_and = 6'b100100, op_or = 6'b100101,
+						 op_xor = 6'b100110, op_slt = 6'b101010, op_sll = 6'b000000, op_jr = 6'b001000;
 
 	// ALU bus B source
 	parameter REG1 = 1'b0, IMMEDIATE = 1'b1;
@@ -42,35 +43,35 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	parameter RT = 1'b0, RD = 1'b1; // either a destination reg (RD) or reuse reg 1 (RT)
 
 	// ALU control operations
-	parameter [2:0] NOP = 3'b000, ADD = 3'b001, SUB = 3'b010, AND = 3'b011, OR = 3'b100,
-					XOR	= 3'b101, SLT = 3'b110, SLL = 3'b111;
+	parameter [2:0] NOP = 3'b000, ADD = 3'b001, SUB = 3'b010, AND = 3'b011,
+						 OR = 3'b100,  XOR = 3'b101, SLT = 3'b110, SLL = 3'b111;
 
 	// data memory result select
 	parameter FROM_ALU = 1'b0, FROM_DMEM = 1'b1;
 	
-
+	// Jump or Branch, controls the PC
+	parameter [1:0] NO_BR = 2'b00, BRANCH = 2'b01, JUMP = 2'b10, JUMP_REG = 2'b11;
+	
 	always @(*) begin
 		case (opcode)
 			op_reg: begin
 				case (funct)
-					add: begin
+					op_add: begin
 						rfWriteEn <= 1'b1;
 						aluCtl <= ADD;
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
-					sub: begin
+					op_sub: begin
 						rfWriteEn <= 1'b1;
 						aluCtl <= SUB;
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
 					op_and: begin
@@ -79,8 +80,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
 					op_or: begin
@@ -89,8 +89,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
 					op_xor: begin
@@ -99,41 +98,35 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
-					slt: begin
+					op_slt: begin
 						rfWriteEn <= 1'b1;
 						aluCtl <= SLT;
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
-					sll: begin
+					op_sll: begin
 						rfWriteEn <= 1'b1;
 						aluCtl <= SLL;
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
-					jr: begin
+					op_jr: begin
 						rfWriteEn <= 1'b0;
 						aluCtl <= NOP;
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b1;
-						dmemRead <= 1'b0;
+						branchCtl <= JUMP_REG;
 						dmemWrite <= 1'b0;
-						jump <= 1'b1;
-						//pcDest <= rdData1???
 					end
 					default: begin
 						rfWriteEn <= 1'b0;
@@ -141,8 +134,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 						aluBusBSel <= REG1;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
-						branch <= 1'b0;
-						dmemRead <= 1'b0;
+						branchCtl <= NO_BR;
 						dmemWrite <= 1'b0;
 					end
 				endcase
@@ -153,8 +145,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_DMEM;
 				regDest <= RT;
-				branch <= 1'b0;
-				dmemRead <= 1'b1;
+				branchCtl <= NO_BR;
 				dmemWrite <= 1'b0;
 			end
 			sw: begin
@@ -163,8 +154,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
-				branch <= 1'b0;
-				dmemRead <= 1'b0;
+				branchCtl <= NO_BR;
 				dmemWrite <= 1'b1;
 			end
 			j: begin
@@ -173,24 +163,20 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
-				pcDest <= {instruction[25:0], 2'b00};
-				jump <= 1'b1;
-				dmemRead <= 1'b0;
+				branchCtl <= JUMP;
 				dmemWrite <= 1'b0; 
 			end
-			bgt: begin
+			bne: begin
 				rfWriteEn <= 1'b0;
 				aluCtl <= SUB;
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
-				if (~nFlag & ~zFlag) begin
-					branch <= 1'b1;
-					pcDest <= {immediate, 2'b00};
+				if (~zFlag) begin
+					branchCtl <= BRANCH;
 				end else begin
-					branch <= 1'b0;
+					branchCtl <= NO_BR;
 				end
-				dmemRead <= 1'b0;
 				dmemWrite <= 1'b0;
 			end
 			addi: begin
@@ -199,8 +185,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
-				branch <= 1'b0;
-				dmemRead <= 1'b0;
+				branchCtl <= NO_BR;
 				dmemWrite <= 1'b0;
 			end
 			default: begin
@@ -209,8 +194,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
-				branch <= 1'b0;
-				dmemRead <= 1'b0;
+				branchCtl <= NO_BR;
 				dmemWrite <= 1'b0;
 			end
 		endcase
