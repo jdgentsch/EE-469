@@ -1,6 +1,8 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //Lab 4: Decode module for the control unit in our CPU
 //EE 469 with James Peckol 5/7/16
+//Instruction decoder for the cpu - utilizes behavioral case statements to determine
+//outputs on the control bus. Inputs include the current instruction and flags.
 module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
 			   dmemWrite, branchCtl, regDest, immediate, pcDest, instruction,
 				cFlag, nFlag, vFlag, zFlag);

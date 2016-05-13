@@ -1,16 +1,18 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //Lab 4: Instruction memory module for the cpu
 //EE 469 with James Peckol 5/7/16
+//A 32 bit wide, 128 words long instruction memory for the cpu
 module imem (dataOut, adrx);
 	output [31:0] dataOut;
 	input [6:0] adrx;
 	
 	reg [31:0] mem [0:127];
 	
+	//Initialization of instructions in memory
 	initial
 	begin
-		$readmemb("mips2mach.txt", mem);
-/*		mem[0] = 32'b100011_00000_01001_0000000000000000;
+		//$readmemb("mips2mach.txt", mem);
+		mem[0] = 32'b100011_00000_01001_0000000000000000;
 		mem[1] = 32'b100011_00000_01010_0000000000000001;
 		mem[2] = 32'b000000_10010_01001_01001_00000_100010;
 		mem[3] = 32'b001000_00000_01011_0000000000000011;
@@ -26,7 +28,7 @@ module imem (dataOut, adrx);
 		mem[13] = 32'b101011_00000_01100_0000000000000010;
 		mem[14] = 32'b100011_00000_01001_0000000000000011;
 		mem[15] = 32'b000000_00000_01001_01001_00010_000000;
-		mem[16] = 32'b101011_00000_01001_0000000000000011;*/
+		mem[16] = 32'b101011_00000_01001_0000000000000011;
 	end
 
 	assign dataOut = mem[adrx];

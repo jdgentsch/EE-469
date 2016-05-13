@@ -1,7 +1,7 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
 //Lab 4: Control system for the cpu
 //EE 469 with James Peckol 5/7/16
-
+//Control module for the single-cycle cpu
 module control (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
 					dmemWrite, immediate, regDest, rfRdData0, reset, clk,
 					cFlag, nFlag, vFlag, zFlag);
@@ -19,7 +19,7 @@ module control (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, d
 	wire [8:0] pcDest;
 	wire [1:0] branchCtl;
 
-	//Program counter and output pc register
+	//Program counter, with input branching control signals, and output pc register
 	pc myPC(.pc(pc), .nextAdrx(pcDest), .rfRdData0(rfRdData0), .branchCtl(branchCtl), .rst(reset), .clk(clk));
 	
 	//Instruction memory, a 32 x 128 SRAM
