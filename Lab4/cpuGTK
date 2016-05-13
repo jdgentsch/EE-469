@@ -1,0 +1,34 @@
+module cpu_tb ();
+	wire [9:0] LEDR, SW;
+	wire CLOCK_50;
+	
+	cpu dut (LEDR, SW, CLOCK_50);
+	cpu_tester tester (LEDR, SW, CLOCK_50);
+	
+	initial begin
+		$dumpfile ("cpu.vcd");
+		$dumpvars (1, dut);
+	end
+
+endmodule
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+module cpu_tester (LEDR, SW, CLOCK_50);
+	output reg CLOCK_50;
+	output reg [9:0] SW;
+	input [9:0] LEDR;
+	
+	parameter period = 2;
+	initial CLOCK_50 = 0;
+	always begin
+	#(period/2);
+	CLOCK_50 = !CLOCK_50
+	end
+	
+	initial begin
+		SW[9] = 1;
+		#(period*5);
+		SW[9] = 0;
+		#(period*50);
+	end
+endmodule
