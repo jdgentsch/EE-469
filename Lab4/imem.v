@@ -7,6 +7,11 @@ module imem (dataOut, adrx);
 	
 	reg [31:0] mem [0:127];
 	
+	initial
+	begin
+		$readmemb("mips2mach.txt", mem);
+	end
+
 	assign dataOut = mem[adrx];
 
 endmodule
