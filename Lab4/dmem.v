@@ -9,6 +9,14 @@ module dmem (dataOut, clk, dataIn, adrx, read, write);
 	input read, write;
 	
 	reg [15:0] mem [0:2047];
+
+	initial
+	begin
+		mem[0] = 16'h7;
+		mem[1] = 16'h5;
+		mem[2] = 16'h2;
+		mem[3] = 16'h3;
+	end
 	
 	//Perform the write operation @posedge clk & write is asserted
 	always @(posedge clk) begin
