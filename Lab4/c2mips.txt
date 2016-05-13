@@ -6,59 +6,49 @@
 
 .text	// Instruction Memory
 
-// store A, B, C and D
-
-[0x00400000]	addi $t1, $zero, 0x7
-[0x00400004]	sw $t1, 0($zero)
-[0x00400008]	addi $t1, $zero, 0x5
-[0x0040000C]	sw $t1, 1($zero)
-[0x00400010]	addi $t1, $zero, 0x2
-[0x00400014]	sw $t1, 2($zero)
-[0x00400018]	addi $t1, $zero, 0x4
-[0x0040001C]	sw $t1, 3($zero)
-
 // 1
 // if (A – B) > 3	
 
-[0x00400020]	lw $t1 0($zero)
-[0x00400024]	lw $t2 1($zero)
-[0x00400028]	sub $t1, $t1, $t2
+[0x00000000]	lw $t1 0($zero)
+[0x00000004]	lw $t2 1($zero)
+[0x00000008]	sub $t1, $t1, $t2
 
 				// li $t3, 0x3
-[0x0040002C]	addi $t3, $zero, 0x3
+[0x0000000C]	addi $t3, $zero, 0x3
 
-				// slt $t2, $t3, $t1
-				// bne $t2, $zero, DO
-[0x00400030]	bgt $t1, $t3, DO
+				
+				// bgt $t1, $t3, DO
+[0x00000010]	slt $t2, $t3, $t1
+[0x00000014]	bne $t2, $zero, DO
 ---------------------------------------
 // 3
 // C = C << 5;
 // *dPtr = 7;
 
-[0x00400034]	lw $t1, 2($zero)
-[0x00400038]	sll $t1, $t1, 5
-[0x0040003C]	sw $t1, 2($zero)
+[0x00000018]	lw $t1, 2($zero)
+[0x0000001C]	sll $t1, $t1, 5
+[0x00000020]	sw $t1, 2($zero)
 
 				// li $t1, 7
-[0x00400040]	addi $t4, $zero, 0x7
+[0x00000024]	addi $t4, $zero, 0x7
 
-[0x00400044]	sw $t4, 3($zero)
-[0x00400048]	j END
+[0x00000028]	sw $t4, 3($zero)
+[0x0000002C]	j END
 ---------------------------------------
 // 2
 // C = 6;
 // D = D << 2
 
-[0x0040004C]	DO:
+[0x00000030]	DO:
 
 				// li $t1, 6
-[0x0040004C]	addi $t4, $zero, 0x6
+[0x00000030]	addi $t4, $zero, 0x6
 
-[0x00400050]	sw $t4, 2($zero)
+[0x00000034]	sw $t4, 2($zero)
 
-[0x00400054]	lw $t1, 3($zero)
-[0x00400058]	sll $t1, $t1, 2
-[0x0040005C]	sw $t1, 3($zero)
+[0x00000038]	lw $t1, 3($zero)
+[0x0000003C]	sll $t1, $t1, 2
+[0x00000040]	sw $t1, 3($zero)
 
 ---------------------------------------
-[0x00400060] 	END:
+[0x00000044] 	END:
