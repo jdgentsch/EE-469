@@ -182,7 +182,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				dmemWrite <= 1'b0;
 			end
 			addi: begin
-				rfWriteEn <= 1'b0;
+				rfWriteEn <= 1'b1;
 				aluCtl <= ADD;
 				aluBusBSel <= IMMEDIATE;
 				dmemResultSel <= FROM_ALU;

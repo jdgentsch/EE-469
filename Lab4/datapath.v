@@ -46,14 +46,14 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdDat
 	//Muxing of the alu bus input and data input to the register file
 	genvar i;
 	generate for (i = 0; i < 32; i = i + 1) begin : aluBusBMux_gen
-		mux2 aluBusBMux (.result(aluBusB[i]), .sel(aluBusBSel), .in({rdData1[i], paddedImmediate[i]}));
-		mux2 resultSel (.result(rfWriteData[i]), .sel(dmemResultSel), .in({aluResult[i], dmemResult[i]}));
+		mux2 aluBusBMux (.result(aluBusB[i]), .sel(aluBusBSel), .in({paddedImmediate[i], rdData1[i]}));
+		mux2 resultSel (.result(rfWriteData[i]), .sel(dmemResultSel), .in({dmemResult[i], aluResult[i]}));
 	end endgenerate
 
 	//Select if data should be written back into a selected register, effectively 2 reg or 3 reg instructions
 	genvar j;
 	generate for (j = 0; j < 5; j = j + 1) begin : rfWriteDestMux_gen
-		mux2 rfWriteDest (.result(regDestAdrx[j]), .sel(regDest), .in({rfRdAdrx1[j], rfWrAdrx[j]}));
+		mux2 rfWriteDest (.result(regDestAdrx[j]), .sel(regDest), .in({rfWrAdrx[j], rfRdAdrx1[j]}));
 	end endgenerate
 	
 	//Flag registers for output to CPU
