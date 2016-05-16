@@ -12,13 +12,14 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdDat
 	
 	//Input control signals from the cpu
 	input clk;
-	input [31:0] immediate;
+	input [15:0] immediate;
 	input [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	input [2:0] aluCtl;
 	input rfWriteEn, aluBusBSel, dmemResultSel;
 	input [15:0] dmemOutput;
 	input regDest;
 	
+	wire [31:0] paddedImmediate;
 	wire aluCFlag, aluNFlag, aluVFlag, aluZFlag;
 	wire [31:0] aluBusB;
 	wire [31:0] rdData0, rdData1, rfWriteData, dmemResult;
@@ -28,7 +29,7 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdDat
 	
 	assign aluResultShort = aluResult[10:0];
 	assign rfRdData0Short = rdData0[8:0];
-	
+	assign paddedImmediate = {{16{1'b0}}, immediate[15:0]};
 	
 	//Instantiation of the ALU
 	alu cpuAlu (.busOut(aluResult), .zero(aluZFlag), .overflow(aluVFlag), .carry(aluCFlag), .neg(aluNFlag),
@@ -45,7 +46,7 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdDat
 	//Muxing of the alu bus input and data input to the register file
 	genvar i;
 	generate for (i = 0; i < 32; i = i + 1) begin : aluBusBMux_gen
-		mux2 aluBusBMux (.result(aluBusB[i]), .sel(aluBusBSel), .in({rdData1[i], immediate[i]}));
+		mux2 aluBusBMux (.result(aluBusB[i]), .sel(aluBusBSel), .in({rdData1[i], paddedImmediate[i]}));
 		mux2 resultSel (.result(rfWriteData[i]), .sel(dmemResultSel), .in({aluResult[i], dmemResult[i]}));
 	end endgenerate
 
