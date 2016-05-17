@@ -5,7 +5,7 @@
 module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdData0Short, clk, immediate, rfRdAdrx0, rfRdAdrx1,
 					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput, regDest);
 	//Outputs to interface with the cpu
-	output reg cFlag, nFlag, vFlag, zFlag;
+	output cFlag, nFlag, vFlag, zFlag;
 	output [15:0] dmemDataIn;
 	output [10:0] aluResultShort;
 	output [8:0] rfRdData0Short;
@@ -31,6 +31,12 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdDat
 	assign rfRdData0Short = rdData0[8:0];
 	assign paddedImmediate = {{16{1'b0}}, immediate[15:0]};
 	
+	//Flags are instantly assigned, will become registers in the pipelined datapath
+	assign cFlag = aluCFlag;
+	assign nFlag = aluNFlag;
+	assign vFlag = aluVFlag;
+	assign zFlag = aluZFlag;
+	
 	//Instantiation of the ALU
 	alu cpuAlu (.busOut(aluResult), .zero(aluZFlag), .overflow(aluVFlag), .carry(aluCFlag), .neg(aluNFlag),
 				  .busA(rdData0), .busB(aluBusB), .control(aluCtl));
@@ -55,12 +61,4 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdDat
 	generate for (j = 0; j < 5; j = j + 1) begin : rfWriteDestMux_gen
 		mux2 rfWriteDest (.result(regDestAdrx[j]), .sel(regDest), .in({rfWrAdrx[j], rfRdAdrx1[j]}));
 	end endgenerate
-	
-	//Flag registers for output to CPU
-	always @(posedge clk) begin
-		cFlag <= aluCFlag;
-		nFlag <= aluNFlag;
-		vFlag <= aluVFlag;
-		zFlag <= aluZFlag;
-	end
 endmodule

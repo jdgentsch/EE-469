@@ -9,7 +9,7 @@ module pc (pc, nextAdrx, rfRdData0, branchCtl, rst, clk);
 	input [1:0] branchCtl;
 	input rst, clk;
 	
-	always @(posedge clk) begin
+	always @(negedge clk) begin
 		if (rst)
 			pc <= 9'h0;
 		else if (branchCtl == 2'b10 || branchCtl == 2'b01)
