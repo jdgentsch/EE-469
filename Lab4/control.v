@@ -3,7 +3,7 @@
 //EE 469 with James Peckol 5/7/16
 //Control module for the single-cycle cpu
 module control (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-					dmemWrite, immediate, regDest, rfRdData0, reset, clk, halt,
+					dmemWrite, immediate, regDest, rfRdData0, reset, clk,
 					cFlag, nFlag, vFlag, zFlag);
 	output [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	output [2:0] aluCtl;
@@ -11,13 +11,14 @@ module control (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, d
 	output [15:0] immediate;
 	output regDest;
 	input [8:0] rfRdData0; //Data for jump register
-	input reset, clk, halt, cFlag, nFlag, vFlag, zFlag;
+	input reset, clk, cFlag, nFlag, vFlag, zFlag;
 
 	reg [31:0] instructionReg;
 	wire [31:0] instruction;	
 	wire [8:0] pc;
 	wire [8:0] pcDest;
 	wire [1:0] branchCtl;
+	wire halt;
 
 	//Program counter, with input branching control signals, and output pc register
 	pc myPC(.pc(pc), .nextAdrx(pcDest), .rfRdData0(rfRdData0), .branchCtl(branchCtl), .rst(reset), .clk(clk), .halt(halt));
