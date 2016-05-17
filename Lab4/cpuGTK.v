@@ -50,6 +50,10 @@ module cpu_tester (LEDR, SW, CLOCK_50);
 		#(period*5);
 		SW[9] = 0;
 		#(period*50);
+		SW[9] = 1;
+		#period;
+		SW[9] = 0;
+		#(period*20);
 		$finish;
 	end
 endmodule

@@ -4,7 +4,7 @@
 //Instruction decoder for the cpu - utilizes behavioral case statements to determine
 //outputs on the control bus. Inputs include the current instruction and flags.
 module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-			   dmemWrite, branchCtl, regDest, immediate, pcDest, instruction,
+			   dmemWrite, branchCtl, regDest, immediate, pcDest, halt, instruction,
 				cFlag, nFlag, vFlag, zFlag);
 	output [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	output reg [2:0] aluCtl;
@@ -13,6 +13,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	output reg regDest;
 	output [15:0] immediate;
 	output [8:0] pcDest;
+	output halt;
 	
 	input [31:0] instruction;
 	input cFlag, nFlag, vFlag, zFlag;
@@ -20,10 +21,13 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	wire [5:0] opcode;
 	wire [5:0] funct;
 	
+	assign halt = (opcode == 6'b111111);
 	assign opcode[5:0] = instruction[31:26];
 	assign funct[5:0] = instruction[5:0];
 	
-	assign rfRdAdrx0 = instruction[25:21];
+	//Place R[rt] on the ALU bus A only in the case of a shift, so we can also supply
+	//an immediate value (the shift amount)
+	assign rfRdAdrx0 = (opcode == op_reg && funct == op_sll) ? instruction[20:16] : instruction[25:21];
 	assign rfRdAdrx1 = instruction[20:16];
 	assign rfWrAdrx = instruction[15:11];
 	assign immediate = instruction[15:0];
@@ -115,7 +119,8 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 					op_sll: begin
 						rfWriteEn <= 1'b1;
 						aluCtl <= SLL;
-						aluBusBSel <= REG1;
+						//Immediate passes in the shift amount
+						aluBusBSel <= IMMEDIATE;
 						dmemResultSel <= FROM_ALU;
 						regDest <= RD;
 						branchCtl <= NO_BR;
@@ -171,7 +176,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 			bne: begin
 				rfWriteEn <= 1'b0;
 				aluCtl <= SUB;
-				aluBusBSel <= IMMEDIATE;
+				aluBusBSel <= REG1;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
 				if (~zFlag) begin
