@@ -24,7 +24,7 @@ module cpu(LEDR, SW, CLOCK_50);
 	control cpuControl(.rfRdAdrx0(rfRdAdrx0), .rfRdAdrx1(rfRdAdrx1), .rfWrAdrx(rfWrAdrx), .aluCtl(aluCtl), 
 							 .rfWriteEn(rfWriteEn), .aluBusBSel(aluBusBSel), .dmemResultSel(dmemResultSel),
 							 .immediate(immediate), .regDest(regDest), .rfRdData0(rfRdData0Short), .reset(reset), .clk(clk), 
-							 .cFlag(cFlag), .nFlag(nFlag), .vFlag(vFlag), .zFlag(zFlag));
+							 .cFlag(cFlag), .nFlag(nFlag), .vFlag(vFlag), .zFlag(zFlag), .altProgram(SW[6]));
 	
 	//Data memory, a 16 x 2k SRAM
 	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResultShort), .write(dmemWrite), .loadControl(SW[7]), .reset(reset));
