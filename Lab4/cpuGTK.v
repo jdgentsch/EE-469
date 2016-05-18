@@ -19,40 +19,62 @@
 `include "shifter.v"
 
 module cpu_tb ();
-	wire [9:0] LEDR, SW;
-	wire CLOCK_50;
+	wire loadControl, altProgram;
+	wire reset, clk;
+	wire [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
+	wire [2:0] aluCtl;
+	wire rfWriteEn, aluBusBSel, dmemResultSel, dmemWrite;
+	wire cFlag, nFlag, vFlag, zFlag;
+	wire [15:0] dmemOutput, dmemDataIn, immediate;
+	wire [10:0] aluResultShort;
+	wire regDest;
+	wire [8:0] rfRdData0Short, rfRdData0;
 	
-	cpu dut (LEDR, SW, CLOCK_50);
-	cpu_tester tester (LEDR, SW, CLOCK_50);
+	//Control module including pc, imem, decoder
+	control cpuControl_dut (.rfRdAdrx0(rfRdAdrx0), .rfRdAdrx1(rfRdAdrx1), .rfWrAdrx(rfWrAdrx), .aluCtl(aluCtl), 
+							 .rfWriteEn(rfWriteEn), .aluBusBSel(aluBusBSel), .dmemResultSel(dmemResultSel),
+							 .immediate(immediate), .regDest(regDest), .rfRdData0(rfRdData0Short), .reset(reset), .clk(clk), 
+							 .cFlag(cFlag), .nFlag(nFlag), .vFlag(vFlag), .zFlag(zFlag), .altProgram(altProgram));
+	
+	//Data memory, a 16 x 2k SRAM
+	dmem cpuDataMem_dut (.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResultShort), .write(dmemWrite), .loadControl(loadControl), .reset(reset));
+
+	datapath cpuDatapath_dut (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdData0Short, clk, immediate, rfRdAdrx0, rfRdAdrx1,
+					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput, regDest);
+
+	cpu_tester tester (clk, reset, loadControl, altProgram);
 	
 	initial begin
 		$dumpfile ("cpu.vcd");
-		$dumpvars (0, dut);
+		$dumpvars (0, cpu_tb);
 	end
 
 endmodule
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-module cpu_tester (LEDR, SW, CLOCK_50);
-	output reg CLOCK_50;
-	output reg [9:0] SW;
-	input [9:0] LEDR;
+module cpu_tester (clk, reset, loadControl, altProgram);
+	output reg clk, reset, loadControl, altProgram;
 	
 	parameter period = 2;
-	initial CLOCK_50 = 0;
+	initial begin
+	clk = 0;
+	reset = 1;
+	loadControl = 0;
+	altProgram = 0;
+	end
 	always begin
 		#(period/2);
-		CLOCK_50 = !CLOCK_50;
+		clk = !clk;
 	end
 	
 	initial begin
-		SW = 10'b1000000000;
-		#(period*5);
-		SW[9] = 0;
-		#(period*50);
-		SW[9] = 1;
-		#period;
-		SW[9] = 0;
+		#(period*5); 	reset = 0;											//program 1, A=7
+		#(period*20);	reset = 1; loadControl = 1;
+		#period;		reset = 0;											//program 1, A=9
+		#(period*25);	reset = 1; loadControl = 0; altProgram = 1;
+		#period; 		reset = 0;											//program 2, A=7, loop and halt ?
+		#(period*20);	reset = 1; loadControl = 1;
+		#period;		reset = 0;											//program 2, A=9
 		#(period*20);
 		$finish;
 	end
