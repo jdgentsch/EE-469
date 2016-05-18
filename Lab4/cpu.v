@@ -27,7 +27,7 @@ module cpu(LEDR, SW, CLOCK_50);
 							 .cFlag(cFlag), .nFlag(nFlag), .vFlag(vFlag), .zFlag(zFlag));
 	
 	//Data memory, a 16 x 2k SRAM
-	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResultShort), .write(dmemWrite));
+	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResultShort), .write(dmemWrite), .loadControl(SW[7]), .reset(reset));
 
 	datapath cpuDatapath(cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdData0Short, clk, immediate, rfRdAdrx0, rfRdAdrx1,
 					  rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel, dmemOutput, regDest);
