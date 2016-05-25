@@ -1,0 +1,26 @@
+int A = 7; 						// 0
+int B = 5; 						// 1
+int C = 3; 						// 2
+int D = 5; 						// 3
+int* dPtr = &D;
+unsigned int E = 0x5A5A; 		// 4
+unsigned int F = 0x6767; 		// 5
+unsigned int G = 0x3C; 			// 6
+unsigned int H = 0xFF; 			// 7
+
+if ((A – B) > 3			// 1
+{
+	C = C + 4;			// 2
+	D = C – 3;
+	G = E | F;
+}
+
+else
+{
+	C = C << 3;			// 3
+	*dPtr = 7;
+	G = E & F;
+}
+
+A = A + B;				// 4
+G = (E ^ F) & H; 
