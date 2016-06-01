@@ -3,8 +3,8 @@
 
 [0x00000000]	lw $t1 0($zero)
 [0x00000004]	lw $t2 1($zero)
-[0x00000008]	sub $t1, $t1, $t2
-[0x0000000C]	addi $t3, $zero, 0x3
+[0x00000008]	addi $t3, $zero, 0x3
+[0x0000000C]	sub $t1, $t1, $t2
 [0x00000010]	slt $t2, $t3, $t1
 [0x00000014]	bne $t2, $zero, DO
 [0x00000018]	sll $t0, $t0, // nop
