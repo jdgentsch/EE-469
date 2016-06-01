@@ -16,7 +16,7 @@ module forwarding(ForwardA, ForwardB, EX_MEM_RegRd, MEM_WB_RegRd, EX_MEM_RegWrit
 		if (EX_MEM_RegWrite && (EX_MEM_RegRd != 0) && (EX_MEM_RegRd == ID_EX_Rs))
 			ForwardA = ALU_RESULT_TO_ALU_A;
 		// Mem Hazard
-		else if (MEM_WB_RegWrite && (MEM_WB_RegRd != 0) && ~(EX_MEM_RegWrite && (EX_MEM_RegRd != 0) && (EX_MEM_RegRd != ID_EX_Rs)) && (MEM_WB_RegRd == ID_EX_Rs))
+		else if (MEM_WB_RegWrite && (MEM_WB_RegRd != 0) && (MEM_WB_RegRd == ID_EX_Rs))
 			ForwardA = DMEM_TO_ALU_A;
 		// No Hazard
 		else
@@ -29,7 +29,7 @@ module forwarding(ForwardA, ForwardB, EX_MEM_RegRd, MEM_WB_RegRd, EX_MEM_RegWrit
 		if (EX_MEM_RegWrite && (EX_MEM_RegRd != 0) && (EX_MEM_RegRd == ID_EX_Rt))
 			ForwardB = ALU_RESULT_TO_ALU_B;
 		// Mem Hazard
-		else if (MEM_WB_RegWrite && (MEM_WB_RegRd != 0) && ~(EX_MEM_RegWrite && (EX_MEM_RegRd != 0) && (EX_MEM_RegRd != ID_EX_Rt)) && (MEM_WB_RegRd == ID_EX_Rt))
+		else if (MEM_WB_RegWrite && (MEM_WB_RegRd != 0) && (MEM_WB_RegRd == ID_EX_Rt))
 			ForwardB = DMEM_TO_ALU_B;
 		// No Hazard
 		else
