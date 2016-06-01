@@ -23,12 +23,18 @@ module dmem (dataOut, clk, dataIn, adrx, write, loadControl, reset);
 		if (reset) begin
 			if (~loadControl) begin
 				mem[0] <= 16'h7; //A = 7, typical branch if (A-B) > 3
+				mem[1] <= 16'h5; //B = 5
 			end else begin
-				mem[0] <= 16'h9; //thus attempt A = 9 if control signal is high
+				mem[0] <= 16'h8; //thus attempt A = 8 if control signal is high
+				mem[1] <= 16'h3; //B = 3
 			end
-			mem[1] <= 16'h5; //B = 5 
-			mem[2] <= 16'h2; //C = 2
-			mem[3] <= 16'h4; //D = 3
+			mem[2] <= 16'h3; //C = 3
+			mem[3] <= 16'h5; //D = 5
+			mem[4] <= 16'h5A5A; //E = 0x5A5A
+			mem[5] <= 16'h6767; //F = 0x6767
+			mem[6] <= 16'h3C; //G = 0x3C
+			mem[7] <= 16'hFF; //H = 0xFF
+
 		end else if (write) begin
 			mem[adrx] <= dataIn[15:0];
 		end
