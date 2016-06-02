@@ -18,6 +18,8 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 	wire decodeRegDest;
 	wire [8:0] execRfRdData0Short;
 	
+	reg execDmemWrite;
+	
 	assign reset = SW[9];
 	
 	//Control module including pc, imem, decoder
@@ -28,8 +30,8 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 							 .execZFlag(execZFlag), .altProgram(SW[6]));
 	
 	//Data memory, a 16 x 2k SRAM
-	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResultShort),
-						 .write(decodeDmemWrite), .loadControl(SW[7]), .reset(reset));
+	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .readAdrx(aluResultShort),
+						 .execWrite(execDmemWrite), .loadControl(SW[7]), .reset(reset));
 
 	pipeDatapath cpuDatapath(.execCFlag(execCFlag), .execNFlag(execNFlag), .execVFlag(execVFlag), .execZFlag(execZFlag),
 									 .dmemDataIn(dmemDataIn), .aluResultShort(aluResultShort),
@@ -40,6 +42,11 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 									 .decodeDmemResultSel(decodeDmemResultSel), .dmemOutput(dmemOutput), .decodeRegDest(decodeRegDest));
 
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
+	
+	always @(posedge clk) begin
+		execDmemWrite <= decodeDmemWrite;
+	end
+	
 endmodule
 
 // divided_clocks[0] = 25MHz, [1] = 12.5Mhz, ... [23] = 3Hz, [24] = 1.5Hz, [25] = 0.75Hz, ...

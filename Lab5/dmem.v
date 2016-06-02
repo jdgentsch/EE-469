@@ -2,12 +2,12 @@
 //Lab 4: Data memory module for the cpu
 //EE 469 with James Peckol 5/7/16
 //Data memory implemented similarly to the SRAM
-module dmem (dataOut, clk, dataIn, adrx, write, loadControl, reset);
+module dmem (dataOut, clk, dataIn, readAdrx, execWrite, loadControl, reset);
 	output [15:0] dataOut;
 	input clk;
 	input [15:0] dataIn;
-	input [10:0] adrx;
-	input write;
+	input [10:0] readAdrx;
+	input execWrite;
 	input loadControl;
 	input reset;
 	
@@ -17,12 +17,15 @@ module dmem (dataOut, clk, dataIn, adrx, write, loadControl, reset);
 	//A small negedge triggered register to ensure that the write signal doesn't change on the posedge
 	//Ensures we meet the hold time for our dmem system, as we are writing on posedge
 	reg negedgeWriteCtl;
+	reg [10:0] writeAdrx;
 
 	//Continously read from the input address
-	assign dataOut = mem[adrx];
+	assign dataOut = mem[readAdrx];
 	
 	//Perform the write operation @posedge clk & write is asserted
 	always @(posedge clk) begin
+		//Delay writing by a cycle, for the writeback stage.
+		writeAdrx <= readAdrx;
 		//Loader unit, initializes variables in data memory (based on the program)
 		if (reset) begin
 			if (~loadControl) begin
@@ -38,13 +41,12 @@ module dmem (dataOut, clk, dataIn, adrx, write, loadControl, reset);
 			mem[5] <= 16'h6767; //F = 0x6767
 			mem[6] <= 16'h3C; //G = 0x3C
 			mem[7] <= 16'hFF; //H = 0xFF
-
 		end else if (negedgeWriteCtl) begin
-			mem[adrx] <= dataIn[15:0];
+			mem[writeAdrx] <= dataIn[15:0];
 		end
 	end
 	
 	always @(negedge clk) begin
-		negedgeWriteCtl <= write;
+		negedgeWriteCtl <= execWrite;
 	end
 endmodule
