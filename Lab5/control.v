@@ -5,18 +5,21 @@
 module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 					 decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel,
 					 decodeDmemWrite, decodeImmediate, decodeRegDest, execRfRdData0Short, reset, clk,
-					 execCFlag, execNFlag, execVFlag, execZFlag, altProgram);
+					 execZFlag, altProgram);
 	output reg [4:0] decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx;
 	output reg [3:0] decodeAluCtl;
 	output reg decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, decodeDmemWrite;
 	output reg [15:0] decodeImmediate;
 	output reg decodeRegDest;
 	input [8:0] execRfRdData0Short; //Data for jump register
-	input reset, clk, execCFlag, execNFlag, execVFlag, execZFlag;
+	input reset, clk, execZFlag;
 	input altProgram;
 	
 	reg [31:0] fetchInstructionReg;
 	reg [8:0] wbRfRdData0Short;
+	reg [15:0] execImmediate, wbImmediate;
+	reg [1:0] decodeBranchCtl, execBranchCtl, wbBranchCtl;
+	reg wbZFlag;
 	
 	//Inputs to decode stage register bank
 	wire [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
@@ -27,12 +30,13 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 
 	wire [31:0] instruction;	
 	wire [8:0] pc;
-	wire [8:0] pcDest;
+	wire [8:0] nextAdrx;
 	wire [1:0] branchCtl;
+	wire doBranch;
 	wire halt;
 
 	//Program counter, with input branching control signals, and output pc register
-	pc myPC(.pc(pc), .nextAdrx(pcDest), .rfRdData0(wbRfRdData0Short), .branchCtl(branchCtl), .rst(reset), .clk(clk), .halt(halt));
+	pc myPC(.pc(pc), .nextAdrx(nextAdrx), .doBranch(doBranch), .rst(reset), .clk(clk), .halt(halt));
 	
 	//Instruction memory, a 32 x 128 SRAM
 	imem controlInstructionMem(.dataOut(instruction), .adrx(pc[8:2]), .clk(clk), .reset(reset), .altProgram(altProgram));
@@ -41,9 +45,13 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 	decode controlDecode(.rfRdAdrx0(rfRdAdrx0), .rfRdAdrx1(rfRdAdrx1), .rfWrAdrx(rfWrAdrx), .aluCtl(aluCtl), 
 								.rfWriteEn(rfWriteEn), .aluBusBSel(aluBusBSel), .dmemResultSel(dmemResultSel),
 								.dmemWrite(dmemWrite), .branchCtl(branchCtl), .regDest(regDest), .halt(halt),
-								.immediate(immediate), .pcDest(pcDest), .instruction(fetchInstructionReg),
-								.cFlag(execCFlag), .nFlag(execNFlag), .vFlag(execVFlag), .zFlag(execZFlag));
+								.immediate(immediate), .instruction(fetchInstructionReg));
 
+
+	//Next stage, updates the PC based on a jump, jump reg, or conditional branch
+	next controlNextStage(.doBranch(doBranch), .nextAdrx(nextAdrx), .wbBranchCtl(wbBranchCtl), .wbRfRdData0(wbRfRdData0Short),
+								 .wbImmediate(wbImmediate), .wbZFlag(wbZFlag), .clk(clk));	
+	
 	//Update status of the instruction register
 	always @(posedge clk) begin
 		fetchInstructionReg <= instruction;
@@ -55,11 +63,18 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 		decodeAluBusBSel <= aluBusBSel;
 		decodeDmemResultSel <= dmemResultSel;
 		decodeDmemWrite <= dmemWrite;
-		//decodeBranchCtl <= branchCtl; Input to PC
 		decodeRegDest <= regDest;
-		//decodeHalt <= halt; Input to PC
+		//branchCtl passing to next stage
+		decodeBranchCtl <= branchCtl;
+		execBranchCtl <= decodeBranchCtl;
+		wbBranchCtl <= execBranchCtl;
+		//
+		//Immediate passing to next stage
 		decodeImmediate <= immediate;
-		//decodePcDest <= pcDest; Input to PC
+		execImmediate <= decodeImmediate;
+		wbImmediate <= execImmediate;
+		//
+		wbZFlag <= execZFlag;
 		wbRfRdData0Short <= execRfRdData0Short;
 	end
 

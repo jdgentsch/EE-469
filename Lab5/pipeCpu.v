@@ -25,7 +25,7 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 							 .decodeRfWriteEn(decodeRfWriteEn), .decodeAluBusBSel(decodeAluBusBSel), .decodeDmemResultSel(decodeDmemResultSel),
 							 .decodeDmemWrite(decodeDmemWrite), .decodeImmediate(decodeImmediate), .decodeRegDest(decodeRegDest), 
 							 .execRfRdData0Short(execRfRdData0Short), .reset(reset), .clk(clk), 
-							 .execCFlag(execCFlag), .execNFlag(execNFlag), .execVFlag(execVFlag), .execZFlag(execZFlag), .altProgram(SW[6]));
+							 .execZFlag(execZFlag), .altProgram(SW[6]));
 	
 	//Data memory, a 16 x 2k SRAM
 	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .adrx(aluResultShort),

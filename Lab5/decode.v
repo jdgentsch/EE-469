@@ -4,19 +4,16 @@
 //Instruction decoder for the cpu - utilizes behavioral case statements to determine
 //outputs on the control bus. Inputs include the current instruction and flags.
 module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dmemResultSel,
-			   dmemWrite, branchCtl, regDest, immediate, pcDest, halt, instruction,
-				cFlag, nFlag, vFlag, zFlag);
+			   dmemWrite, branchCtl, regDest, immediate, halt, instruction);
 	output [4:0] rfRdAdrx0, rfRdAdrx1, rfWrAdrx;
 	output reg [2:0] aluCtl;
 	output reg rfWriteEn, aluBusBSel, dmemResultSel, dmemWrite;
 	output reg [1:0] branchCtl; //For branching
 	output reg regDest;
 	output [15:0] immediate;
-	output [8:0] pcDest;
 	output halt;
 	
 	input [31:0] instruction;
-	input cFlag, nFlag, vFlag, zFlag;
 	
 	wire [5:0] opcode;
 	wire [5:0] funct;
@@ -31,7 +28,6 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 	assign rfRdAdrx1 = instruction[20:16];
 	assign rfWrAdrx = instruction[15:11];
 	assign immediate = instruction[15:0];
-	assign pcDest = immediate[8:0];
 	
 	//Opcodes for our instructions
 	//Add, sub, and, or, xor, slt, sll, jr are all register type
@@ -179,11 +175,7 @@ module decode (rfRdAdrx0, rfRdAdrx1, rfWrAdrx, aluCtl, rfWriteEn, aluBusBSel, dm
 				aluBusBSel <= REG1;
 				dmemResultSel <= FROM_ALU;
 				regDest <= RT;
-				if (~zFlag) begin
-					branchCtl <= BRANCH;
-				end else begin
-					branchCtl <= NO_BR;
-				end
+				branchCtl <= BRANCH;
 				dmemWrite <= 1'b0;
 			end
 			addi: begin
