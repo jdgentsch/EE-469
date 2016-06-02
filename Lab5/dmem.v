@@ -2,10 +2,10 @@
 //Lab 4: Data memory module for the cpu
 //EE 469 with James Peckol 5/7/16
 //Data memory implemented similarly to the SRAM
-module dmem (dataOut, clk, dataIn, readAdrx, execWrite, loadControl, reset);
+module dmem (dataOut, clk, execDataIn, readAdrx, execWrite, loadControl, reset);
 	output [15:0] dataOut;
 	input clk;
-	input [15:0] dataIn;
+	input [15:0] execDataIn;
 	input [10:0] readAdrx;
 	input execWrite;
 	input loadControl;
@@ -20,7 +20,9 @@ module dmem (dataOut, clk, dataIn, readAdrx, execWrite, loadControl, reset);
 	reg [10:0] writeAdrx;
 
 	//Continously read from the input address
-	assign dataOut = mem[readAdrx];
+	//Forwarding logic added, if we are reading from an address equal to where we are writing,
+	//then the output data should be equal to what we are trying to write.
+	assign dataOut = (execWrite && (readAdrx == writeAdrx)) ? execDataIn : mem[readAdrx];
 	
 	//Perform the write operation @posedge clk & write is asserted
 	always @(posedge clk) begin
@@ -42,7 +44,7 @@ module dmem (dataOut, clk, dataIn, readAdrx, execWrite, loadControl, reset);
 			mem[6] <= 16'h3C; //G = 0x3C
 			mem[7] <= 16'hFF; //H = 0xFF
 		end else if (negedgeWriteCtl) begin
-			mem[writeAdrx] <= dataIn[15:0];
+			mem[writeAdrx] <= execDataIn[15:0];
 		end
 	end
 	

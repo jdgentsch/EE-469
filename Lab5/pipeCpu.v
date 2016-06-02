@@ -19,6 +19,7 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 	wire [8:0] execRfRdData0Short;
 	
 	reg execDmemWrite;
+	reg [15:0] execDmemDataIn;
 	
 	assign reset = SW[9];
 	
@@ -30,7 +31,7 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 							 .execZFlag(execZFlag), .altProgram(SW[6]));
 	
 	//Data memory, a 16 x 2k SRAM
-	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .dataIn(dmemDataIn), .readAdrx(aluResultShort),
+	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .execDataIn(execDmemDataIn), .readAdrx(aluResultShort),
 						 .execWrite(execDmemWrite), .loadControl(SW[7]), .reset(reset));
 
 	pipeDatapath cpuDatapath(.execCFlag(execCFlag), .execNFlag(execNFlag), .execVFlag(execVFlag), .execZFlag(execZFlag),
@@ -45,6 +46,7 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 	
 	always @(posedge clk) begin
 		execDmemWrite <= decodeDmemWrite;
+		execDmemDataIn <= dmemDataIn;
 	end
 	
 endmodule
