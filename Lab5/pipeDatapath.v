@@ -55,16 +55,10 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 	assign aluResultShort = aluResult[10:0];
 	assign paddedImmediate = {{16{1'b0}}, decodeImmediate[15:0]};
 	
-	//Flags are instantly assigned, will become registers in the pipelined datapath
-	/*assign cFlag = aluCFlag;
-	assign nFlag = aluNFlag;
-	assign vFlag = aluVFlag;
-	assign zFlag = aluZFlag;*/
-	
 	//Instantiation of the ALU
 	alu cpuAlu (.busOut(aluResult), .zero(aluZFlag), .overflow(aluVFlag), .carry(aluCFlag), .neg(aluNFlag),
 				  .busA(rdData0), .busB(aluBusB), .control(decodeAluCtl));
-		
+	
 	//Register file instantiation, 32x32
 	registerFile cpuRF (.rdData0(rdData0), .rdData1(rdData1), .rdAdrx0(decodeRfRdAdrx0),
 							  .rdAdrx1(decodeRfRdAdrx1), .writeAdrx(regDestAdrx), .writeData(rfWriteData), .clk(clk), .writeEn(execRfWriteEn));

@@ -16,7 +16,6 @@ module register (result, writeEn, clk, writeData);
 			bufif0(enabledData[i], result[i], writeEn);
 			DFlipFlop reg_bit (result[i], clk, enabledData[i]);
 		end endgenerate
-
 endmodule
 
 // A simple DFF module
@@ -25,6 +24,6 @@ module DFlipFlop (out, clk, in);
 	input in;
 	input clk;
 
-	always @(posedge clk)
+	always @(negedge clk)
 		out <= in;
 endmodule

@@ -7,7 +7,7 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 					 decodeDmemWrite, decodeImmediate, decodeRegDest, execRfRdData0Short, reset, clk,
 					 execZFlag, altProgram);
 	output reg [4:0] decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx;
-	output reg [3:0] decodeAluCtl;
+	output reg [2:0] decodeAluCtl;
 	output reg decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, decodeDmemWrite;
 	output reg [15:0] decodeImmediate;
 	output reg decodeRegDest;
@@ -46,7 +46,6 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 								.rfWriteEn(rfWriteEn), .aluBusBSel(aluBusBSel), .dmemResultSel(dmemResultSel),
 								.dmemWrite(dmemWrite), .branchCtl(branchCtl), .regDest(regDest), .halt(halt),
 								.immediate(immediate), .instruction(fetchInstructionReg));
-
 
 	//Next stage, updates the PC based on a jump, jump reg, or conditional branch
 	next controlNextStage(.doBranch(doBranch), .nextAdrx(nextAdrx), .wbBranchCtl(wbBranchCtl), .wbRfRdData0(wbRfRdData0Short),

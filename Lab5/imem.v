@@ -12,9 +12,9 @@ module imem (dataOut, adrx, clk, reset, altProgram);
 	//Initialization of instructions in memory
 	always @(posedge clk) begin
 		if (reset) begin
-			if (~altProgram) begin
-				//$readmemb("mips2mach.txt", mem);
-				mem[0] = 32'b100011_00000_01001_0000000000000000;
+			//if (~altProgram) begin
+				$readmemb("mips2mach.txt", mem);
+				/*mem[0] = 32'b100011_00000_01001_0000000000000000;
 				mem[1] = 32'b100011_00000_01010_0000000000000001;
 				mem[2] = 32'b000000_01001_01010_01001_00000_100010;
 				mem[3] = 32'b001000_00000_01011_0000000000000011;
@@ -39,8 +39,8 @@ module imem (dataOut, adrx, clk, reset, altProgram);
 				mem[3] = 32'b000000_01001_01010_01000_00000_100101; //OR 7, 5
 				mem[4] = 32'b000000_01001_01010_01000_00000_100110; //XOR 7, 5
 				mem[5] = 32'b000000_01011_00000_00000_00000_001000; //JR [AND RESULT] == 2 (should loop forever)
-				mem[6] = 32'b111111_00000000000000000000000000; //HALT
-			end
+				mem[6] = 32'b111111_00000000000000000000000000; //HALT*/
+			//end
 		end
 	end
 

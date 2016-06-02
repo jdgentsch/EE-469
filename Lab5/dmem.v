@@ -13,12 +13,16 @@ module dmem (dataOut, clk, dataIn, adrx, write, loadControl, reset);
 	
 	//Data is 16 bits wide, with 2048 locations
 	reg [15:0] mem [0:2047];
+	
+	//A small negedge triggered register to ensure that the write signal doesn't change on the posedge
+	//Ensures we meet the hold time for our dmem system, as we are writing on posedge
+	reg negedgeWriteCtl;
 
 	//Continously read from the input address
 	assign dataOut = mem[adrx];
 	
 	//Perform the write operation @posedge clk & write is asserted
-	always @(negedge clk) begin
+	always @(posedge clk) begin
 		//Loader unit, initializes variables in data memory (based on the program)
 		if (reset) begin
 			if (~loadControl) begin
@@ -35,8 +39,12 @@ module dmem (dataOut, clk, dataIn, adrx, write, loadControl, reset);
 			mem[6] <= 16'h3C; //G = 0x3C
 			mem[7] <= 16'hFF; //H = 0xFF
 
-		end else if (write) begin
+		end else if (negedgeWriteCtl) begin
 			mem[adrx] <= dataIn[15:0];
 		end
+	end
+	
+	always @(negedge clk) begin
+		negedgeWriteCtl <= write;
 	end
 endmodule

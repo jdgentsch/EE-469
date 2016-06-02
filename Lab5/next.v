@@ -18,7 +18,7 @@ module next (doBranch, nextAdrx, wbBranchCtl, wbRfRdData0, wbImmediate, wbZFlag,
 		if (wbBranchCtl == JUMP) begin //If a jump
 			doBranch <= 1'b1;
 			nextAdrx <= wbImmediate[8:0];
-		end else if (wbBranchCtl == BRANCH && wbZFlag) begin //BNE has occurred
+		end else if (wbBranchCtl == BRANCH && !wbZFlag) begin //BNE has occurred
 			doBranch <= 1'b1;
 			nextAdrx <= wbImmediate[8:0];
 		end else if (wbBranchCtl == JUMP_REG) begin
