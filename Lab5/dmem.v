@@ -1,6 +1,6 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
-//Lab 4: Data memory module for the cpu
-//EE 469 with James Peckol 5/7/16
+//Lab 5: Data memory module for the cpu
+//EE 469 with James Peckol 5/25/16
 //Data memory implemented similarly to the SRAM
 module dmem (dataOut, clk, execDataIn, readAdrx, execWrite, loadControl, reset);
 	output [15:0] dataOut;

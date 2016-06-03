@@ -1,6 +1,6 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
-//Lab 4: Instruction memory module for the cpu
-//EE 469 with James Peckol 5/7/16
+//Lab 5: Instruction memory module for the cpu
+//EE 469 with James Peckol 5/25/16
 //A 32 bit wide, 128 words long instruction memory for the cpu
 module imem (dataOut, adrx, clk, reset, altProgram);
 	output [31:0] dataOut;

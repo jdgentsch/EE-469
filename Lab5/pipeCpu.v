@@ -1,7 +1,7 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
-//Lab 4: Single cycle cpu
-//EE 469 with James Peckol 5/7/16
-//A single-cycle cpu for usage on the DE1-SoC
+//Lab 5: Single cycle cpu
+//EE 469 with James Peckol 5/25/16
+//A single-cycle pipelined cpu for usage on the DE1-SoC
 module pipeCpu(LEDR, SW, CLOCK_50);
 	//DE1-SoC wire interface for driving hardware
 	output [9:0] LEDR;

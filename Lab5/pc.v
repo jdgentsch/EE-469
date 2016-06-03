@@ -1,6 +1,6 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
-//Lab 4: Program counter for the cpu
-//EE 469 with James Peckol 5/7/16
+//Lab 5: Program counter for the cpu
+//EE 469 with James Peckol 5/25/16
 // Program counter for the CPU
 module pc (pc, nextAdrx, doBranch, rst, clk, halt);
 	output reg [8:0] pc;				// current program count

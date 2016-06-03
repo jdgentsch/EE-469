@@ -1,6 +1,6 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
-//Lab 4: Datapath for the cpu
-//EE 469 with Peckol 5/7/16
+//Lab 5: Datapath for the cpu
+//EE 469 with Peckol 5/25/16
 //Datapath connecting data memory, alu, and register file
 module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, aluResultShort, execRfRdData0Short,
 							clk, decodeImmediate, decodeRfRdAdrx0, decodeRfRdAdrx1,

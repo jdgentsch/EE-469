@@ -1,7 +1,7 @@
 //Jack Gentsch, Jacky Wang, Chinh Bui
-//Lab 4: Control system for the cpu
-//EE 469 with James Peckol 5/7/16
-//Control module for the single-cycle cpu
+//Lab 5: Control system for the cpu
+//EE 469 with James Peckol 5/25/16
+//Control module for the single-cycle pipelined cpu
 module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 					 decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel,
 					 decodeDmemWrite, decodeImmediate, decodeRegDest, execRfRdData0Short, reset, clk,
