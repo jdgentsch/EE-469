@@ -49,7 +49,7 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 
 	//Next stage, updates the PC based on a jump, jump reg, or conditional branch
 	next controlNextStage(.doBranch(doBranch), .nextAdrx(nextAdrx), .wbBranchCtl(wbBranchCtl), .wbRfRdData0(wbRfRdData0Short),
-								 .wbImmediate(wbImmediate), .wbZFlag(wbZFlag), .clk(clk));	
+								 .wbImmediate(wbImmediate), .wbZFlag(wbZFlag), .clk(clk));
 	
 	//Update status of the instruction register
 	always @(posedge clk) begin
@@ -76,5 +76,16 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 		wbZFlag <= execZFlag;
 		wbRfRdData0Short <= execRfRdData0Short;
 	end
-
+/*
+	// Branch hazard - Disables writing to dmem and reg file when doBranch is true
+	always @(posedge clk) begin
+		if (doBranch) begin
+			rfWriteEn <= 1'b0;
+			dmemWrite <= 1'b0;
+		end else begin
+			rfWriteEn <= 1'b1;
+			dmemWrite <= 1'b1;
+		end
+	end
+*/
 endmodule
