@@ -17,7 +17,7 @@
 `include "pipeCpu.v"
 `include "decode.v"
 `include "shifter.v"
-//`include "forwarding.v"
+`include "icache.v"
 `include "next.v"
 
 module pipeCpu_tb ();
@@ -68,13 +68,13 @@ module pipeCpu_tester (CLOCK_50, SW, LEDR);
 	
 	initial begin
 		#(period*5); 	reset = 0;											//program 1, A=7
-		#(period*40);	reset = 1; dmemLoadControl = 1;
+		#(period*50);	reset = 1; dmemLoadControl = 1;
 		#period;			reset = 0;											//program 1, A=9
-		#(period*40);	reset = 1; dmemLoadControl = 0; imemAltProgram = 1;
+		#(period*50);	reset = 1; dmemLoadControl = 0; imemAltProgram = 1;
 		#period; 		reset = 0;											//program 2, A=7, loop and halt ?
-		#(period*40);	reset = 1; dmemLoadControl = 1;
+		#(period*50);	reset = 1; dmemLoadControl = 1;
 		#period;		reset = 0;												//program 2, A=9
-		#(period*40);
+		#(period*50);
 		$finish;
 	end
 endmodule

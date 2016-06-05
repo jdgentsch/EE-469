@@ -39,6 +39,7 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 	
 	wire forwardA, forwardB;
 	wire [31:0] forwardedBusBIn;
+	wire branchCtlExecRfWriteEn;
 
 	//Register bank at the output of the execution stage
 	always @(posedge clk) begin

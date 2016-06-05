@@ -34,13 +34,15 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 	wire [8:0] nextAdrx;
 	wire [1:0] branchCtl;
 	wire halt;
+	wire icacheStallPC;
 	wire doBranch;
 
 	//Program counter, with input branching control signals, and output pc register
-	pc myPC(.pc(pc), .nextAdrx(nextAdrx), .doBranch(doBranch), .rst(reset), .clk(clk), .halt(halt));
+	pc myPC(.pc(pc), .nextAdrx(nextAdrx), .doBranch(doBranch), .rst(reset), .clk(clk), .halt(halt | icacheStallPC));
 	
 	//Instruction memory, a 32 x 128 SRAM
-	imem controlInstructionMem(.dataOut(instruction), .adrx(pc[8:2]), .clk(clk), .reset(reset), .altProgram(altProgram));
+	icache controlInstructionCache(.dataOut(instruction), .stallPC(icacheStallPC), .adrx(pc[8:2]),
+											 .clk(clk), .reset(reset), .altProgram(altProgram));
 	
 	//Instruction decoder using the instruction register
 	decode controlDecode(.rfRdAdrx0(rfRdAdrx0), .rfRdAdrx1(rfRdAdrx1), .rfWrAdrx(rfWrAdrx), .aluCtl(aluCtl), 
