@@ -17,6 +17,7 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 	wire [10:0] aluResultShort;
 	wire decodeRegDest;
 	wire [8:0] execRfRdData0Short;
+	wire doBranch4Held;
 	
 	reg execDmemWrite;
 	reg [15:0] execDmemDataIn;
@@ -27,12 +28,12 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 	control cpuControl(.decodeRfRdAdrx0(decodeRfRdAdrx0), .decodeRfRdAdrx1(decodeRfRdAdrx1), .decodeRfWrAdrx(decodeRfWrAdrx), .decodeAluCtl(decodeAluCtl), 
 							 .decodeRfWriteEn(decodeRfWriteEn), .decodeAluBusBSel(decodeAluBusBSel), .decodeDmemResultSel(decodeDmemResultSel),
 							 .decodeDmemWrite(decodeDmemWrite), .decodeImmediate(decodeImmediate), .decodeRegDest(decodeRegDest), 
-							 .execRfRdData0Short(execRfRdData0Short), .reset(reset), .clk(clk), 
+							 .doBranch4Held(doBranch4Held), .execRfRdData0Short(execRfRdData0Short), .reset(reset), .clk(clk), 
 							 .execZFlag(execZFlag), .altProgram(SW[6]));
 	
 	//Data memory, a 16 x 2k SRAM
 	dmem cpuDataMem(.dataOut(dmemOutput), .clk(clk), .execDataIn(execDmemDataIn), .readAdrx(aluResultShort),
-						 .execWrite(execDmemWrite), .loadControl(SW[7]), .reset(reset));
+						 .execWrite(execDmemWrite & ~doBranch4Held), .loadControl(SW[7]), .reset(reset));
 
 	pipeDatapath cpuDatapath(.execCFlag(execCFlag), .execNFlag(execNFlag), .execVFlag(execVFlag), .execZFlag(execZFlag),
 									 .dmemDataIn(dmemDataIn), .aluResultShort(aluResultShort),
@@ -40,7 +41,8 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 									 .decodeRfRdAdrx0(decodeRfRdAdrx0), .decodeRfRdAdrx1(decodeRfRdAdrx1),
 									 .decodeRfWrAdrx(decodeRfWrAdrx), .decodeAluCtl(decodeAluCtl),
 									 .decodeRfWriteEn(decodeRfWriteEn), .decodeAluBusBSel(decodeAluBusBSel),
-									 .decodeDmemResultSel(decodeDmemResultSel), .dmemOutput(dmemOutput), .decodeRegDest(decodeRegDest));
+									 .decodeDmemResultSel(decodeDmemResultSel), .dmemOutput(dmemOutput), .decodeRegDest(decodeRegDest),
+									 .doBranch4Held(doBranch4Held));
 
 	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
 	

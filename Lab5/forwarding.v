@@ -2,16 +2,16 @@
 //Lab 5: Data Forwarding Unit
 //EE 469 with Peckol 6/1/16
 //performs data forwarding to prevent data hazards
-module forwarding(ForwardA, ForwardB, EX_WB_RegRd, WB_NX_RegRd, EX_WB_RegWrite, WB_NX_RegWrite, ID_EX_Rs, ID_EX_Rt);
+module forwarding(ForwardA, ForwardB, EX_WB_RegRd, EX_WB_RegWrite, ID_EX_Rs, ID_EX_Rt);
 	output ForwardA, ForwardB;
-	input [4:0] EX_WB_RegRd, WB_NX_RegRd, ID_EX_Rs, ID_EX_Rt;
-	input EX_WB_RegWrite, WB_NX_RegWrite;
+	input [4:0] EX_WB_RegRd, ID_EX_Rs, ID_EX_Rt;
+	input EX_WB_RegWrite;
 
-	assign ForwardA = ((EX_WB_RegWrite && (EX_WB_RegRd != 0) && (EX_WB_RegRd == ID_EX_Rs)) || 
-							(WB_NX_RegWrite && (WB_NX_RegRd != 0) && (WB_NX_RegRd == ID_EX_Rs))) ? 1'b1 : 1'b0;
-
-	assign ForwardB = ((EX_WB_RegWrite && (EX_WB_RegRd != 0) && (EX_WB_RegRd == ID_EX_Rt)) || 
-							(WB_NX_RegWrite && (WB_NX_RegRd != 0) && (WB_NX_RegRd == ID_EX_Rt))) ? 1'b1 : 1'b0;
+	//Forwarding to the alu bus (from the reg file) will occur if:
+	//The register to be read from is non-zero, we are writing to in the WB stage,
+	//and the register being written (WB) and read from (EX) are identical.
+	assign ForwardA = (EX_WB_RegWrite && (EX_WB_RegRd != 0) && (EX_WB_RegRd == ID_EX_Rs);
+	assign ForwardB = (EX_WB_RegWrite && (EX_WB_RegRd != 0) && (EX_WB_RegRd == ID_EX_Rt);
 
 	//parameter [1:0] REG_TO_ALU_A = 2'b00, ALU_RESULT_TO_ALU_A = 2'b10, DMEM_TO_ALU_A = 2'b01;
 	//parameter [1:0] REG_TO_ALU_B = 2'b00, ALU_RESULT_TO_ALU_B = 2'b10, DMEM_TO_ALU_B = 2'b01;

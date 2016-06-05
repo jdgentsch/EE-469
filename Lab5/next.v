@@ -14,7 +14,7 @@ module next (doBranch, nextAdrx, wbBranchCtl, wbRfRdData0, wbImmediate, wbZFlag,
 	// Jump or Branch, controls the PC
 	parameter [1:0] NO_BR = 2'b00, BRANCH = 2'b01, JUMP = 2'b10, JUMP_REG = 2'b11;
 	
-	always @(posedge clk) begin
+	always @(*) begin
 		if (wbBranchCtl == JUMP) begin //If a jump
 			doBranch <= 1'b1;
 			nextAdrx <= wbImmediate[8:0];

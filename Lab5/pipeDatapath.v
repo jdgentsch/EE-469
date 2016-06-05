@@ -3,8 +3,8 @@
 //EE 469 with Peckol 5/25/16
 //Datapath connecting data memory, alu, and register file
 module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, aluResultShort, execRfRdData0Short,
-							clk, decodeImmediate, decodeRfRdAdrx0, decodeRfRdAdrx1,
-						   decodeRfWrAdrx, decodeAluCtl, decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, dmemOutput, decodeRegDest);
+							clk, decodeImmediate, decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
+							decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, dmemOutput, decodeRegDest, doBranch4Held);
 	//Outputs to interface with the cpu
 	output reg execCFlag, execNFlag, execVFlag, execZFlag;
 	//output cFlag, nFlag, vFlag, zFlag;
@@ -20,6 +20,7 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 	input decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel;
 	input [15:0] dmemOutput;
 	input decodeRegDest;
+	input doBranch4Held;
 	
 	reg [15:0] execDmemOutput;
 	reg [31:0] execAluResult;
@@ -30,12 +31,15 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 	wire [31:0] execDmemResult;
 	wire [31:0] paddedImmediate;
 	wire aluCFlag, aluNFlag, aluVFlag, aluZFlag;
-	wire [31:0] aluBusB;
+	wire [31:0] aluBusA, aluBusB;
 	wire [31:0] rdData0, rdData1, rfWriteData, dmemResult;
 	wire [15:0] dmemOutput;
 	wire [4:0] regDestAdrx;
 	wire [31:0] aluResult;
 	
+	wire forwardA, forwardB;
+	wire [31:0] forwardedBusBIn;
+
 	//Register bank at the output of the execution stage
 	always @(posedge clk) begin
 		execRfRdData0Short <= rdData0[8:0];
@@ -57,20 +61,29 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 	
 	//Instantiation of the ALU
 	alu cpuAlu (.busOut(aluResult), .zero(aluZFlag), .overflow(aluVFlag), .carry(aluCFlag), .neg(aluNFlag),
-				  .busA(rdData0), .busB(aluBusB), .control(decodeAluCtl));
+				  .busA(aluBusA), .busB(aluBusB), .control(decodeAluCtl));
 	
 	//Register file instantiation, 32x32
 	registerFile cpuRF (.rdData0(rdData0), .rdData1(rdData1), .rdAdrx0(decodeRfRdAdrx0),
-							  .rdAdrx1(decodeRfRdAdrx1), .writeAdrx(regDestAdrx), .writeData(rfWriteData), .clk(clk), .writeEn(execRfWriteEn));
+							  .rdAdrx1(decodeRfRdAdrx1), .writeAdrx(regDestAdrx), .writeData(rfWriteData),
+							  .clk(clk), .writeEn(branchCtlExecRfWriteEn));
 	
 	//Sign extension of the data memory output
 	assign execDmemResult = {{16{execDmemOutput[15]}}, execDmemOutput[15:0]};
 	assign dmemDataIn = rdData1[15:0];
 	
+	assign branchCtlExecRfWriteEn = execRfWriteEn && ~doBranch4Held;
+	
+	//Forwarding logic for the alu bus inputs
+	assign forwardA = branchCtlExecRfWriteEn && (regDestAdrx != 5'b0) && (regDestAdrx == decodeRfRdAdrx0);
+	assign forwardB = branchCtlExecRfWriteEn && (regDestAdrx != 5'b0) && (regDestAdrx == decodeRfRdAdrx1);	
+	
 	//Muxing of the alu bus input and data input to the register file
 	genvar i;
 	generate for (i = 0; i < 32; i = i + 1) begin : aluBusBMux_gen
-		mux2 aluBusBMux (.result(aluBusB[i]), .sel(decodeAluBusBSel), .in({paddedImmediate[i], rdData1[i]}));
+		mux2 aluBusAForwardMux (.result(aluBusA[i]), .sel(forwardA), .in({rfWriteData[i], rdData0[i]}));
+		mux2 aluBusBForwardMux (.result(forwardedBusBIn[i]), .sel(forwardB), .in({rfWriteData[i], rdData1[i]}));
+		mux2 aluBusBImmediateMux (.result(aluBusB[i]), .sel(decodeAluBusBSel), .in({paddedImmediate[i], forwardedBusBIn[i]}));
 		mux2 resultSel (.result(rfWriteData[i]), .sel(execDmemResultSel), .in({execDmemResult[i], execAluResult[i]}));
 	end endgenerate
 

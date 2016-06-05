@@ -4,13 +4,14 @@
 //Control module for the single-cycle pipelined cpu
 module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 					 decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel,
-					 decodeDmemWrite, decodeImmediate, decodeRegDest, execRfRdData0Short, reset, clk,
+					 decodeDmemWrite, decodeImmediate, decodeRegDest, doBranch4Held, execRfRdData0Short, reset, clk,
 					 execZFlag, altProgram);
 	output reg [4:0] decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx;
 	output reg [2:0] decodeAluCtl;
 	output reg decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, decodeDmemWrite;
 	output reg [15:0] decodeImmediate;
 	output reg decodeRegDest;
+	output doBranch4Held; //Forwarding logic to wb stage to determine if a branch is occuring, and data is to be ignored
 	input [8:0] execRfRdData0Short; //Data for jump register
 	input reset, clk, execZFlag;
 	input altProgram;
@@ -32,8 +33,8 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 	wire [8:0] pc;
 	wire [8:0] nextAdrx;
 	wire [1:0] branchCtl;
-	wire doBranch;
 	wire halt;
+	wire doBranch;
 
 	//Program counter, with input branching control signals, and output pc register
 	pc myPC(.pc(pc), .nextAdrx(nextAdrx), .doBranch(doBranch), .rst(reset), .clk(clk), .halt(halt));
@@ -51,6 +52,8 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 	next controlNextStage(.doBranch(doBranch), .nextAdrx(nextAdrx), .wbBranchCtl(wbBranchCtl), .wbRfRdData0(wbRfRdData0Short),
 								 .wbImmediate(wbImmediate), .wbZFlag(wbZFlag), .clk(clk));
 	
+	holdBranchSignal myBranchHolder(.doBranch4Held(doBranch4Held), .doBranch(doBranch), .clk(clk));
+	
 	//Update status of the instruction register
 	always @(posedge clk) begin
 		fetchInstructionReg <= instruction;
@@ -58,9 +61,9 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 		decodeRfRdAdrx1 <= rfRdAdrx1;
 		decodeRfWrAdrx <= rfWrAdrx;
 		decodeAluCtl <= aluCtl;
-		decodeRfWriteEn <= rfWriteEn;
 		decodeAluBusBSel <= aluBusBSel;
 		decodeDmemResultSel <= dmemResultSel;
+		decodeRfWriteEn <= rfWriteEn;
 		decodeDmemWrite <= dmemWrite;
 		decodeRegDest <= regDest;
 		//branchCtl passing to next stage
@@ -76,16 +79,24 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 		wbZFlag <= execZFlag;
 		wbRfRdData0Short <= execRfRdData0Short;
 	end
-/*
-	// Branch hazard - Disables writing to dmem and reg file when doBranch is true
+endmodule
+
+module holdBranchSignal(doBranch4Held, doBranch, clk);
+
+	output doBranch4Held;
+	input doBranch;
+	input clk;
+
+	reg [2:0] holdBranch;
+	
+	assign doBranch4Held = holdBranch[2] | holdBranch[1] | holdBranch[0] | doBranch;
+	
+	//4 stages in our pipeline have been calculated to have invalid data if doBranch is true
+	//Thus we must pass along a signal to disable writing for the duration of these 4 cycles
 	always @(posedge clk) begin
-		if (doBranch) begin
-			rfWriteEn <= 1'b0;
-			dmemWrite <= 1'b0;
-		end else begin
-			rfWriteEn <= 1'b1;
-			dmemWrite <= 1'b1;
-		end
+		holdBranch[0] <= doBranch;
+		holdBranch[1] <= holdBranch[0];
+		holdBranch[2] <= holdBranch[1];
 	end
-*/
+
 endmodule

@@ -13,7 +13,7 @@ module imem (dataOut, adrx, clk, reset, altProgram);
 	always @(posedge clk) begin
 		if (reset) begin
 			//if (~altProgram) begin
-				$readmemb("mips2mach.txt", mem);
+				$readmemb("testReadMemb.txt", mem);
 				/*
 				mem[0] = 100011_00000_01001_0000000000000000;
 				mem[1] = 100011_00000_01010_0000000000000001;
