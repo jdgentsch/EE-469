@@ -4,7 +4,7 @@
 //Datapath connecting data memory, alu, and register file
 module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, aluResultShort, execRfRdData0Short,
 							clk, decodeImmediate, decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
-							decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, dmemOutput, decodeRegDest, doBranch4Held);
+							decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, dmemOutput, decodeRegDest, doBranch3Held);
 	//Outputs to interface with the cpu
 	output reg execCFlag, execNFlag, execVFlag, execZFlag;
 	//output cFlag, nFlag, vFlag, zFlag;
@@ -20,7 +20,7 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 	input decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel;
 	input [15:0] dmemOutput;
 	input decodeRegDest;
-	input doBranch4Held;
+	input doBranch3Held;
 	
 	reg [15:0] execDmemOutput;
 	reg [31:0] execAluResult;
@@ -72,7 +72,7 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 	assign execDmemResult = {{16{execDmemOutput[15]}}, execDmemOutput[15:0]};
 	assign dmemDataIn = rdData1[15:0];
 	
-	assign branchCtlExecRfWriteEn = execRfWriteEn && ~doBranch4Held;
+	assign branchCtlExecRfWriteEn = execRfWriteEn && ~doBranch3Held;
 	
 	//Forwarding logic for the alu bus inputs
 	assign forwardA = branchCtlExecRfWriteEn && (regDestAdrx != 5'b0) && (regDestAdrx == decodeRfRdAdrx0);

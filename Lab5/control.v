@@ -4,14 +4,14 @@
 //Control module for the single-cycle pipelined cpu
 module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 					 decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel,
-					 decodeDmemWrite, decodeImmediate, decodeRegDest, doBranch4Held, execRfRdData0Short, reset, clk,
+					 decodeDmemWrite, decodeImmediate, decodeRegDest, doBranch3Held, execRfRdData0Short, reset, clk,
 					 execZFlag, altProgram);
 	output reg [4:0] decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx;
 	output reg [2:0] decodeAluCtl;
 	output reg decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, decodeDmemWrite;
 	output reg [15:0] decodeImmediate;
 	output reg decodeRegDest;
-	output doBranch4Held; //Forwarding logic to wb stage to determine if a branch is occuring, and data is to be ignored
+	output doBranch3Held; //Forwarding logic to wb stage to determine if a branch is occuring, and data is to be ignored
 	input [8:0] execRfRdData0Short; //Data for jump register
 	input reset, clk, execZFlag;
 	input altProgram;
@@ -50,9 +50,9 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 
 	//Next stage, updates the PC based on a jump, jump reg, or conditional branch
 	next controlNextStage(.doBranch(doBranch), .nextAdrx(nextAdrx), .wbBranchCtl(wbBranchCtl), .wbRfRdData0(wbRfRdData0Short),
-								 .wbImmediate(wbImmediate), .wbZFlag(wbZFlag), .clk(clk));
+								 .wbImmediate(wbImmediate), .wbZFlag(wbZFlag), .clk(clk), .reset(reset));
 	
-	holdBranchSignal myBranchHolder(.doBranch4Held(doBranch4Held), .doBranch(doBranch), .clk(clk));
+	holdBranchSignal myBranchHolder(.doBranch3Held(doBranch3Held), .doBranch(doBranch), .clk(clk), .reset(reset));
 	
 	//Update status of the instruction register
 	always @(posedge clk) begin
@@ -81,22 +81,25 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 	end
 endmodule
 
-module holdBranchSignal(doBranch4Held, doBranch, clk);
+module holdBranchSignal(doBranch3Held, doBranch, clk, reset);
 
-	output doBranch4Held;
+	output doBranch3Held;
 	input doBranch;
-	input clk;
+	input clk, reset;
 
-	reg [2:0] holdBranch;
+	reg [1:0] holdBranch;
 	
-	assign doBranch4Held = holdBranch[2] | holdBranch[1] | holdBranch[0] | doBranch;
+	assign doBranch3Held = holdBranch[1] | holdBranch[0] | doBranch;
 	
 	//4 stages in our pipeline have been calculated to have invalid data if doBranch is true
 	//Thus we must pass along a signal to disable writing for the duration of these 4 cycles
 	always @(posedge clk) begin
-		holdBranch[0] <= doBranch;
-		holdBranch[1] <= holdBranch[0];
-		holdBranch[2] <= holdBranch[1];
+		if (reset) begin
+			holdBranch <= 2'b0;
+		end else begin
+			holdBranch[0] <= doBranch;
+			holdBranch[1] <= holdBranch[0];
+		end
 	end
 
 endmodule
