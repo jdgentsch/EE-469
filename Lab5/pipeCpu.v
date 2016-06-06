@@ -42,11 +42,11 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 						 .execWrite(execDmemWrite & ~doBranch3Held), .loadControl(SW[7]), .reset(reset));
 
 	//Instruction memory, a 32 x 128 SRAM
-	//imem cpuImem(.dataOut(imemInstructions), .adrx(pc[8:2]), .clk(clk), .reset(reset), .altProgram(altProgram));
+	imem cpuImem(.dataOut(imemInstructions), .adrx(pc[8:2]), .clk(clk), .reset(reset), .altProgram(altProgram));
 	
 	//A 4-block, 4 words per block instruction cache
-	//icache controlInstructionCache(.instructionOut(icacheInstruction), .stallPC(icacheStallPC), .adrx(pc[8:2]),
-	//										 .clk(clk), .reset(reset), .imemInstructions(imemInstructions));
+	icache controlInstructionCache(.instructionOut(icacheInstruction), .stallPC(icacheStallPC), .adrx(pc[8:2]),
+											 .clk(clk), .reset(reset), .imemInstructions(imemInstructions));
 
 	pipeDatapath cpuDatapath(.execCFlag(execCFlag), .execNFlag(execNFlag), .execVFlag(execVFlag), .execZFlag(execZFlag),
 									 .dmemDataIn(dmemDataIn), .aluResultShort(aluResultShort),
@@ -57,8 +57,7 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 									 .decodeDmemResultSel(decodeDmemResultSel), .dmemOutput(dmemOutput), .decodeRegDest(decodeRegDest),
 									 .doBranch3Held(doBranch3Held));
 
-	//clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
-	assign clk = CLOCK_50;
+	clock_divider cdiv (.clk_out(clk), .clk_in(CLOCK_50), .slowDown(SW[8]));
 	
 	always @(posedge clk) begin
 		execDmemWrite <= decodeDmemWrite;
@@ -68,7 +67,7 @@ module pipeCpu(LEDR, SW, CLOCK_50);
 endmodule
 
 // divided_clocks[0] = 25MHz, [1] = 12.5Mhz, ... [23] = 3Hz, [24] = 1.5Hz, [25] = 0.75Hz, ...
-/*module clock_divider (clk_out, clk_in, slowDown);
+module clock_divider (clk_out, clk_in, slowDown);
 	output clk_out;
 	reg [31:0] divided_clocks;
 	input clk_in, slowDown;
@@ -82,4 +81,4 @@ endmodule
 	always @(posedge clk_in)
 		divided_clocks = divided_clocks + 1;
 		
-endmodule*/
+endmodule
