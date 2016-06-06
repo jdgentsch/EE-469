@@ -4,18 +4,21 @@
 //Control module for the single-cycle pipelined cpu
 module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 					 decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel,
-					 decodeDmemWrite, decodeImmediate, decodeRegDest, doBranch3Held, execRfRdData0Short, reset, clk,
-					 execZFlag, altProgram);
+					 decodeDmemWrite, decodeImmediate, decodeRegDest, pc, doBranch3Held, execRfRdData0Short, reset, clk,
+					 execZFlag, altProgram, icacheStallPC, instruction);
 	output reg [4:0] decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx;
 	output reg [2:0] decodeAluCtl;
 	output reg decodeRfWriteEn, decodeAluBusBSel, decodeDmemResultSel, decodeDmemWrite;
 	output reg [15:0] decodeImmediate;
 	output reg decodeRegDest;
+	output [8:0] pc;
 	output doBranch3Held; //Forwarding logic to wb stage to determine if a branch is occuring, and data is to be ignored
 	input [8:0] execRfRdData0Short; //Data for jump register
 	input reset, clk, execZFlag;
 	input altProgram;
-	
+	input icacheStallPC;
+	input [31:0] instruction;	
+
 	reg [31:0] fetchInstructionReg;
 	reg [8:0] wbRfRdData0Short;
 	reg [15:0] execImmediate, wbImmediate;
@@ -29,20 +32,13 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 	wire [15:0] immediate;
 	wire regDest;
 
-	wire [31:0] instruction;	
-	wire [8:0] pc;
 	wire [8:0] nextAdrx;
 	wire [1:0] branchCtl;
 	wire halt;
-	wire icacheStallPC;
 	wire doBranch;
 
 	//Program counter, with input branching control signals, and output pc register
 	pc myPC(.pc(pc), .nextAdrx(nextAdrx), .doBranch(doBranch), .rst(reset), .clk(clk), .halt(halt | icacheStallPC));
-	
-	//Instruction memory, a 32 x 128 SRAM
-	icache controlInstructionCache(.dataOut(instruction), .stallPC(icacheStallPC), .adrx(pc[8:2]),
-											 .clk(clk), .reset(reset), .altProgram(altProgram));
 	
 	//Instruction decoder using the instruction register
 	decode controlDecode(.rfRdAdrx0(rfRdAdrx0), .rfRdAdrx1(rfRdAdrx1), .rfWrAdrx(rfWrAdrx), .aluCtl(aluCtl), 
