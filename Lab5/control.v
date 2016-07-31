@@ -79,6 +79,9 @@ module control (decodeRfRdAdrx0, decodeRfRdAdrx1, decodeRfWrAdrx, decodeAluCtl,
 	end
 endmodule
 
+//A simple module to hold the doBranch control signal
+//Function is to prevent writing invalid data to memory if a branch occurs,
+//i.e. our branch prediction was incorrect
 module holdBranchSignal(doBranch3Held, doBranch, clk, reset);
 
 	output doBranch3Held;
@@ -89,8 +92,8 @@ module holdBranchSignal(doBranch3Held, doBranch, clk, reset);
 	
 	assign doBranch3Held = holdBranch[1] | holdBranch[0] | doBranch;
 	
-	//4 stages in our pipeline have been calculated to have invalid data if doBranch is true
-	//Thus we must pass along a signal to disable writing for the duration of these 4 cycles
+	//3 stages in our pipeline have been calculated to have invalid data if doBranch is true
+	//Thus we must pass along a signal to disable writing for the duration of these 3 cycles
 	always @(posedge clk) begin
 		if (reset) begin
 			holdBranch <= 2'b0;

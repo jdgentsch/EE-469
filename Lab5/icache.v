@@ -30,8 +30,7 @@ module icache (instructionOut, stallPC, adrx, clk, reset, imemInstructions);
 	assign blockNum = adrx[3:2];
 	assign blockDigit = adrx[1:0];
 	
-	//Break up passed outputs due to Verilog functionality
-	//(SystemVerilog allows doing this in one array however)
+	//Break up passed outputs from instruction memory
 	wire [31:0] imemInstruction3;
 	wire [31:0] imemInstruction2;
 	wire [31:0] imemInstruction1;
@@ -42,10 +41,6 @@ module icache (instructionOut, stallPC, adrx, clk, reset, imemInstructions);
 	assign imemInstruction1 = imemInstructions[63:32];
 	assign imemInstruction0 = imemInstructions[31:0];
 	
-	//Instantiation of the "slow" instruction memory
-	//imem icacheImem(.dataOut3(imemInstruction3), .dataOut2(imemInstruction2), .dataOut1(imemInstruction1), .dataOut0(imemInstruction0), 
-	//					 .adrx(adrx), .clk(clk), .reset(reset), .altProgram(altProgram));
-
 	parameter [31:0] NOOP = 32'b0;
 	
 	always @(posedge clk) begin
@@ -64,34 +59,6 @@ module icache (instructionOut, stallPC, adrx, clk, reset, imemInstructions);
 			cache[{blockNum, 2'b10}] <= imemInstruction2;
 			cache[{blockNum, 2'b01}] <= imemInstruction1;
 			cache[{blockNum, 2'b00}] <= imemInstruction0;
-			
-			/*REMOVEcase (blockNum)
-				2'b11: begin
-					cache[15] <= imemInstruction3;
-					cache[14] <= imemInstruction2;
-					cache[13] <= imemInstruction1;
-					cache[12] <= imemInstruction0;
-				end
-				2'b10: begin
-					cache[11] <= imemInstruction3;
-					cache[10] <= imemInstruction2;
-					cache[9] <= imemInstruction1;
-					cache[8] <= imemInstruction0;
-				end
-				2'b01: begin
-					cache[7] <= imemInstruction3;
-					cache[6] <= imemInstruction2;
-					cache[5] <= imemInstruction1;
-					cache[4] <= imemInstruction0;
-				end
-				2'b00: begin
-					cache[3] <= imemInstruction3;
-					cache[2] <= imemInstruction2;
-					cache[1] <= imemInstruction1;
-					cache[0] <= imemInstruction0;
-				end
-				default: {valid[3], valid[2], valid[1], valid[0]} <= 4'b0;
-			endcase*/
 		end else begin
 			//The instruction is in cache, return it
 			instruction <= cache[{blockNum, blockDigit}];

@@ -12,7 +12,7 @@ module dmem (dataOut, clk, execDataIn, readAdrx, execWrite, loadControl, reset);
 	input reset;
 	
 	//Data is 16 bits wide, with 2048 locations
-	reg [15:0] mem [0:15];
+	reg [15:0] mem [0:2047];
 	
 	//A small negedge triggered register to ensure that the write signal doesn't change on the posedge
 	//Ensures we meet the hold time for our dmem system, as we are writing on posedge
@@ -44,7 +44,7 @@ module dmem (dataOut, clk, execDataIn, readAdrx, execWrite, loadControl, reset);
 			mem[6] <= 16'h3C; //G = 0x3C
 			mem[7] <= 16'hFF; //H = 0xFF
 		end else if (negedgeWriteCtl) begin
-			mem[writeAdrx[3:0]] <= execDataIn[15:0];
+			mem[writeAdrx] <= execDataIn[15:0];
 		end
 	end
 	

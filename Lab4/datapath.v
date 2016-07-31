@@ -29,7 +29,7 @@ module datapath (cFlag, nFlag, vFlag, zFlag, dmemDataIn, aluResultShort, rfRdDat
 	
 	assign aluResultShort = aluResult[10:0];
 	assign rfRdData0Short = rdData0[8:0];
-	assign paddedImmediate = {{16{1'b0}}, immediate[15:0]};
+	assign paddedImmediate = {{16{immediate[15]}}, immediate[15:0]};
 	
 	//Flags are instantly assigned, will become registers in the pipelined datapath
 	assign cFlag = aluCFlag;

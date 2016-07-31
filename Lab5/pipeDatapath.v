@@ -57,8 +57,10 @@ module pipeDatapath (execCFlag, execNFlag, execVFlag, execZFlag, dmemDataIn, alu
 		execRegDest <= decodeRegDest;
 	end
 	
+	//Reduce the alu result to pass as an address input to data memory
 	assign aluResultShort = aluResult[10:0];
-	assign paddedImmediate = {{16{1'b0}}, decodeImmediate[15:0]};
+	//Bit extension of the immediate value for ALU input
+	assign paddedImmediate = {{16{decodeImmediate[15]}}, decodeImmediate[15:0]};
 	
 	//Instantiation of the ALU
 	alu cpuAlu (.busOut(aluResult), .zero(aluZFlag), .overflow(aluVFlag), .carry(aluCFlag), .neg(aluNFlag),

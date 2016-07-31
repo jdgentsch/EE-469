@@ -11,6 +11,7 @@ module pc (pc, nextAdrx, doBranch, rst, clk, halt);
 	always @(negedge clk) begin
 		if (rst)
 			pc <= 9'h0;
+		//Halt is utilized in the "halt instruction" and for loading icache
 		else if (halt)
 			pc <= pc;
 		else if (doBranch)
